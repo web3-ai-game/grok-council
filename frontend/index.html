@@ -15,6 +15,12 @@
     <title>grok-council</title>
     <script>
       try {
+        var lang = localStorage.getItem("oece-lang");
+        document.documentElement.lang = lang === "en" ? "en" : "zh-Hant";
+      } catch (e) {}
+    </script>
+    <script>
+      try {
         var lights = localStorage.getItem("oece-lights");
         if (lights !== "on" && lights !== "off") {
           lights = window.matchMedia("(prefers-color-scheme: light)").matches ? "on" : "off";

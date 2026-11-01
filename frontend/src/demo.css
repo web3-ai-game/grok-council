@@ -28,27 +28,25 @@
   z-index: 2;
 }
 
-html.lights-app {
-  background: #141413;
-  color: #f4f1ea;
-}
-
-html.lights-app[data-lights="on"] {
-  background: #f4f1ea;
-  color: #1c1915;
-  color-scheme: light;
-}
-
-html.lights-app[data-lights="off"] {
+html.lights-app,
+html.lights-app body,
+html.lights-app #root {
+  margin: 0;
+  min-height: 100%;
   background: #141413;
   color: #f4f1ea;
   color-scheme: dark;
 }
 
+html.lights-app[data-lights="on"],
+html.lights-app[data-lights="on"] body,
+html.lights-app[data-lights="on"] #root {
+  background: #f4f1ea;
+  color: #1c1915;
+  color-scheme: light;
+}
+
 html.lights-app body {
-  margin: 0;
-  min-height: 100%;
-  background: transparent;
   font-family: "SF Pro Text", "SF Pro", -apple-system, "PingFang TC", "PingFang SC", "Noto Sans TC", sans-serif;
 }
 
@@ -56,22 +54,20 @@ html.lights-app body {
   min-height: 100vh;
   color: inherit;
   background:
-    radial-gradient(900px 420px at 80% -10%, rgba(201, 100, 66, 0.08), transparent 60%),
-    transparent;
-}
-
-html.lights-app[data-lights="on"] .sandbox {
-  background:
-    radial-gradient(1000px 480px at 70% -12%, rgba(201, 100, 66, 0.12), transparent 58%),
+    radial-gradient(900px 280px at 80% -8%, rgba(201, 100, 66, 0.1), transparent 62%),
     transparent;
 }
 
 .topbar,
+.lamp-band,
+.prompt,
 .rail,
 .controls,
+.verdict,
+.table-label,
 .board,
 .footnote {
-  width: min(1120px, calc(100% - 32px));
+  width: min(1120px, calc(100% - 40px));
   margin-left: auto;
   margin-right: auto;
 }
@@ -81,7 +77,7 @@ html.lights-app[data-lights="on"] .sandbox {
   justify-content: space-between;
   gap: 16px;
   align-items: center;
-  padding: 18px 0 8px;
+  padding: 22px 0 10px;
 }
 
 .brand {
@@ -90,8 +86,13 @@ html.lights-app[data-lights="on"] .sandbox {
   gap: 2px;
 }
 
-.brand strong {
+.brand strong,
+.prompt h1,
+.verdict .answer {
   font-family: "Iowan Old Style", Palatino, "Palatino Linotype", "Songti TC", "PMingLiU", serif;
+}
+
+.brand strong {
   font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.03em;
@@ -101,18 +102,23 @@ html.lights-app[data-lights="on"] .sandbox {
 .eyebrow,
 .card em,
 .card section > span,
+.why span,
+.table-label,
 .footnote {
   color: rgba(28, 25, 21, 0.52);
   font-size: 12px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 html.lights-app[data-lights="off"] .brand span,
 html.lights-app[data-lights="off"] .eyebrow,
 html.lights-app[data-lights="off"] .card em,
 html.lights-app[data-lights="off"] .card section > span,
+html.lights-app[data-lights="off"] .why span,
+html.lights-app[data-lights="off"] .table-label,
 html.lights-app[data-lights="off"] .footnote {
-  color: rgba(244, 241, 234, 0.5);
+  color: rgba(244, 241, 234, 0.48);
 }
 
 .top-actions {
@@ -136,6 +142,8 @@ html.lights-app[data-lights="off"] .footnote {
   padding: 7px 12px;
   font: inherit;
   font-size: 13px;
+  letter-spacing: 0;
+  text-transform: none;
   cursor: pointer;
 }
 
@@ -144,7 +152,7 @@ html.lights-app[data-lights="off"] .transport button,
 html.lights-app[data-lights="off"] .topics button,
 html.lights-app[data-lights="off"] .seg button,
 html.lights-app[data-lights="off"] .lamp {
-  border-color: rgba(244, 241, 234, 0.1);
+  border-color: rgba(244, 241, 234, 0.12);
   background: rgba(255, 255, 255, 0.04);
 }
 
@@ -156,7 +164,7 @@ html.lights-app[data-lights="off"] .lamp {
 }
 
 html.lights-app[data-lights="off"] .seg {
-  border-color: rgba(244, 241, 234, 0.1);
+  border-color: rgba(244, 241, 234, 0.12);
 }
 
 .seg button {
@@ -189,85 +197,64 @@ html.lights-app[data-lights="off"] .seg {
   filter: drop-shadow(0 0 6px rgba(201, 100, 66, 0.85));
 }
 
-.hero {
-  position: relative;
-  width: min(1120px, calc(100% - 32px));
-  margin: 12px auto 0;
-  min-height: 220px;
+.lamp-band {
+  display: block;
+  height: 92px;
+  margin-top: 6px;
   border-radius: 18px;
-  overflow: hidden;
   background-size: cover;
-  background-position: center 40%;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-position: center 42%;
+  border: 1px solid rgba(28, 25, 21, 0.08);
 }
 
-.hero-fade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(20, 20, 19, 0.15), rgba(20, 20, 19, 0.72));
+html.lights-app[data-lights="off"] .lamp-band {
+  border-color: rgba(244, 241, 234, 0.08);
 }
 
-html.lights-app[data-lights="on"] .hero-fade {
-  background: linear-gradient(180deg, rgba(244, 241, 234, 0.05), rgba(244, 241, 234, 0.82));
+.prompt {
+  padding: 28px 0 4px;
 }
 
-.hero .eyebrow,
-.hero h1,
-.hero .question {
-  position: relative;
-  z-index: 1;
+.prompt .eyebrow,
+.verdict .eyebrow {
   margin: 0;
-  padding: 0 28px;
 }
 
-.hero .eyebrow {
-  padding-top: 28px;
-  color: rgba(255, 250, 246, 0.78);
-}
-
-html.lights-app[data-lights="on"] .hero .eyebrow {
-  color: rgba(28, 25, 21, 0.62);
-}
-
-.hero h1 {
-  margin-top: 8px;
-  font-family: "Iowan Old Style", Palatino, "Palatino Linotype", "Songti TC", serif;
-  font-size: clamp(36px, 5vw, 58px);
+.prompt h1 {
+  margin: 8px 0 0;
+  font-size: clamp(44px, 6vw, 72px);
   font-weight: 560;
-  letter-spacing: -0.04em;
-  color: #fffaf6;
+  letter-spacing: -0.045em;
+  line-height: 0.96;
 }
 
-html.lights-app[data-lights="on"] .hero h1 {
-  color: #1c1915;
-}
-
-.hero .question {
-  max-width: 680px;
-  padding-top: 10px;
-  padding-bottom: 28px;
-  font-size: 17px;
-  line-height: 1.5;
-  color: rgba(255, 250, 246, 0.88);
-}
-
-html.lights-app[data-lights="on"] .hero .question {
+.prompt .question {
+  max-width: 740px;
+  margin: 16px 0 0;
+  font-size: 19px;
+  line-height: 1.45;
   color: rgba(28, 25, 21, 0.78);
+}
+
+html.lights-app[data-lights="off"] .prompt .question {
+  color: rgba(244, 241, 234, 0.78);
 }
 
 .rail {
   display: flex;
-  gap: 18px;
-  padding: 16px 2px 0;
+  gap: 22px;
+  padding: 22px 0 0;
   font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .rail span {
-  color: rgba(28, 25, 21, 0.38);
+  color: rgba(28, 25, 21, 0.34);
 }
 
 html.lights-app[data-lights="off"] .rail span {
-  color: rgba(244, 241, 234, 0.35);
+  color: rgba(244, 241, 234, 0.32);
 }
 
 .rail .now {
@@ -279,7 +266,7 @@ html.lights-app[data-lights="off"] .rail span {
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
-  padding: 12px 0 8px;
+  padding: 14px 0 6px;
 }
 
 .topics,
@@ -289,29 +276,90 @@ html.lights-app[data-lights="off"] .rail span {
   flex-wrap: wrap;
 }
 
+.verdict {
+  scroll-margin-top: 18px;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  padding: 28px 32px 30px;
+  border-radius: 22px;
+  background: #fffdfb;
+  border: 1px solid rgba(28, 25, 21, 0.08);
+  box-shadow: 0 18px 50px rgba(28, 25, 21, 0.05);
+}
+
+html.lights-app[data-lights="off"] .verdict {
+  background: #1c1b18;
+  border-color: rgba(244, 241, 234, 0.1);
+  box-shadow: none;
+}
+
+.verdict .eyebrow {
+  color: #c96442;
+}
+
+.verdict .answer {
+  margin: 10px 0 0;
+  max-width: 920px;
+  font-size: clamp(28px, 3.4vw, 42px);
+  font-weight: 560;
+  letter-spacing: -0.035em;
+  line-height: 1.22;
+  color: #1c1915;
+}
+
+html.lights-app[data-lights="off"] .verdict .answer {
+  color: #f7f4ee;
+}
+
+.why {
+  margin-top: 18px;
+  max-width: 760px;
+}
+
+.why p,
+.mono,
+.ink {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.why p,
+.mono {
+  font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(28, 25, 21, 0.62);
+}
+
+html.lights-app[data-lights="off"] .why p,
+html.lights-app[data-lights="off"] .mono {
+  color: rgba(244, 241, 234, 0.55);
+}
+
+.table-label {
+  padding: 22px 0 8px;
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
-  padding-bottom: 12px;
+  padding-bottom: 8px;
 }
 
 .card {
-  min-height: 280px;
   border-radius: 16px;
   border: 1px solid rgba(28, 25, 21, 0.08);
-  background: rgba(255, 252, 248, 0.86);
+  background: rgba(255, 252, 248, 0.9);
   padding: 14px 14px 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  box-shadow: 0 1px 2px rgba(28, 25, 21, 0.04);
 }
 
 html.lights-app[data-lights="off"] .card {
   border-color: rgba(244, 241, 234, 0.08);
-  background: rgba(31, 30, 27, 0.92);
-  box-shadow: none;
+  background: #1f1e1b;
 }
 
 .card header {
@@ -329,6 +377,8 @@ html.lights-app[data-lights="off"] .card {
   display: block;
   margin-top: 2px;
   font-style: normal;
+  text-transform: none;
+  letter-spacing: 0.01em;
 }
 
 .mark {
@@ -341,7 +391,7 @@ html.lights-app[data-lights="off"] .card {
 }
 
 .card.standby {
-  opacity: 0.48;
+  opacity: 0.46;
 }
 
 .card.hit {
@@ -357,36 +407,22 @@ html.lights-app[data-lights="off"] .card {
 .incoming {
   margin: 0;
   font-size: 12px;
-  letter-spacing: 0.01em;
   color: #c96442;
 }
 
 .card section > span {
   display: block;
   margin-bottom: 4px;
-  text-transform: uppercase;
-  font-size: 10px;
-}
-
-.mono,
-.ink {
-  margin: 0;
-  white-space: pre-wrap;
-  line-height: 1.55;
 }
 
 .mono {
-  font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
-  font-size: 12px;
-  color: rgba(28, 25, 21, 0.62);
-}
-
-html.lights-app[data-lights="off"] .mono {
-  color: rgba(244, 241, 234, 0.55);
+  max-height: 7.6em;
+  overflow: auto;
 }
 
 .ink {
-  font-size: 14.5px;
+  font-size: 15px;
+  line-height: 1.5;
   color: #1c1915;
 }
 
@@ -402,18 +438,22 @@ html.lights-app[data-lights="off"] .review {
   color: #e0b2a2;
 }
 
-.card i {
+.card i,
+.verdict i,
+.why i {
   display: inline-block;
-  width: 7px;
-  height: 1em;
-  margin-left: 2px;
+  width: 8px;
+  height: 0.9em;
+  margin-left: 3px;
   vertical-align: text-bottom;
   background: #c96442;
   animation: caret 1s steps(1) infinite;
 }
 
 .footnote {
-  padding: 8px 0 28px;
+  padding: 10px 0 36px;
+  text-transform: none;
+  letter-spacing: 0.01em;
 }
 
 @keyframes caret {
@@ -439,15 +479,25 @@ html.lights-app[data-lights="off"] .review {
     grid-template-columns: 1fr;
   }
 
-  .topbar {
+  .topbar,
+  .verdict {
     align-items: flex-start;
+  }
+
+  .topbar {
     flex-direction: column;
+  }
+
+  .verdict {
+    padding: 22px 18px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .card.hit,
-  .card i {
+  .card i,
+  .verdict i,
+  .why i {
     animation: none;
   }
 }

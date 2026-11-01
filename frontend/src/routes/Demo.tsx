@@ -12,7 +12,12 @@ const DEMO_ID = "demo";
 
 const COPY = {
   zh: {
+    title: "grok-council · 離線回放",
     kicker: "離線回放",
+    language: "語言",
+    phase: "階段",
+    topics: "議題",
+    playback: "播放",
     phases: [
       ["gate", "門控"],
       ["parallel", "平行"],
@@ -21,12 +26,16 @@ const COPY = {
     ] as const,
     standby: "STANDBY · 門控跳過（省 Token）",
     reasoning: "推理鏈",
-    position: "核心結論",
-    review: "互怼交鋒",
+    position: "立場",
+    review: "互怼",
     critique: (name: string) => `[ ⚔ 質疑 → ${name} ]`,
     challenged: (name: string) => `[ 收到${name}質疑 ]`,
     selecting: "門控點名中",
     waiting: "等待合成",
+    writing: "書寫中",
+    settled: "已落筆",
+    failed: "失敗",
+    idle: "等待",
     pause: "暫停",
     resume: "繼續",
     replay: "重播",
@@ -37,23 +46,37 @@ const COPY = {
     lightsOff: "開燈",
     awake: "全席",
     gated: "門控跳過 2 席",
+    verdict: "議長結論",
+    verdictReason: "議長推理",
+    verdictWait: "席位還在寫。結論出現在這裡，不在第八張卡裡。",
+    table: "席位記錄",
+    speed: "速度",
   },
   en: {
+    title: "grok-council · Offline replay",
     kicker: "Offline replay",
+    language: "Language",
+    phase: "Phase",
+    topics: "Topics",
+    playback: "Playback",
     phases: [
       ["gate", "Gate"],
       ["parallel", "Parallel"],
       ["review", "Review"],
-      ["synth", "Chair"],
+      ["synth", "Synthesis"],
     ] as const,
     standby: "STANDBY · Gate skipped",
     reasoning: "Reasoning",
     position: "Position",
-    review: "Cross-Review",
+    review: "Cross-review",
     critique: (name: string) => `[ Critique → ${name} ]`,
     challenged: (name: string) => `[ Challenged by ${name} ]`,
     selecting: "Gate is choosing",
     waiting: "Waiting to synthesize",
+    writing: "Writing",
+    settled: "Settled",
+    failed: "Failed",
+    idle: "Waiting",
     pause: "Pause",
     resume: "Resume",
     replay: "Replay",
@@ -64,8 +87,15 @@ const COPY = {
     lightsOff: "Lights on",
     awake: "Full table",
     gated: "Gate skipped 2",
+    verdict: "Chair's verdict",
+    verdictReason: "Chair's reasoning",
+    verdictWait: "The seats are still writing. The verdict lands here, not in the eighth card.",
+    table: "The table",
+    speed: "Speed",
   },
 } as const;
+
+type Copy = (typeof COPY)[Lang];
 
 function blankCouncil(): CouncilView {
   return {
@@ -82,6 +112,13 @@ function readLang(): Lang {
   return stored === "en" ? "en" : "zh";
 }
 
+function statusWord(status: CouncilExpertView["status"] | undefined, copy: Copy): string {
+  if (status === "running") return copy.writing;
+  if (status === "done") return copy.settled;
+  if (status === "error") return copy.failed;
+  return copy.idle;
+}
+
 export function Demo() {
   const [lang, setLang] = useState<Lang>(readLang);
   const [lights, setLights] = useState<Lights>(readLights);
@@ -93,19 +130,22 @@ export function Demo() {
   const [council, setCouncil] = useState<CouncilView>(blankCouncil);
   const [index, setIndex] = useState(0);
   const waitRef = useRef(0);
+  const verdictRef = useRef<HTMLElement>(null);
 
   const scenario = scenarioById(scenarioId);
   const copy = COPY[lang];
   const script = useMemo(() => buildTimeline(scenario, lang), [scenario, lang]);
   const base = import.meta.env.BASE_URL;
+  const side = scenario[lang];
 
   useEffect(() => {
     applyLights(lights);
   }, [lights]);
 
   useEffect(() => {
-    document.title = "grok-council";
-  }, []);
+    document.title = copy.title;
+    document.documentElement.lang = lang === "en" ? "en" : "zh-Hant";
+  }, [copy.title, lang]);
 
   useEffect(() => {
     setIndex(0);
@@ -114,6 +154,11 @@ export function Demo() {
     setPaused(false);
     waitRef.current = 0;
   }, [runId, script]);
+
+  useEffect(() => {
+    if (phase !== "synth") return;
+    verdictRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [phase, runId]);
 
   useEffect(() => {
     const event = script[index];
@@ -151,6 +196,7 @@ export function Demo() {
 
   function chooseLang(next: Lang) {
     localStorage.setItem(LANG_KEY, next);
+    document.documentElement.lang = next === "en" ? "en" : "zh-Hant";
     setLang(next);
     setRunId((value) => value + 1);
   }
@@ -166,6 +212,8 @@ export function Demo() {
   }
 
   const experts = council.experts;
+  const chair = experts.find((item) => item.id === "leader");
+  const showVerdict = phase === "synth" || phase === "done";
   const room = lights === "on" ? `${base}room-on.jpg` : `${base}room-off.jpg`;
 
   return (
@@ -176,7 +224,7 @@ export function Demo() {
           <span>{copy.kicker}</span>
         </div>
         <div className="top-actions">
-          <div className="seg" role="group" aria-label="language">
+          <div className="seg" role="group" aria-label={copy.language}>
             <button type="button" className={lang === "en" ? "on" : ""} onClick={() => chooseLang("en")}>
               EN
             </button>
@@ -193,14 +241,15 @@ export function Demo() {
         </div>
       </header>
 
-      <section className="hero" style={{ backgroundImage: `url(${room})` }}>
-        <div className="hero-fade" />
+      <div className="lamp-band" style={{ backgroundImage: `url(${room})` }} aria-hidden />
+
+      <section className="prompt">
         <p className="eyebrow">{scenario.wake === "gated" ? copy.gated : copy.awake}</p>
-        <h1>{scenario[lang].title}</h1>
-        <p className="question">{scenario[lang].question}</p>
+        <h1>{side.title}</h1>
+        <p className="question">{side.question}</p>
       </section>
 
-      <div className="rail" aria-label="phase">
+      <div className="rail" aria-label={copy.phase}>
         {copy.phases.map(([id, label]) => (
           <span key={id} className={phase === id || (phase === "done" && id === "synth") ? "now" : ""}>
             {label}
@@ -209,7 +258,7 @@ export function Demo() {
       </div>
 
       <div className="controls">
-        <div className="topics">
+        <div className="topics" role="group" aria-label={copy.topics}>
           {SCENARIOS.map((item) => (
             <button
               key={item.id}
@@ -224,22 +273,42 @@ export function Demo() {
             </button>
           ))}
         </div>
-        <div className="transport">
+        <div className="transport" role="group" aria-label={copy.playback}>
           <button type="button" onClick={() => setPaused((value) => !value)}>
             {paused ? copy.resume : copy.pause}
           </button>
           <button type="button" onClick={() => setRunId((value) => value + 1)}>
             {copy.replay}
           </button>
-          <button type="button" className={speed === 1 ? "on" : ""} onClick={() => setSpeed(1)}>
+          <button type="button" className={speed === 1 ? "on" : ""} onClick={() => setSpeed(1)} aria-label={`${copy.speed} 1×`}>
             1×
           </button>
-          <button type="button" className={speed === 2 ? "on" : ""} onClick={() => setSpeed(2)}>
+          <button type="button" className={speed === 2 ? "on" : ""} onClick={() => setSpeed(2)} aria-label={`${copy.speed} 2×`}>
             2×
           </button>
         </div>
       </div>
 
+      {showVerdict ? (
+        <section className="verdict" ref={verdictRef} aria-label={copy.verdict}>
+          <p className="eyebrow">{copy.verdict}</p>
+          <p className="answer">
+            {chair?.content || copy.verdictWait}
+            {phase === "synth" && chair?.content ? <i /> : null}
+          </p>
+          {chair?.reasoning ? (
+            <div className="why">
+              <span>{copy.verdictReason}</span>
+              <p>
+                {chair.reasoning}
+                {phase === "synth" && !chair.content ? <i /> : null}
+              </p>
+            </div>
+          ) : null}
+        </section>
+      ) : null}
+
+      <p className="table-label">{copy.table}</p>
       <div className="board">
         {SEATS.map((seat) => (
           <ExpertCard
@@ -273,7 +342,7 @@ function ExpertCard({
   name: string;
   expert?: CouncilExpertView;
   gating: boolean;
-  copy: (typeof COPY)[Lang];
+  copy: Copy;
   lang: Lang;
 }) {
   const standby = expert?.status === "standby";
@@ -282,7 +351,7 @@ function ExpertCard({
   const attacker = expert?.challengedBy ? seatName(expert.challengedBy, lang) : "";
   return (
     <article
-      className={`card${standby ? " standby" : ""}${expert?.challengedBy ? " hit" : ""}${running ? " live" : ""}`}
+      className={`card${standby ? " standby" : ""}${expert?.challengedBy ? " hit" : ""}${running ? " live" : ""}${seatId === "leader" ? " chair" : ""}`}
     >
       <header>
         <span className="mark" aria-hidden>
@@ -297,7 +366,7 @@ function ExpertCard({
                 ? copy.standby
                 : seatId === "leader" && expert?.status === "pending"
                   ? copy.waiting
-                  : statusWord(expert?.status, lang)}
+                  : statusWord(expert?.status, copy)}
           </em>
         </div>
       </header>
@@ -312,13 +381,15 @@ function ExpertCard({
               {running && !expert?.content && !expert?.review ? <i /> : null}
             </p>
           </section>
-          <section>
-            <span>{copy.position}</span>
-            <p className="ink">
-              {expert?.content || ""}
-              {running && expert?.content && !expert?.critiquing ? <i /> : null}
-            </p>
-          </section>
+          {expert?.content ? (
+            <section>
+              <span>{copy.position}</span>
+              <p className="ink">
+                {expert.content}
+                {running && !expert.critiquing ? <i /> : null}
+              </p>
+            </section>
+          ) : null}
           {expert?.review ? (
             <section>
               <span>{copy.review}</span>
@@ -332,13 +403,6 @@ function ExpertCard({
       )}
     </article>
   );
-}
-
-function statusWord(status: CouncilExpertView["status"] | undefined, lang: Lang): string {
-  if (status === "running") return lang === "en" ? "Writing" : "書寫中";
-  if (status === "done") return lang === "en" ? "Settled" : "已落筆";
-  if (status === "error") return lang === "en" ? "Failed" : "失敗";
-  return lang === "en" ? "Waiting" : "等待";
 }
 
 function LampIcon({ on }: { on: boolean }) {
