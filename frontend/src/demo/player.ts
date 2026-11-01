@@ -7,6 +7,45 @@ export const STAGGER_MS = 320;
 export const GATE_MS = 1200;
 export const PHASE_GAP_MS = 460;
 export const STEP_MS = 480;
+const LEAD_MS = 90;
+
+export function advanceCost(text: string, index: number): number {
+  const code = text.charCodeAt(index);
+  const base = code > 127 ? 28 : 12;
+  const jitter = ((index * 13) % 7) - 3;
+  const ch = text[index] ?? "";
+  const pause = "。！？.!?".includes(ch) ? 120 : "，、,;；".includes(ch) ? 48 : ch === "\n" ? 36 : 0;
+  return Math.max(8, base + jitter + pause);
+}
+
+export function textDuration(text: string): number {
+  let ms = LEAD_MS;
+  for (let i = 0; i < text.length; i += 1) ms += advanceCost(text, i);
+  return ms;
+}
+
+export function typedCount(text: string, elapsed: number): number {
+  let ms = LEAD_MS;
+  if (elapsed < ms) return 0;
+  for (let i = 0; i < text.length; i += 1) {
+    ms += advanceCost(text, i);
+    if (elapsed < ms) return i;
+  }
+  return text.length;
+}
+
+function interruptedThought(text: string): string {
+  const cut = Math.max(18, Math.floor(text.length * 0.58));
+  let end = cut;
+  for (let i = cut; i >= Math.floor(text.length * 0.35); i -= 1) {
+    const ch = text[i] ?? "";
+    if ("。！？.!?，、,;；".includes(ch)) {
+      end = i;
+      break;
+    }
+  }
+  return text.slice(0, end).trimEnd();
+}
 
 let seq = 0;
 
@@ -54,6 +93,27 @@ function playSteps(events: TimedEvent[], at: number, expertId: string, steps: st
   return t;
 }
 
+function asChain(text: string): string {
+  return text
+    .replace(/([。！？])\s*/g, "$1\n")
+    .replace(/([.!?])\s+(?=[A-Z])/g, "$1\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function thoughtText(script: { brief?: string[]; steps?: string[] } | undefined, failed: boolean): string {
+  const brief = (script?.brief ?? []).map((item) => item.trim()).filter(Boolean);
+  const text = asChain(brief.length ? brief.join("\n\n") : (script?.steps ?? []).filter(Boolean).join("\n"));
+  if (!text) return "";
+  return failed ? interruptedThought(text) : text;
+}
+
+function playThought(events: TimedEvent[], at: number, expertId: string, text: string): number {
+  if (!text) return at;
+  push(events, at, "thought.start", { expert_id: expertId, text });
+  return at + textDuration(text);
+}
+
 export function buildTimeline(scenario: ScenarioFile, lang: Lang): TimedEvent[] {
   seq = 0;
   const side = scenario[lang];
@@ -80,11 +140,11 @@ export function buildTimeline(scenario: ScenarioFile, lang: Lang): TimedEvent[] 
     const script = side.seats[seat.id];
     let t = GATE_MS + 80 + index * STAGGER_MS;
     push(events, t, "expert.start", { expert_id: seat.id });
-    t += 140;
     const steps = scriptSteps(script);
     const failed = Boolean(script?.error);
-    t = playSteps(events, t, seat.id, steps, failed ? Math.min(2, steps.length) : steps.length);
-    t += 120;
+    const stepEnd = playSteps(events, t + 80, seat.id, steps, failed ? Math.min(2, steps.length) : steps.length);
+    const thoughtEnd = playThought(events, t + 80, seat.id, thoughtText(script, failed));
+    t = Math.max(stepEnd, thoughtEnd) + 90;
     if (failed) {
       push(events, t, "expert.done", { expert_id: seat.id, error: script?.error });
     } else {
@@ -123,9 +183,9 @@ export function buildTimeline(scenario: ScenarioFile, lang: Lang): TimedEvent[] 
   push(events, synthAt, "phase", { phase: "synth" satisfies Phase });
   push(events, synthAt, "synth.start", {});
   push(events, synthAt, "expert.start", { expert_id: "leader" });
-  let t = synthAt + 160;
-  t = playSteps(events, t, "leader", (side.chair.steps ?? []).slice(0, 3));
-  t += 160;
+  const stepEnd = playSteps(events, synthAt + 80, "leader", (side.chair.steps ?? []).slice(0, 3));
+  const thoughtEnd = playThought(events, synthAt + 80, "leader", thoughtText(side.chair, false));
+  let t = Math.max(stepEnd, thoughtEnd) + 90;
   t = stream(events, t, "synth.delta", {}, side.chair.answer);
   t += 40;
   push(events, t, "expert.done", { expert_id: "leader" });
@@ -134,4 +194,28 @@ export function buildTimeline(scenario: ScenarioFile, lang: Lang): TimedEvent[] 
 
   events.sort((a, b) => a.at - b.at || a.seq - b.seq);
   return events;
+}
+
+/** Timestamp of the last event that belongs to `phase`. Seek with `at <= phaseAt(...)`. */
+export function phaseAt(events: TimedEvent[], phase: Phase): number {
+  const last = events[events.length - 1]?.at ?? 0;
+  if (phase === "synth" || phase === "done") return last;
+  if (phase === "gate") return events.find((event) => event.event === "gate.done")?.at ?? 0;
+  if (phase === "parallel") {
+    let at = 0;
+    for (const event of events) {
+      if (event.event === "expert.done" && event.data.expert_id !== "leader") at = Math.max(at, event.at);
+    }
+    return at;
+  }
+  let at = 0;
+  for (const event of events) {
+    if (event.event === "review.done") at = Math.max(at, event.at);
+  }
+  if (at) return at;
+  let parallel = 0;
+  for (const event of events) {
+    if (event.event === "expert.done" && event.data.expert_id !== "leader") parallel = Math.max(parallel, event.at);
+  }
+  return parallel;
 }

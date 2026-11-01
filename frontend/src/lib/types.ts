@@ -123,6 +123,7 @@ export type CouncilExpertView = {
   review?: string;
   reviewTarget?: string;
   challengedBy?: string;
+  challengers?: string[];
   critiquing?: boolean;
   status: "pending" | "running" | "done" | "error" | "standby";
   error?: string;

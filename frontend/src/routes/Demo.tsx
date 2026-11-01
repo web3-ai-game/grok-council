@@ -1,14 +1,24 @@
-import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type Dispatch, type MouseEvent, type SetStateAction } from "react";
 import { applyCouncilEvent } from "../lib/councilEvents";
 import type { CouncilExpertView, CouncilView } from "../lib/types";
 import { applyLights, readLights, switchLights, type Lights } from "../demo/lights";
-import { buildTimeline } from "../demo/player";
+import { buildTimeline, phaseAt, textDuration, typedCount } from "../demo/player";
 import { SCENARIOS, scenarioById } from "../demo/scenarios";
 import { SEATS, seatName, seatShort, type Lang } from "../demo/seats";
-import type { Phase } from "../demo/types";
+import type { Phase, TimedEvent } from "../demo/types";
 
 const LANG_KEY = "oece-lang";
 const DEMO_ID = "demo";
+const TOPIC_IDS = ["key-boundary", "visible-council", "sqlite-ceiling"];
+
+const PHASES = [
+  { id: "gate" as const, zh: "1 門控", en: "1 Gate" },
+  { id: "parallel" as const, zh: "2 並行", en: "2 Parallel" },
+  { id: "review" as const, zh: "3 互懟", en: "3 Critique" },
+  { id: "synth" as const, zh: "4 議長", en: "4 Verdict" },
+];
+
+type Trace = { text: string; elapsed: number };
 
 const COPY = {
   zh: {
@@ -24,13 +34,13 @@ const COPY = {
       ["review", "互怼"],
       ["synth", "合成"],
     ] as const,
-    standby: "未出場",
+    standby: "門控跳過 · 算力節省",
     skipFallback: "這一題沒有喚醒。結論不會引用這一席。",
     reasoning: "推理鏈",
     position: "立場",
     review: "互怼",
     critique: (name: string) => `[ ⚔ 質疑 → ${name} ]`,
-    challenged: (name: string) => `[ 收到${name}質疑 ]`,
+    challenged: (name: string) => `[ ⚡ 收到${name}交鋒 ]`,
     selecting: "門控點名中",
     waiting: "等待合成",
     writing: "書寫中",
@@ -69,13 +79,13 @@ const COPY = {
       ["review", "Review"],
       ["synth", "Synthesis"],
     ] as const,
-    standby: "Not called",
+    standby: "Gate skipped · compute saved",
     skipFallback: "This topic did not wake this seat. The verdict will not cite it.",
     reasoning: "Reasoning",
     position: "Position",
     review: "Cross-review",
-    critique: (name: string) => `[ Critique → ${name} ]`,
-    challenged: (name: string) => `[ Challenged by ${name} ]`,
+    critique: (name: string) => `[ ⚔ Critique → ${name} ]`,
+    challenged: (name: string) => `[ ⚡ Hit by ${name} ]`,
     selecting: "Gate is choosing",
     waiting: "Waiting to synthesize",
     writing: "Writing",
@@ -115,6 +125,50 @@ function blankCouncil(): CouncilView {
   };
 }
 
+function clockLabel(ms: number): string {
+  const safe = Math.max(0, ms);
+  const whole = Math.floor(safe / 1000);
+  const tenths = Math.floor((safe % 1000) / 100);
+  return `${String(whole).padStart(2, "0")}.${tenths}s`;
+}
+
+function project(events: TimedEvent[]): {
+  council: CouncilView;
+  traces: Record<string, Trace>;
+  revealed: Record<string, number>;
+  phase: Phase;
+} {
+  let council = blankCouncil();
+  const traces: Record<string, Trace> = {};
+  const revealed: Record<string, number> = {};
+  let phase: Phase = "gate";
+  const setCouncils: Dispatch<SetStateAction<Record<string, CouncilView>>> = (updater) => {
+    const bag = { [DEMO_ID]: council };
+    const next = typeof updater === "function" ? updater(bag) : updater;
+    council = next[DEMO_ID] ?? council;
+  };
+  for (const event of events) {
+    if (event.event === "thought.start" && typeof event.data.expert_id === "string") {
+      const text = typeof event.data.text === "string" ? event.data.text : "";
+      traces[event.data.expert_id] = { text, elapsed: textDuration(text) };
+    } else if (event.event === "expert.step" && typeof event.data.expert_id === "string") {
+      const stepIndex = Number(event.data.index);
+      const id = event.data.expert_id;
+      revealed[id] = Math.max(revealed[id] ?? 0, Number.isFinite(stepIndex) ? stepIndex + 1 : 0);
+    } else if (event.event === "phase" && typeof event.data.phase === "string") {
+      phase = event.data.phase as Phase;
+    } else {
+      applyCouncilEvent(event.event, event.data, () => DEMO_ID, setCouncils, "council");
+    }
+  }
+  return { council, traces, revealed, phase };
+}
+
+function pillOn(phase: Phase, id: (typeof PHASES)[number]["id"]): boolean {
+  if (id === "synth") return phase === "synth" || phase === "done";
+  return phase === id;
+}
+
 function readLang(): Lang {
   const stored = localStorage.getItem(LANG_KEY);
   return stored === "en" ? "en" : "zh";
@@ -138,7 +192,11 @@ export function Demo() {
   const [council, setCouncil] = useState<CouncilView>(blankCouncil);
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState<Record<string, number>>({});
+  const [traces, setTraces] = useState<Record<string, Trace>>({});
+  const [thinkMs, setThinkMs] = useState(0);
   const waitRef = useRef(0);
+  const seekRef = useRef(false);
+  const clockRef = useRef(0);
 
   const scenario = scenarioById(scenarioId);
   const copy = COPY[lang];
@@ -160,11 +218,18 @@ export function Demo() {
     setPhase("gate");
     setCouncil(blankCouncil());
     setRevealed({});
+    setTraces({});
     setPaused(false);
+    setThinkMs(0);
+    clockRef.current = 0;
     waitRef.current = 0;
   }, [runId, script]);
 
   useEffect(() => {
+    if (seekRef.current) {
+      seekRef.current = false;
+      waitRef.current = 0;
+    }
     const event = script[index];
     if (!event || paused) return;
     const prevAt = index === 0 ? 0 : script[index - 1]?.at ?? 0;
@@ -173,7 +238,11 @@ export function Demo() {
     const started = performance.now();
     const timer = window.setTimeout(() => {
       waitRef.current = 0;
-      if (event.event === "expert.step" && typeof event.data.expert_id === "string") {
+      if (event.event === "thought.start" && typeof event.data.expert_id === "string") {
+        const id = event.data.expert_id;
+        const text = typeof event.data.text === "string" ? event.data.text : "";
+        setTraces((prev) => ({ ...prev, [id]: { text, elapsed: 0 } }));
+      } else if (event.event === "expert.step" && typeof event.data.expert_id === "string") {
         const id = event.data.expert_id;
         const stepIndex = Number(event.data.index);
         setRevealed((prev) => ({
@@ -205,11 +274,59 @@ export function Demo() {
     };
   }, [index, paused, script, speed]);
 
+  useEffect(() => {
+    if (paused) return;
+    let frame = 0;
+    let last = performance.now();
+    let acc = 0;
+    const loop = (now: number) => {
+      const dt = Math.min(48, now - last);
+      last = now;
+      clockRef.current += dt;
+      acc += dt;
+      if (acc >= 80) {
+        acc = 0;
+        setThinkMs(clockRef.current);
+      }
+      setTraces((prev) => {
+        let changed = false;
+        const next: Record<string, Trace> = {};
+        for (const [id, trace] of Object.entries(prev)) {
+          if (trace.elapsed >= textDuration(trace.text)) {
+            next[id] = trace;
+            continue;
+          }
+          changed = true;
+          next[id] = { text: trace.text, elapsed: trace.elapsed + dt * speed };
+        }
+        return changed ? next : prev;
+      });
+      frame = window.requestAnimationFrame(loop);
+    };
+    frame = window.requestAnimationFrame(loop);
+    return () => window.cancelAnimationFrame(frame);
+  }, [paused, speed]);
+
   function chooseLang(next: Lang) {
     localStorage.setItem(LANG_KEY, next);
     document.documentElement.lang = next === "en" ? "en" : "zh-Hant";
     setLang(next);
     setRunId((value) => value + 1);
+  }
+
+  function land(target: Phase) {
+    const cursor = phaseAt(script, target);
+    const next = project(script.filter((event) => event.at <= cursor));
+    const shown: Phase = target === "synth" || target === "done" ? (next.phase === "done" ? "done" : "synth") : target;
+    seekRef.current = true;
+    waitRef.current = 0;
+    setCouncil(next.council);
+    setTraces(next.traces);
+    setRevealed(next.revealed);
+    setPhase(shown);
+    const at = script.findIndex((event) => event.at > cursor);
+    setIndex(at < 0 ? script.length : at);
+    setPaused(true);
   }
 
   function onLamp(event: MouseEvent<HTMLButtonElement>) {
@@ -224,6 +341,22 @@ export function Demo() {
 
   const experts = council.experts;
   const chair = experts.find((item) => item.id === "leader");
+  const topics = SCENARIOS.filter((item) => TOPIC_IDS.includes(item.id));
+  const active = experts.filter((item) => item.status === "running" || item.status === "done" || item.status === "error").length;
+  const save = skipped ? Math.round((skipped / 7) * 100) : 0;
+  const tokens = useMemo(() => {
+    let count = 0;
+    for (const trace of Object.values(traces)) count += typedCount(trace.text, trace.elapsed);
+    for (const expert of experts) count += expert.content.length + (expert.review?.length ?? 0);
+    return count;
+  }, [traces, experts]);
+  const meter = skipped
+    ? lang === "zh"
+      ? `⚡ ${active}/8 席喚醒 · ${skipped} 席跳過 · 省 ${save}% · 思考 ${clockLabel(thinkMs)} · ${tokens.toLocaleString("en-US")} tokens`
+      : `⚡ ${active}/8 Agents Active · ${skipped} Gated (Saved ${save}%) · Thinking ${clockLabel(thinkMs)} · ${tokens.toLocaleString("en-US")} tokens`
+    : lang === "zh"
+      ? `⚡ ${active}/8 席喚醒 · 思考 ${clockLabel(thinkMs)} · ${tokens.toLocaleString("en-US")} tokens`
+      : `⚡ ${active}/8 Agents Active · Thinking ${clockLabel(thinkMs)} · ${tokens.toLocaleString("en-US")} tokens`;
   const wakeLabel = skipped ? (lang === "zh" ? `門控跳過 ${skipped} 席` : `Gate skipped ${skipped}`) : copy.awake;
   const verdictReady = Boolean(chair?.content);
   const statusLine =
@@ -262,7 +395,7 @@ export function Demo() {
 
       <div className="topic-scroller">
         <div className="topics" role="group" aria-label={copy.topics}>
-          {SCENARIOS.map((item) => (
+          {topics.map((item) => (
             <button
               key={item.id}
               type="button"
@@ -278,12 +411,21 @@ export function Demo() {
         </div>
       </div>
 
-      <div className="rail" aria-label={copy.phase}>
-        {copy.phases.map(([id, label]) => (
-          <span key={id} className={phase === id || (phase === "done" && id === "synth") ? "now" : ""}>
-            {label}
-          </span>
-        ))}
+      <div className="moe">
+        <div className="pills" role="group" aria-label={copy.phase}>
+          {PHASES.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={pillOn(phase, item.id) ? "on" : ""}
+              aria-pressed={pillOn(phase, item.id)}
+              onClick={() => land(item.id)}
+            >
+              {lang === "zh" ? item.zh : item.en}
+            </button>
+          ))}
+        </div>
+        <p className="meter">{meter}</p>
       </div>
 
       <div className="controls">
@@ -313,9 +455,9 @@ export function Demo() {
             name={seatName(seat.id, lang)}
             expert={experts.find((item) => item.id === seat.id)}
             steps={seat.id === "leader" ? side.chair.steps : side.seats[seat.id]?.steps ?? []}
-            brief={seat.id === "leader" ? side.chair.brief ?? [] : side.seats[seat.id]?.brief ?? []}
             skip={side.seats[seat.id]?.skip}
             revealed={revealed[seat.id] ?? 0}
+            trace={traces[seat.id]}
             gating={council.gating || experts.length === 0}
             copy={copy}
             lang={lang}
@@ -348,9 +490,9 @@ function ExpertCard({
   name,
   expert,
   steps,
-  brief,
   skip,
   revealed,
+  trace,
   gating,
   copy,
   lang,
@@ -360,9 +502,9 @@ function ExpertCard({
   name: string;
   expert?: CouncilExpertView;
   steps: readonly string[];
-  brief: readonly string[];
   skip?: string;
   revealed: number;
+  trace?: Trace;
   gating: boolean;
   copy: Copy;
   lang: Lang;
@@ -371,6 +513,10 @@ function ExpertCard({
   const running = expert?.status === "running" || expert?.critiquing;
   const waiting = seatId === "leader" && expert?.status === "pending";
   const target = expert?.reviewTarget ? seatShort(expert.reviewTarget, lang) : "";
+  const hit = Boolean(expert?.challengers?.length || expert?.challengedBy);
+  const incoming = (expert?.challengers?.length ? expert.challengers : expert?.challengedBy ? [expert.challengedBy] : [])
+    .map((id) => seatShort(id, lang))
+    .join(lang === "zh" ? "、" : ", ");
   const position =
     expert?.status === "error"
       ? expert.error || copy.failed
@@ -379,12 +525,12 @@ function ExpertCard({
         : waiting
           ? copy.waiting
           : expert?.content || "";
-  const review = expert?.review || (expert?.critiquing && target ? copy.critique(target) : "");
-  const finished = expert?.status === "done" || expert?.status === "error";
-  const briefCount = standby || gating ? 0 : finished ? brief.length : revealed;
-  const paragraphs = brief.slice(0, briefCount);
+  const review = expert?.review || "";
+  const shown = !trace || standby || gating ? 0 : typedCount(trace.text, trace.elapsed);
+  const thought = trace && shown > 0 ? trace.text.slice(0, shown) : "";
+  const thinking = Boolean(trace && shown < trace.text.length && !standby && !gating);
   return (
-    <article className={`card${standby ? " standby" : ""}${expert?.challengedBy ? " hit" : ""}${running ? " live" : ""}${seatId === "leader" ? " chair" : ""}`}>
+    <article className={`card${standby ? " standby" : ""}${hit ? " hit" : ""}${running ? " live" : ""}${seatId === "leader" ? " chair" : ""}`}>
       <header>
         <span className="mark" aria-hidden>
           {emoji}
@@ -396,34 +542,65 @@ function ExpertCard({
           </em>
         </div>
       </header>
+      <StepChain steps={steps} revealed={standby || gating ? 0 : revealed} active={Boolean(running && !position && !review && !thought)} />
       <div className="card-body">
-        <StepChain steps={steps} revealed={standby || gating ? 0 : revealed} active={Boolean(running && !position && !review)} />
-        {paragraphs.length ? (
+        {standby ? (
+          <p className="skip">{skip || copy.skipFallback}</p>
+        ) : (
           <>
             <p className="field">{copy.reasoning}</p>
-            {paragraphs.map((paragraph) => (
-              <p className="brief" key={paragraph}>
-                {paragraph}
-              </p>
-            ))}
+            <ReasonScroll text={thought} live={thinking} />
           </>
-        ) : null}
+        )}
+        {incoming ? <p className="incoming">{copy.challenged(incoming)}</p> : null}
         <p className="field">{copy.position}</p>
         <p className="ink">
           {position || "·"}
-          {running && position ? <i /> : null}
+          {running && position && !expert?.critiquing ? <i /> : null}
         </p>
-        {review ? (
+        {target || review ? (
           <>
-            <p className="field">{copy.review}</p>
+            <p className="field">
+              {copy.review}
+              {target ? <span className="aim">{copy.critique(target)}</span> : null}
+            </p>
             <p className="review">
-              {review}
+              {review || "·"}
               {expert?.critiquing ? <i /> : null}
             </p>
           </>
         ) : null}
       </div>
     </article>
+  );
+}
+
+function ReasonScroll({ text, live }: { text: string; live: boolean }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const hover = useRef(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || hover.current) return;
+    el.scrollTop = el.scrollHeight;
+  }, [text, live]);
+  return (
+    <div
+      className="reason-scroll"
+      ref={ref}
+      onMouseEnter={() => {
+        hover.current = true;
+      }}
+      onMouseLeave={() => {
+        hover.current = false;
+        const el = ref.current;
+        if (el && live) el.scrollTop = el.scrollHeight;
+      }}
+    >
+      <p className={live ? "trace live" : "trace"}>
+        {text || "·"}
+        {live ? <i /> : null}
+      </p>
+    </div>
   );
 }
 

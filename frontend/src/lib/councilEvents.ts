@@ -138,7 +138,10 @@ export function applyCouncilEvent(
     }));
     if (target) {
       const attacker = payload.expert_id;
-      patch(target, (ex) => ({ ...ex, challengedBy: attacker }));
+      patch(target, (ex) => {
+        const challengers = [...(ex.challengers ?? []).filter((id) => id !== attacker), attacker];
+        return { ...ex, challengedBy: attacker, challengers };
+      });
     }
   }
   if (
@@ -152,10 +155,7 @@ export function applyCouncilEvent(
   if (event === "review.done" && typeof payload.expert_id === "string") {
     const attacker = payload.expert_id;
     const target = typeof payload.target_id === "string" ? payload.target_id : undefined;
-    patch(attacker, (ex) => ({ ...ex, critiquing: false }));
-    if (target) {
-      patch(target, (ex) => (ex.challengedBy === attacker ? { ...ex, challengedBy: undefined } : ex));
-    }
+    patch(attacker, (ex) => ({ ...ex, critiquing: false, reviewTarget: target ?? ex.reviewTarget }));
   }
   if (event === "tool.call" && typeof payload.expert_id === "string" && typeof payload.tool === "string") {
     const tool = payload.tool;
