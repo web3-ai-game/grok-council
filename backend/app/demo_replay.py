@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import re
 from typing import Any
 
 from app.config import REPO_ROOT
@@ -10,6 +9,7 @@ TICK_MS = 56
 STAGGER_MS = 320
 GATE_MS = 1200
 PHASE_GAP_MS = 460
+STEP_MS = 480
 
 SEATS = (
     ("analyst", "🔍", "分析師", "Analyst"),
@@ -62,62 +62,27 @@ def _stream(
     return at, seq
 
 
-def _advance_cost(text: str, index: int) -> int:
-    code = ord(text[index])
-    base = 28 if code > 127 else 12
-    jitter = ((index * 13) % 7) - 3
-    ch = text[index]
-    pause = 120 if ch in "。！？.!?" else 48 if ch in "，、,;；" else 36 if ch == "\n" else 0
-    return max(8, base + jitter + pause)
+def _steps(script: dict[str, Any]) -> list[str]:
+    raw = script.get("steps")
+    if not isinstance(raw, list):
+        return []
+    return [str(item) for item in raw[:3] if str(item)]
 
 
-def _text_duration(text: str) -> int:
-    return 90 + sum(_advance_cost(text, i) for i in range(len(text)))
-
-
-def _interrupted(text: str) -> str:
-    cut = max(18, int(len(text) * 0.58))
-    end = cut
-    for i in range(cut, int(len(text) * 0.35) - 1, -1):
-        if text[i] in "。！？.!?，、,;；":
-            end = i
-            break
-    return text[:end].rstrip()
-
-
-def _as_chain(text: str) -> str:
-    text = re.sub(r"([。！？])\s*", r"\1\n", text)
-    text = re.sub(r"([.!?])\s+(?=[A-Z])", r"\1\n", text)
-    text = re.sub(r"\n{3,}", "\n\n", text)
-    return text.strip()
-
-
-def _thought_text(script: dict[str, Any], failed: bool) -> str:
-    raw = script.get("brief")
-    parts = [str(item).strip() for item in raw if str(item).strip()] if isinstance(raw, list) else []
-    if not parts:
-        steps = script.get("steps")
-        parts = [str(item) for item in steps if str(item)] if isinstance(steps, list) else []
-        text = "\n".join(parts)
-    else:
-        text = "\n\n".join(parts)
-    text = _as_chain(text)
-    if not text:
-        return ""
-    return _interrupted(text) if failed else text
-
-
-def _play_thought(
+def _play_steps(
     events: list[tuple[int, int, str, dict[str, Any]]],
     at: int,
     seq: int,
     expert_id: str,
-    text: str,
+    steps: list[str],
+    limit: int | None = None,
 ) -> tuple[int, int]:
-    if not text:
-        return at, seq
-    events.append((at, seq, "thought.start", {"expert_id": expert_id, "text": text}))
-    return at + _text_duration(text), seq + 1
+    shown = steps if limit is None else steps[:limit]
+    for index, label in enumerate(shown):
+        events.append((at, seq, "expert.step", {"expert_id": expert_id, "index": index, "label": label}))
+        seq += 1
+        at += STEP_MS
+    return at, seq
 
 
 def _timed_events(scenario: dict[str, Any], lang: str) -> list[tuple[int, int, str, dict[str, Any]]]:
@@ -163,10 +128,11 @@ def _timed_events(scenario: dict[str, Any], lang: str) -> list[tuple[int, int, s
     for index, (seat_id, script) in enumerate(awake):
         t = GATE_MS + 80 + index * STAGGER_MS
         push(t, "expert.start", {"expert_id": seat_id})
-        t += 80
+        t += 140
+        steps = _steps(script)
         failed = bool(script.get("error"))
-        t, seq = _play_thought(events, t, seq, seat_id, _thought_text(script, failed))
-        t += 90
+        t, seq = _play_steps(events, t, seq, seat_id, steps, min(2, len(steps)) if failed else None)
+        t += 120
         if failed:
             push(t, "expert.done", {"expert_id": seat_id, "error": str(script.get("error") or "")})
         else:
@@ -207,9 +173,9 @@ def _timed_events(scenario: dict[str, Any], lang: str) -> list[tuple[int, int, s
     push(synth_at, "phase", {"phase": "synth"})
     push(synth_at, "synth.start", {})
     push(synth_at, "expert.start", {"expert_id": "leader"})
-    t = synth_at + 80
-    t, seq = _play_thought(events, t, seq, "leader", _thought_text(chair, False))
-    t += 90
+    t = synth_at + 160
+    t, seq = _play_steps(events, t, seq, "leader", _steps(chair))
+    t += 160
     t, seq = _stream(events, t, seq, "synth.delta", {}, str(chair.get("answer") or ""))
     t += 40
     push(t, "expert.done", {"expert_id": "leader"})

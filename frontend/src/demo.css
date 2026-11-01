@@ -328,7 +328,10 @@ html.lights-app[data-lights="off"] .rail span {
   min-height: 120px;
   margin-top: 14px;
   overflow: visible;
-  display: block;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
   padding: 16px 18px;
   border-radius: 18px;
   background: #fffdfb;
@@ -457,23 +460,15 @@ html.lights-app[data-lights="off"] .card {
   width: 8px;
 }
 
-.trace {
-  margin: 0;
-  padding: 1px 0 2px 11px;
-  border-left: 2px solid rgba(201, 100, 66, 0.38);
-  font-family: "JetBrains Mono", "SF Mono", "PingFang TC", "Noto Sans TC", ui-monospace, monospace;
-  font-size: 12.5px;
-  line-height: 1.65;
-  white-space: pre-wrap;
-  color: rgba(28, 25, 21, 0.72);
+.brief {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(28, 25, 21, 0.78);
 }
 
-html.lights-app[data-lights="off"] .trace {
-  color: rgba(244, 241, 234, 0.7);
-}
-
-.trace.live {
-  border-left-color: #c96442;
+html.lights-app[data-lights="off"] .brief {
+  color: rgba(244, 241, 234, 0.72);
 }
 
 .field {
@@ -653,6 +648,10 @@ html.lights-app[data-lights="off"] .review {
     min-height: 0;
   }
 
+  .verdict .chain {
+    display: none;
+  }
+
   .topbar,
   .verdict {
     align-items: flex-start;
@@ -671,7 +670,8 @@ html.lights-app[data-lights="off"] .review {
   .card.hit,
   .card i,
   .verdict i,
-  .why i {
+  .why i,
+  .chain line.on {
     animation: none;
     transition: none;
   }
