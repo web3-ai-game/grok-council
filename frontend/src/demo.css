@@ -1,0 +1,453 @@
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("./fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("./fonts/JetBrainsMono-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+html.lights-app {
+  background: #141413;
+  color: #f4f1ea;
+}
+
+html.lights-app[data-lights="on"] {
+  background: #f4f1ea;
+  color: #1c1915;
+  color-scheme: light;
+}
+
+html.lights-app[data-lights="off"] {
+  background: #141413;
+  color: #f4f1ea;
+  color-scheme: dark;
+}
+
+html.lights-app body {
+  margin: 0;
+  min-height: 100%;
+  background: transparent;
+  font-family: "SF Pro Text", "SF Pro", -apple-system, "PingFang TC", "PingFang SC", "Noto Sans TC", sans-serif;
+}
+
+.sandbox {
+  min-height: 100vh;
+  color: inherit;
+  background:
+    radial-gradient(900px 420px at 80% -10%, rgba(201, 100, 66, 0.08), transparent 60%),
+    transparent;
+}
+
+html.lights-app[data-lights="on"] .sandbox {
+  background:
+    radial-gradient(1000px 480px at 70% -12%, rgba(201, 100, 66, 0.12), transparent 58%),
+    transparent;
+}
+
+.topbar,
+.rail,
+.controls,
+.board,
+.footnote {
+  width: min(1120px, calc(100% - 32px));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 18px 0 8px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brand strong {
+  font-family: "Iowan Old Style", Palatino, "Palatino Linotype", "Songti TC", "PMingLiU", serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.brand span,
+.eyebrow,
+.card em,
+.card section > span,
+.footnote {
+  color: rgba(28, 25, 21, 0.52);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+html.lights-app[data-lights="off"] .brand span,
+html.lights-app[data-lights="off"] .eyebrow,
+html.lights-app[data-lights="off"] .card em,
+html.lights-app[data-lights="off"] .card section > span,
+html.lights-app[data-lights="off"] .footnote {
+  color: rgba(244, 241, 234, 0.5);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.top-actions a,
+.transport button,
+.topics button,
+.seg button,
+.lamp {
+  border: 1px solid rgba(28, 25, 21, 0.1);
+  background: rgba(255, 252, 248, 0.72);
+  color: inherit;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+html.lights-app[data-lights="off"] .top-actions a,
+html.lights-app[data-lights="off"] .transport button,
+html.lights-app[data-lights="off"] .topics button,
+html.lights-app[data-lights="off"] .seg button,
+html.lights-app[data-lights="off"] .lamp {
+  border-color: rgba(244, 241, 234, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.seg {
+  display: flex;
+  padding: 2px;
+  border-radius: 999px;
+  border: 1px solid rgba(28, 25, 21, 0.1);
+}
+
+html.lights-app[data-lights="off"] .seg {
+  border-color: rgba(244, 241, 234, 0.1);
+}
+
+.seg button {
+  border: 0;
+  background: transparent;
+  padding: 6px 10px;
+}
+
+.seg button.on,
+.topics button.on,
+.transport button.on {
+  background: #c96442;
+  color: #fffaf6;
+}
+
+.lamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lamp svg {
+  width: 16px;
+  height: 16px;
+}
+
+.lamp.on svg,
+.lamp svg.glow {
+  color: #c96442;
+  filter: drop-shadow(0 0 6px rgba(201, 100, 66, 0.85));
+}
+
+.hero {
+  position: relative;
+  width: min(1120px, calc(100% - 32px));
+  margin: 12px auto 0;
+  min-height: 220px;
+  border-radius: 18px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center 40%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hero-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 20, 19, 0.15), rgba(20, 20, 19, 0.72));
+}
+
+html.lights-app[data-lights="on"] .hero-fade {
+  background: linear-gradient(180deg, rgba(244, 241, 234, 0.05), rgba(244, 241, 234, 0.82));
+}
+
+.hero .eyebrow,
+.hero h1,
+.hero .question {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 0 28px;
+}
+
+.hero .eyebrow {
+  padding-top: 28px;
+  color: rgba(255, 250, 246, 0.78);
+}
+
+html.lights-app[data-lights="on"] .hero .eyebrow {
+  color: rgba(28, 25, 21, 0.62);
+}
+
+.hero h1 {
+  margin-top: 8px;
+  font-family: "Iowan Old Style", Palatino, "Palatino Linotype", "Songti TC", serif;
+  font-size: clamp(36px, 5vw, 58px);
+  font-weight: 560;
+  letter-spacing: -0.04em;
+  color: #fffaf6;
+}
+
+html.lights-app[data-lights="on"] .hero h1 {
+  color: #1c1915;
+}
+
+.hero .question {
+  max-width: 680px;
+  padding-top: 10px;
+  padding-bottom: 28px;
+  font-size: 17px;
+  line-height: 1.5;
+  color: rgba(255, 250, 246, 0.88);
+}
+
+html.lights-app[data-lights="on"] .hero .question {
+  color: rgba(28, 25, 21, 0.78);
+}
+
+.rail {
+  display: flex;
+  gap: 18px;
+  padding: 16px 2px 0;
+  font-size: 13px;
+}
+
+.rail span {
+  color: rgba(28, 25, 21, 0.38);
+}
+
+html.lights-app[data-lights="off"] .rail span {
+  color: rgba(244, 241, 234, 0.35);
+}
+
+.rail .now {
+  color: #c96442;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 0 8px;
+}
+
+.topics,
+.transport {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding-bottom: 12px;
+}
+
+.card {
+  min-height: 280px;
+  border-radius: 16px;
+  border: 1px solid rgba(28, 25, 21, 0.08);
+  background: rgba(255, 252, 248, 0.86);
+  padding: 14px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 1px 2px rgba(28, 25, 21, 0.04);
+}
+
+html.lights-app[data-lights="off"] .card {
+  border-color: rgba(244, 241, 234, 0.08);
+  background: rgba(31, 30, 27, 0.92);
+  box-shadow: none;
+}
+
+.card header {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.card header strong {
+  display: block;
+  font-size: 15px;
+}
+
+.card header em {
+  display: block;
+  margin-top: 2px;
+  font-style: normal;
+}
+
+.mark {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: rgba(201, 100, 66, 0.1);
+}
+
+.card.standby {
+  opacity: 0.48;
+}
+
+.card.hit {
+  animation: pulse 1.5s ease-in-out infinite;
+  border-color: rgba(201, 100, 66, 0.7);
+}
+
+.card.live {
+  border-color: rgba(201, 100, 66, 0.35);
+}
+
+.aim,
+.incoming {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.01em;
+  color: #c96442;
+}
+
+.card section > span {
+  display: block;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+.mono,
+.ink {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+
+.mono {
+  font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  font-size: 12px;
+  color: rgba(28, 25, 21, 0.62);
+}
+
+html.lights-app[data-lights="off"] .mono {
+  color: rgba(244, 241, 234, 0.55);
+}
+
+.ink {
+  font-size: 14.5px;
+  color: #1c1915;
+}
+
+html.lights-app[data-lights="off"] .ink {
+  color: #f7f4ee;
+}
+
+.review {
+  color: #9a4e36;
+}
+
+html.lights-app[data-lights="off"] .review {
+  color: #e0b2a2;
+}
+
+.card i {
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: #c96442;
+  animation: caret 1s steps(1) infinite;
+}
+
+.footnote {
+  padding: 8px 0 28px;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  50% {
+    box-shadow: 0 0 0 3px rgba(201, 100, 66, 0.16);
+  }
+}
+
+@media (max-width: 980px) {
+  .board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .board {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card.hit,
+  .card i {
+    animation: none;
+  }
+}

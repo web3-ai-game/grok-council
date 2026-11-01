@@ -1,0 +1,88 @@
+{
+  "id": "visible-council",
+  "wake": "gated",
+  "zh": {
+    "title": "可見 vs 黑盒",
+    "question": "可見議會比黑盒 multi-agent 多花的 token 換到什麼？什麼時候不該叫醒八席？",
+    "seats": {
+      "analyst": {
+        "reasoning": "可見性是產品功能，不是免費附贈。成本是門控一次，加上被叫醒的席，加上互怼，加上議長重讀全部答案。黑盒只給你終點。可見議會把分歧留在畫面上，所以觀眾自己能當判官。",
+        "answer": "多花的 token 買的是可檢查的分歧，不是更長的答案。席不能改變決策，就不要叫醒。",
+        "review_target": "quant",
+        "review": "別只算 token。若用戶因為看不見分歧而不再信任結論，省下的那兩席會在別處付。"
+      },
+      "researcher": { "standby": true },
+      "engineer": {
+        "reasoning": "延遲大致是最慢那一席，不是席數相加。Token 是相加。平行度有上限，上下文卻要把每席答案再送進議長。所以省 token 的槓桿在門控，不在把模型換小。",
+        "answer": "延遲看最慢的一席。帳單看被叫醒的席數，再加議長重讀。",
+        "review_target": "critic",
+        "review": "平行不是免罪。你省了牆鐘，沒省上下文。議長仍要讀每一段。"
+      },
+      "critic": {
+        "reasoning": "黑盒把錯誤藏在終點裡。可見議會把中間的錯句也展示給人。這不是純好處。若產品不標「這是某一席，不是結論」，觀眾會把紅隊的攻擊句當成最終建議。",
+        "answer": "可見的代價是中間錯句也公開。不標席位，可見性會製造新的誤讀。",
+        "review_target": "engineer",
+        "review": "你說平行省的是時間。用戶付的是 token，不是你的時鐘。不要用延遲圖表掩蓋帳單。"
+      },
+      "strategist": {
+        "reasoning": "全叫醒的條件：問題跨域，而且有人在看。跳過的條件：這一席不能改變決策。情報官不改架構取捨，表達者不新增事實。這題兩者都跳。跳過不是缺席，是門控在工作。",
+        "answer": "人在看、問題跨域，才全叫醒。這一題只留能改決策的五席，加上議長。",
+        "review_target": "analyst",
+        "review": "「不能改變決策」要在門控當下判斷，不能等答完再補一句我們本來可以跳過。"
+      },
+      "writer": { "standby": true },
+      "quant": {
+        "reasoning": "七路 fan-out 的完成 token 大約是單路的七倍，議長還要把各席答案再吃進去。跳過兩席是這題最便宜的正確切割：少兩段生成，議長上下文也短一截。我不把這個寫成精確百分比，沒有這次實扣。",
+        "answer": "跳過兩席，省的是兩段生成加上議長重讀。這是數量級，不是報價單。",
+        "review_target": "strategist",
+        "review": "你把可見性說成該買的功能。它只有在觀眾真的會看卡片時才值。沒人看，就是七倍完成 token 的裝飾。"
+      }
+    },
+    "chair": {
+      "reasoning": "這題自己就是例子。情報官和表達者不能改變「要不要全叫醒」這個取捨，所以門控沒叫。留下的分歧是：可見性買的是信任，還是只買帳單。",
+      "answer": "黑盒便宜，也不可檢查。可見議會貴，貴在你能看見誰反對誰。門控的工作是拒絕不能改變決策的席。這一題跳過情報官和表達者，不是棋盤缺了兩格，是省 token 的那一刀。"
+    }
+  },
+  "en": {
+    "title": "Visible vs black box",
+    "question": "What do the extra tokens of a visible council buy over a black-box multi-agent pass, and when should the gate refuse a seat?",
+    "seats": {
+      "analyst": {
+        "reasoning": "Visibility is a product feature, not a free attachment. The bill is one gate call, the seats that wake, the cross-review, and a chair that rereads every answer. A black box gives you the endpoint. A visible council leaves the disagreement on screen, so the viewer can judge.",
+        "answer": "The extra tokens buy inspectable disagreement, not a longer answer. If a seat cannot change the decision, do not wake it.",
+        "review_target": "quant",
+        "review": "Do not count only tokens. If hiding the disagreement makes the user drop the conclusion, the two skipped seats get paid for somewhere else."
+      },
+      "researcher": { "standby": true },
+      "engineer": {
+        "reasoning": "Latency is closer to the slowest seat than to the sum. Tokens are the sum. Parallelism has a cap, and the chair still has to reread every answer. The lever for saving tokens is the gate, not a smaller model.",
+        "answer": "Latency follows the slowest seat. The bill follows how many seats woke, plus the chair’s reread.",
+        "review_target": "critic",
+        "review": "Parallel is not an alibi. You saved wall clock. You did not save context. The chair still reads every block."
+      },
+      "critic": {
+        "reasoning": "A black box hides the mistake in the ending. A visible council also shows the wrong sentence in the middle. That is not a pure gain. If the product does not mark “this is one seat, not the conclusion,” a visitor will take a red-team jab as the advice.",
+        "answer": "Visibility publishes intermediate mistakes. Without a seat label, it creates a new misread.",
+        "review_target": "engineer",
+        "review": "You said parallel saves time. The user pays tokens, not your clock. Do not hide the bill behind a latency chart."
+      },
+      "strategist": {
+        "reasoning": "Wake everyone when the question crosses domains and a person is watching. Skip a seat when it cannot change the decision. Intel does not change this architecture trade. The communicator adds no new fact. Both stay down. A skip is the gate working, not an empty chair.",
+        "answer": "Full wake only if someone is watching and the question crosses domains. This turn keeps the five seats that can move the decision, plus the chair.",
+        "review_target": "analyst",
+        "review": "“Cannot change the decision” has to be judged at the gate, not added afterward as a sentence about how we could have skipped."
+      },
+      "writer": { "standby": true },
+      "quant": {
+        "reasoning": "A seven-way fan-out is on the order of seven times the completion tokens, and the chair ingests those answers again. Skipping two seats is the cheapest correct cut here: two generations not run, and a shorter chair context. I will not dress that up as a precise percent. This is not a live capture.",
+        "answer": "Skipping two seats saves two generations plus the chair’s reread. That is an order of magnitude, not a quote.",
+        "review_target": "strategist",
+        "review": "You treated visibility as a feature one ought to buy. It is worth the tokens only if someone actually reads the cards. Otherwise it is decoration at seven times the completion cost."
+      }
+    },
+    "chair": {
+      "reasoning": "This turn is the example. Intel and the communicator cannot change the trade “should we wake everyone,” so the gate left them down. The remaining fight is whether visibility buys trust or only a bill.",
+      "answer": "A black box is cheaper, and it cannot be inspected. A visible council costs more because you can see who rejects whom. The gate’s job is to refuse a seat that cannot change the decision. Skipping Intel and the communicator is not two missing squares. It is the cut that saves the tokens."
+    }
+  }
+}
