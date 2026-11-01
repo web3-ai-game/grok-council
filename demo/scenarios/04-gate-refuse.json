@@ -13,7 +13,13 @@
         ],
         "answer": "拒絕跟題目無關的席，並把跳過寫出來。",
         "review_target": "critic",
-        "review": "相關性要能說出一句，不能只憑省錢。"
+        "review": "相關性要能說出一句，不能只憑省錢。",
+        "brief": [
+          "門控的工作不是把八個名字排齊，是判斷這一席的工具跟這一題有沒有關係。無關的席醒過來，只會空轉，或者更糟，編一段看起來像答案的話。拒絕要具名，跳過要寫進事件，不能只在後台悄悄少一個人。",
+          "這一題沒有可核對的外部來源，情報席不該被叫醒去「找一點什麼」。沒有句子需要改寫，文案席也不該為了對稱出場。對稱是版面需求，不是證據需求。為了版面叫醒一席，等於邀請它發明。",
+          "全席是默認，不是義務。默認的意思是題目夠寬才全醒。題目窄，就該窄著醒。窄不是系統壞了，是門控在做事。讀者要看見誰沒醒、為什麼沒醒，才不會把安靜讀成同意。",
+          "跳過如果不能被第三個人核對，就不是門控，是少叫了一次。核對要有名字和原因。沒有名字，讀者以為還在載入。沒有原因，下一場會把節省套到不該睡的席上。節省可以留，前提必須跟著節省一起留下。"
+        ]
       },
       "researcher": {
         "steps": [
@@ -23,7 +29,13 @@
         ],
         "answer": "沒有可核對來源的情報席，該停，不該編。",
         "review_target": "writer",
-        "review": "停下就寫停下。不要寫成這一席沒有異議。"
+        "review": "停下就寫停下。不要寫成這一席沒有異議。",
+        "brief": [
+          "情報席的工具是來源。這一題沒有可核對的外部來源，叫醒我只會得到兩種東西：把常識說成來源，或編一個看起來像來源的句子。兩種都比沉默貴。",
+          "所以該停，不該編。停要寫成一行原因，讓後面的席和議長不能把我的空白引用成立場。沒有原因的跳過，會被讀成「情報員沒意見」。沒意見和沒出場不是同一句。",
+          "如果題目後來補上了可核對的材料，再醒不遲。現在醒，是在沒有材料的地方生產句子。句子一旦進了事件流，議長就有東西可以誤引。",
+          "我這一題的正確產出是一行原因，不是一段情報。誰把我的待命寫成「沒有反例」或「情報員認為無需來源」，誰就是在用空白生產句子。空白沒有查過。沒查過就不能有查過才配寫的動詞。"
+        ]
       },
       "engineer": {
         "steps": [
@@ -33,7 +45,13 @@
         ],
         "answer": "跳過必須進事件流。卡片變暗，結論不引用。",
         "review_target": "quant",
-        "review": "省下的 Token 可以記。假裝出場不能記成節省。"
+        "review": "省下的 Token 可以記。假裝出場不能記成節省。",
+        "brief": [
+          "跳過必須是事件，不是介面上的空白。事件裡要有席位、原因、以及「結論不得引用」這條約束。卡片變暗是給人看的，事件是給回放和檢查用的。只有變暗、沒有事件，下一次回放就會把這席補回來。",
+          "實作上不要為了齊席而發一次空請求。空請求也是一次模型呼叫，也會產生一段需要被忽略的文字。忽略文字比不產生文字更容易出錯，因為總有一個下游會忘記忽略。",
+          "所以工程路徑是：門控先寫跳過事件，席位不呼叫，卡片用事件渲染成待命。結論合成時，引用清單裡根本沒有這席。不是合成之後再刪，是一開始就不在。",
+          "驗收看事件，不看卡片暗不暗。事件裡有席位、原因、以及不得引用。合成器的輸入清單裡沒有這席。三條都在，跳過才落地。只有卡片變暗，下一次回放仍可能把人補回來。"
+        ]
       },
       "critic": {
         "steps": [
@@ -43,7 +61,13 @@
         ],
         "answer": "可以拒絕。不可以拒絕了還讓議長引用該席。",
         "review_target": "strategist",
-        "review": "默認全席沒問題。默認全席都說話，有問題。"
+        "review": "默認全席沒問題。默認全席都說話，有問題。",
+        "brief": [
+          "可以拒絕。不可以拒絕了還讓議長引用該席。這是這一題唯一需要被盯住的縫。門控如果只是少發一次請求，但合成提示詞裡仍寫著「綜合八席」，拒絕就沒有發生。",
+          "我要看的是引用清單，不是卡片顏暗不暗。顏暗是裝飾。引用清單裡出現沒出場的名字，就是補寫。補寫在這一題裡不是文風問題，是門控被繞過。",
+          "所以批評席的條件很窄：跳過有事件、結論不引用、讀者能看見原因。三條缺一，這次拒絕就不算數。算數的拒絕是事後還能被第三個人核對的。",
+          "我要在引用清單裡抓到沒出場的名字，而不是在文風裡抓。名單裡有，就是繞過門控。名單裡沒有，我就不為了對稱要求他們出場。對稱不是這一席的標準。能核對才是。"
+        ]
       },
       "strategist": {
         "steps": [
@@ -53,7 +77,13 @@
         ],
         "answer": "全席是默認，不是義務。無關的席該睡。",
         "review_target": "analyst",
-        "review": "睡之前要說得出無關在哪一句。"
+        "review": "睡之前要說得出無關在哪一句。",
+        "brief": [
+          "全席適合寬題：邊界、取捨、要寫給人看的結論。窄題如果也全醒，多出來的席沒有工具可用，就會用語氣填空。語氣填空在回放裡看起來像討論，實際上沒有新信息。",
+          "推薦把「默認全醒」寫成預設，把「無關則睡」寫成規則。預設可以改，規則不能為了好看關掉。好看的八張亮卡片，比七張裡有一張寫明跳過的卡片更危險。",
+          "對這一題，情報和文案該睡。不是他們不重要，是這一題用不到他們的工具。用不到還叫醒，是在買一段必須事後刪掉的文字。",
+          "八張亮卡片不是更完整。完整是該醒的醒了，該睡的寫明了原因。為了版面叫醒一席，買到的是一段必須刪掉的文字，以及一個會被誤引的名字。這筆不划算，即使它看起來更齊。"
+        ]
       },
       "writer": {
         "steps": [
@@ -63,7 +93,13 @@
         ],
         "answer": "讀者要看得出誰沒說話。一個 STANDBY 就夠。",
         "review_target": "researcher",
-        "review": "不要把沒出場寫成棄權。棄權也是一種發言。"
+        "review": "不要把沒出場寫成棄權。棄權也是一種發言。",
+        "brief": [
+          "讀者要看得出誰沒說話。一個待命標記、一行原因，比一段假裝說話的摘要誠實。我如果被叫醒，只會把「沒有可改寫的句子」寫得更長，那不是文案，是噪音。",
+          "所以文案席同意自己這一題不出場。出場條件是已經有句子，而且句子需要被收成能複述的話。現在句子還沒有，我出場就是在空地上先寫結論。",
+          "介面上不要用空白卡片表示跳過。空白會被讀成還沒載入。寫明待命和原因，讀者才知道這是決定，不是故障。",
+          "待命要寫成決定，不要寫成空白。空白像故障。決定帶原因，讀者就不會在結論裡找我的句子。找不到還去找，是因為介面沒有告訴他我不在。告訴他，是這一席對文案的全部要求。"
+        ]
       },
       "quant": {
         "steps": [
@@ -73,7 +109,13 @@
         ],
         "answer": "跳過省空轉。跳錯的成本是缺席的反證。",
         "review_target": "engineer",
-        "review": "事件裡沒有這席，節省數字就不能算它說過。"
+        "review": "事件裡沒有這席，節省數字就不能算它說過。",
+        "brief": [
+          "跳過省的是空轉：一次不會被用的呼叫、一段必須被忽略的 token。這筆節省是真的。跳錯的成本是缺席的反證：該出場的席沒出場，結論少了一條反對。",
+          "所以不要把跳過寫成純收益。收益成立的前提是這席跟題目無關。無關判斷錯了，省下的 token 買到的是一個缺角的結論。缺角在帳上不明顯，在決策上很明顯。",
+          "這一題情報和文案的工具用不上，跳過的前提成立。前提要寫在事件裡，不然下一次有人會把這筆節省套到不該睡的席上。",
+          "跳過的收益記在少掉的呼叫上，成本記在可能缺席的反證上。這一題後者的前提不成立，所以收益可以記。前提不寫進事件，這筆收益就不能被下一題引用。沒有前提的節省，是一個會被濫用的數。"
+        ]
       }
     },
     "chair": {
@@ -82,7 +124,13 @@
         "跳過要具名",
         "結論不引用空席"
       ],
-      "answer": "門控只拒絕跟題目無關的席，並且具名。結論不得引用沒出場的席。"
+      "answer": "門控只拒絕跟題目無關的席，並且具名。結論不得引用沒出場的席。",
+      "brief": [
+        "門控只拒絕跟題目無關的席，並且具名。這一題情報沒有可核對的來源，文案沒有需要改寫的句子，兩席待命是規則，不是故障。其餘席位照常作答。",
+        "結論不得引用沒出場的席。不能寫他們同意，不能寫他們反對，也不能用「綜合各席」把他們算進去。各席只包括事件流裡真正寫過句子的名字。",
+        "跳過的原因留在卡片上，也留在事件裡。沒有原因的變暗，讀者會當成還沒載入。有原因的待命，讀者才知道安靜是決定。",
+        "收場只認具名的跳過。情報和文案這一題待命，原因分別是沒有來源、沒有句子。結論不引用他們，也不用「各席」把他們算進去。其餘席位的句子照實留。安靜是決定，不是還沒載入。"
+      ]
     }
   },
   "en": {
@@ -97,7 +145,13 @@
         ],
         "answer": "Refuse seats off the question, and write the skip down.",
         "review_target": "critic",
-        "review": "Relevance has to fit in one sentence. Saving money is not that sentence."
+        "review": "Relevance has to fit in one sentence. Saving money is not that sentence.",
+        "brief": [
+          "The gate's job is not to line up eight names. It is to decide whether this seat's tool has anything to do with this question. An unrelated seat that wakes will idle, or worse, invent a paragraph that looks like an answer. A refusal has to be named, and the skip has to enter the event stream. Quietly dropping a person in the background is not a gate.",
+          "This question has no external source to check, so research should not be woken to 'find something'. No sentence needs rewriting, so writing should not appear for symmetry. Symmetry is a layout need, not an evidence need. Waking a seat for the layout invites it to invent.",
+          "A full table is the default, not a duty. Default means everyone wakes when the question is wide enough. A narrow question should wake narrow. Narrow is not a broken system. It is the gate doing its job. The reader has to see who stayed asleep and why, or quiet will be read as agreement.",
+          "A skip that a third person cannot check is not a gate. It is one fewer call. A check needs a name and a reason. Without a name, the reader thinks it is still loading. Without a reason, the next session will apply the saving to a seat that should have stayed awake. The saving can stay. The premise has to stay with it."
+        ]
       },
       "researcher": {
         "steps": [
@@ -107,7 +161,13 @@
         ],
         "answer": "An intel seat with nothing checkable should stop, not invent.",
         "review_target": "writer",
-        "review": "Write that it stopped. Don't write that it had no objection."
+        "review": "Write that it stopped. Don't write that it had no objection.",
+        "brief": [
+          "This seat's tool is sources. This question has none that can be checked. Waking me produces one of two things: common sense dressed as a source, or a sentence that merely looks like a source. Both cost more than silence.",
+          "So stop, do not invent. The stop has to be a line of reason, so later seats and the chair cannot cite my blank as a position. A skip with no reason is read as 'the researcher had no view'. No view and did not appear are different sentences.",
+          "If checkable material shows up later, wake me then. Waking now manufactures sentences where there is no material. Once a sentence is in the stream, the chair has something to mis-cite.",
+          "My correct output on this question is one line of reason, not a paragraph of intelligence. Whoever writes my standby as 'no counterexample' or 'the researcher saw no need for a source' is manufacturing a sentence from a blank. The blank did not look. What only a look can say cannot be said."
+        ]
       },
       "engineer": {
         "steps": [
@@ -117,7 +177,13 @@
         ],
         "answer": "A skip enters the event stream. The card dims. The verdict does not cite it.",
         "review_target": "quant",
-        "review": "Saved tokens can be counted. A pretended appearance cannot be counted as savings."
+        "review": "Saved tokens can be counted. A pretended appearance cannot be counted as savings.",
+        "brief": [
+          "A skip has to be an event, not a blank in the interface. The event needs the seat, the reason, and the constraint that the verdict may not cite it. A dim card is for people. The event is for replay and review. Dim with no event, and the next replay will fill the seat back in.",
+          "Do not send an empty request just to keep the table full. An empty request is still a model call, and it still produces text that must be ignored. Ignored text fails more often than text that was never produced, because some downstream always forgets to ignore it.",
+          "The path is: the gate writes the skip, the seat is not called, and the card renders standby from the event. When the verdict is assembled, that seat is absent from the citation list. It is not deleted after. It was never there.",
+          "Acceptance is the event, not how dim the card is. The event has the seat, the reason, and the ban on citation. The synthesizer's input list does not contain this seat. When all three are there, the skip has landed. A dim card alone can still be filled back in on the next replay."
+        ]
       },
       "critic": {
         "steps": [
@@ -127,7 +193,13 @@
         ],
         "answer": "The gate may refuse a seat. The chair may not then cite it.",
         "review_target": "strategist",
-        "review": "A full table as default is fine. A full table that all spoke is not."
+        "review": "A full table as default is fine. A full table that all spoke is not.",
+        "brief": [
+          "Refusing is allowed. Refusing and then letting the chair cite the seat is not. That is the only seam this question has to watch. If the gate merely skips a request, but the synthesis prompt still says 'combine all eight', the refusal did not happen.",
+          "I read the citation list, not the dimness of the card. Dimness is decoration. A name in the citation list that never appeared is invention. On this question that is not a style problem. It is the gate being bypassed.",
+          "The condition is narrow: the skip is an event, the verdict does not cite it, and the reader can see the reason. Miss one and the refusal does not count. A refusal that counts is one a third person can still check afterward.",
+          "I catch a missing name in the citation list, not in the style. If the name is in the list, the gate was bypassed. If it is not, I do not demand they appear for symmetry. Symmetry is not this seat's standard. Being able to check is."
+        ]
       },
       "strategist": {
         "steps": [
@@ -137,7 +209,13 @@
         ],
         "answer": "A full table is the default, not a duty. Irrelevant seats sleep.",
         "review_target": "analyst",
-        "review": "Before it sleeps, say which sentence makes it irrelevant."
+        "review": "Before it sleeps, say which sentence makes it irrelevant.",
+        "brief": [
+          "A full table fits a wide question: a boundary, a tradeoff, a verdict someone has to read. On a narrow question, the extra seats have no tool, so they fill the gap with tone. Tone looks like discussion in a replay and adds no information.",
+          "Write 'wake everyone' as the preset, and 'sleep if unrelated' as the rule. A preset can be changed. The rule cannot be switched off to look complete. Eight bright cards are more dangerous than seven cards and one that says why it slept.",
+          "On this question, research and writing should sleep. Not because they are unimportant. Because this question cannot use their tools. Waking them anyway buys text you then have to delete.",
+          "Eight bright cards are not more complete. Complete means the seats that should wake did wake, and the seats that should sleep have a written reason. Waking a seat for the layout buys text you must delete, and a name that will be mis-cited. That is not a bargain, even if it looks fuller."
+        ]
       },
       "writer": {
         "steps": [
@@ -147,7 +225,13 @@
         ],
         "answer": "A reader must see who did not speak. STANDBY is enough.",
         "review_target": "researcher",
-        "review": "Don't write absence as abstention. Abstention is still a speech."
+        "review": "Don't write absence as abstention. Abstention is still a speech.",
+        "brief": [
+          "The reader has to see who did not speak. A standby mark and one line of reason are more honest than a summary that pretends to speak. If I am woken, I will only lengthen 'there is no sentence to rewrite'. That is not writing. It is noise.",
+          "So this seat agrees to stay out. The condition for appearing is that sentences already exist and need to be made repeatable. There are no sentences yet. Appearing now means writing the verdict on empty ground.",
+          "Do not show a skip as an empty card. Empty is read as still loading. Standby plus a reason tells the reader the quiet is a decision, not a fault.",
+          "Standby has to read as a decision, not as a blank. A blank looks like a fault. A decision with a reason means the reader will not look for my sentence in the verdict. If they still look, the interface did not tell them I was absent. Telling them is the whole of what this seat asks of the copy."
+        ]
       },
       "quant": {
         "steps": [
@@ -157,7 +241,13 @@
         ],
         "answer": "A skip saves idle tokens. A wrong skip costs the missing counterargument.",
         "review_target": "engineer",
-        "review": "If the seat is absent from the events, the savings cannot claim it spoke."
+        "review": "If the seat is absent from the events, the savings cannot claim it spoke.",
+        "brief": [
+          "A skip saves an idle call: one request that will not be used, and a stretch of tokens that must be ignored. That saving is real. The cost of skipping the wrong seat is a missing counterargument. The seat that should have appeared did not, and the verdict lost an objection.",
+          "Do not book a skip as pure gain. The gain holds only if the seat is unrelated to the question. If that judgment is wrong, the tokens you saved bought a verdict with a corner missing. The missing corner is quiet on the bill and loud in the decision.",
+          "On this question the tools of research and writing do not apply, so the premise of the skip holds. Write the premise into the event. Otherwise someone will reuse the saving on a seat that should have stayed awake.",
+          "Book the gain of a skip on the call you did not make, and the cost on the counterargument that might be missing. On this question the premise of that cost does not hold, so the gain can be booked. If the premise is not in the event, the next question may not reuse the saving. A saving with no premise is a number that will be abused."
+        ]
       }
     },
     "chair": {
@@ -166,7 +256,13 @@
         "Name every skip",
         "Don't cite empty seats"
       ],
-      "answer": "The gate refuses only seats off the question, by name. The verdict may not cite a seat that did not appear."
+      "answer": "The gate refuses only seats off the question, by name. The verdict may not cite a seat that did not appear.",
+      "brief": [
+        "The gate refuses only seats unrelated to the question, and it names them. Research has no source to check. Writing has no sentence to rewrite. Both on standby is the rule, not a fault. The other seats answer as usual.",
+        "The verdict may not cite a seat that did not appear. It cannot say they agreed, it cannot say they dissented, and it cannot count them inside 'the seats'. The seats are the names that actually wrote a sentence in the stream.",
+        "The reason for the skip stays on the card and in the event. A dim card with no reason is read as still loading. Standby with a reason is how the reader learns that quiet was a decision.",
+        "The close accepts only a named skip. Research and writing are on standby here, because there is no source and no sentence. The verdict does not cite them, and it does not count them inside 'the seats'. The other seats' sentences stay as written. Quiet is a decision, not a card still loading."
+      ]
     }
   }
 }

@@ -13,7 +13,13 @@
         ],
         "answer": "鑰匙只留伺服器。瀏覽器只拿會話。",
         "review_target": "critic",
-        "review": "自裝的 PWA 更窄，窄也不等於可以把鑰匙交出去。"
+        "review": "自裝的 PWA 更窄，窄也不等於可以把鑰匙交出去。",
+        "brief": [
+          "先拆信任域，不談部署口味。鑰匙是不記名憑證：誰拿著，誰就能打上游、誰就能花錢。瀏覽器、擴充、Service Worker 快取、錯誤回傳，都站在信任域外面。人的會話可以過期，鑰匙不該跟會話綁在同一層，否則一次貼上的錯誤就等於把錢包交出去。",
+          "三層要分開記：人、會話、鑰匙。人用登入證明自己，會話用會過期的 cookie 證明這一段時間，鑰匙只活在伺服器環境檔。BFF 可以代持，但 BFF 仍是伺服器，不是瀏覽器裡多出來的一層偽裝。名字換了，外洩面不會跟著消失。",
+          "公開頁走第三條路：根本不持鑰，只做回放。自用客戶端由伺服器持鑰，瀏覽器只留會話。自裝的 PWA 威脅模型更窄，窄也不等於可以把鑰匙交出去。窄的意思是攻擊面小，不是信任域變了。",
+          "我不接受的寫法是把「自己人用」折成「可以放鑰匙」。自己人用只說明誰能打開頁面，不說明憑證出門之後還認不認主人。會話可以撤銷，鑰匙被複製之後撤銷的是你以為還在的那一把。所以結論裡如果出現「前端暫存一下」，這席不簽名。暫存也是持有。"
+        ]
       },
       "researcher": {
         "steps": [
@@ -23,7 +29,13 @@
         ],
         "answer": "鑰匙進前端包，就等於公開檔。",
         "review_target": "critic",
-        "review": "可能被看，不等於已經被打穿。沒來源就標不確定。"
+        "review": "可能被看，不等於已經被打穿。沒來源就標不確定。",
+        "brief": [
+          "公開客戶端把鑰匙打進包裡，這個模式已經被反覆刮走过。我不造一條不存在的漏洞編號。能核對的只有模式：前端包、原始碼對照、日誌、錯誤體，是最常見的四條外洩面。只要鑰匙進了這些面的任何一條，它就不再是秘密。",
+          "瀏覽器裡的儲存也不是保險箱。localStorage、擴充可以讀的頁面、被貼到工單的錯誤，都算外面。沒有來源就不要寫成已經被打穿。可能被看，和已經有人拿走，是兩句不同的話，不能為了緊張合成一句。",
+          "所以情報席只確認模式，不確認一次沒有編號的入侵。鑰匙進前端包，就該被當成公開檔來設計，而不是等一個 CVE 才搬家。等編號再搬，等於承認這段時間的帳單是公開的。",
+          "我能簽名的只有模式，不是某一次入侵。模式是：包、原始碼對照、日誌、錯誤體。這四條裡任何一條能重建鑰匙，就按公開檔設計。不要等我補一個編號再搬家。編號是事後的標籤，不是邊界的前提。沒有編號的今天，鑰匙也不該在包裡。"
+        ]
       },
       "engineer": {
         "steps": [
@@ -33,7 +45,13 @@
         ],
         "answer": "伺服器持鑰，瀏覽器持會話。靜態演示沒有鑰匙。",
         "review_target": "quant",
-        "review": "無上限來自沒輪換、沒告警，不是一句口號。"
+        "review": "無上限來自沒輪換、沒告警，不是一句口號。",
+        "brief": [
+          "落地只有一條短路徑。環境檔留在伺服器，會話是 HttpOnly cookie，SSE 和錯誤體都不回顯授權頭。上游的鑰匙不進回應、不進日誌、不進前端可以讀到的任何設定。少一條，邊界就在那一條上破。",
+          "BFF 可以代持請求，但代持的前提是 BFF 自己在伺服器上。如果構建步驟把同一把鑰匙寫進前端包、寫進 source map、寫進一條會被貼出去的錯誤，BFF 這個名字就沒有意義。邊界畫在回應上，不畫在架構圖的方框上。",
+          "靜態演示是第三條路：這個頁面根本沒有鑰匙，所以也沒有持鑰的錯誤可以犯。自用客戶端才走伺服器持鑰。兩條路不要混在同一個包裡，用一個功能旗標假裝分開。",
+          "檢查不看架構圖，看產物。打開前端包、打開一條錯誤、打開日誌，三處都拼不出授權頭，這條路才算落地。BFF 如果做不到這三處，就不要用 BFF 這個名字過關。名字過關、產物不過關，是這一席會打回去的實現。"
+        ]
       },
       "critic": {
         "steps": [
@@ -43,7 +61,13 @@
         ],
         "answer": "瀏覽器任何儲存、任何回應，都重建不出那把鑰匙。",
         "review_target": "engineer",
-        "review": "邊界畫在回應上，不畫在架構圖的方框上。"
+        "review": "邊界畫在回應上，不畫在架構圖的方框上。",
+        "brief": [
+          "工程師把 BFF 說成保險箱。保險箱若把鑰匙寫進前端包、寫進原始碼對照、寫進一條會被貼到工單的錯誤，就不是保險箱。我不管你叫它 BFF、原點還是邊緣函數，我看它會不會把憑證吐出來。",
+          "瀏覽器的任何儲存、任何回應，都必須重建不出那把鑰匙。包括快取、包括錯誤頁、包括一條看起來很無害的設定接口。名字不構成邊界。能從客戶端拼回去的東西，就已經在邊界外面。",
+          "自裝的 PWA 確實比公開網頁窄。窄的是誰能打開它，不是它拿到鑰匙之後會發生什麼。拿到了就是不記名憑證。所以我不同意把「自己人用」寫成「可以放鑰匙」。",
+          "我留下的刀只有一把：客戶端重建得出鑰匙，邊界就不存在。窄的 PWA、好看的 BFF、自己人的瀏覽器，都改變不了這把刀。能重建，就刪掉「安全」。不能重建，我才不擋伺服器持鑰這條路。"
+        ]
       },
       "strategist": {
         "steps": [
@@ -53,7 +77,13 @@
         ],
         "answer": "公開頁不持鑰。自用客戶端由伺服器持鑰。",
         "review_target": "writer",
-        "review": "文案不能把伺服器持鑰寫成前端也能配。"
+        "review": "文案不能把伺服器持鑰寫成前端也能配。",
+        "brief": [
+          "三條路，先寫清楚再選。純靜態：沒有鑰匙，只能回放，適合公開頁。BFF 加短會話：人能用，鑰匙不進瀏覽器，適合要登入、但不想把憑證交出去的客戶端。全伺服器：功能完整，運維面也完整，適合自己用。",
+          "推薦看觀眾是誰。公開頁走第一條，自己用走第三條。不要用第二條的名字，做第一條的洩漏：嘴上說 BFF，包裡卻有鑰匙。這種混用最貴，因為讀者以為有邊界，攻擊者看見沒有。",
+          "文案必須把這三條講完。只留最好聽的那條，讀者無法知道鑰匙不在瀏覽器。安全如果只是一個形容詞，就沒有人能照著做，也沒有人能檢查你有沒有做。",
+          "三條路必須同時出現在給讀者的句子裡，包括那條被否定的。只留「伺服器持鑰」，讀者仍可能自己補上「那前端設定頁呢」。否定句要寫出來：前端不配鑰匙。沒寫出來的否定，會被讀成還沒決定。"
+        ]
       },
       "writer": {
         "steps": [
@@ -63,7 +93,13 @@
         ],
         "answer": "鑰匙留在伺服器。瀏覽器只留會話。",
         "review_target": "strategist",
-        "review": "三條路要講完，不能只留最好聽的那條。"
+        "review": "三條路要講完，不能只留最好聽的那條。",
+        "brief": [
+          "讀者要的是一句能複述的話，不是信任域圖。不能為了好讀，把「伺服器持鑰」寫成「前端也能配」。我只組織已經出現的結論，不新造一條更順的路。順如果改變了主語，就不是寫作，是改判斷。",
+          "可以複述的那句是：鑰匙留在伺服器，瀏覽器只留會話。沒有鑰匙的頁面，就只做回放。這三個分句缺一個，讀者就會自己補上一個更方便的版本。方便的版本通常是把鑰匙放進設定頁。",
+          "三條路都要留下，不能只留最好聽的。靜態回放、伺服器持鑰、以及那個不該存在的「前端也能配」。最後一條要被寫成否定，不然它會被讀成建議。",
+          "能複述的三個分句一個都不能少：鑰匙在伺服器，瀏覽器只有會話，沒有鑰匙的頁只回放。少一個分句，讀者會用更方便的版本補上。方便的版本就是設定頁要鑰匙。所以我寧願句子長，也不把第三個分句留在圖裡。"
+        ]
       },
       "quant": {
         "steps": [
@@ -73,7 +109,13 @@
         ],
         "answer": "沒有上限、輪換和告警，成本才是無上限。",
         "review_target": "engineer",
-        "review": "先加上這三個，再談省了多少。"
+        "review": "先加上這三個，再談省了多少。",
+        "brief": [
+          "外洩不是一個可以先估再接受的數。沒有用量上限、沒有輪換、沒有告警，成本才是無上限。一把進了前端包的鑰匙，帳單的上界是對方想打多少，不是你覺得這個頁面冷門。",
+          "所以先把三個閘門加上，再談數量級。上限讓一次洩漏停得下來，輪換讓舊鑰匙作廢，告警讓你知道它被用了。沒有這三個，就不要寫「我們評估過風險」。評估沒有閘門，只是一個心情。",
+          "省下來的便利要單獨記，不能跟外洩成本抵消。少一次環境配置，省的是分鐘。鑰匙進包，付的是不封頂的上游帳單。這兩個數不在同一列，不能合成一個「值得」。",
+          "沒有上限、輪換、告警，我就不會在任何一句裡寫「成本可控」。可控是這三個閘門都在，而且告警有人看。沒有人看的告警等於沒有告警。便利省下的分鐘，不能拿來抵一筆沒有上界的上游帳單。這兩列不相加。"
+        ]
       }
     },
     "chair": {
@@ -82,7 +124,13 @@
         "回應不回顯鑰",
         "公開頁不持鑰"
       ],
-      "answer": "鑰匙只屬於伺服器。瀏覽器只拿會話。沒有鑰匙的頁，只做回放。"
+      "answer": "鑰匙只屬於伺服器。瀏覽器只拿會話。沒有鑰匙的頁，只做回放。",
+      "brief": [
+        "各席把邊界拆開了，沒有人主張鑰匙可以進瀏覽器。分歧只在威脅模型有多窄，不在鑰匙該不該出門。窄的客戶端仍然是客戶端，不記名憑證出門之後就不認主人。",
+        "可以執行的做法只有兩條，而且不能混。公開頁不持鑰，只回放。自用客戶端由伺服器持鑰，瀏覽器只拿會話。BFF 如果存在，它必須真的在伺服器上，回應、日誌和錯誤體都不能重建那把鑰匙。",
+        "沒有上限、輪換和告警，就不要把成本說成可控。可控是這三個閘門都在，不是一句「我們會小心」。結論不新增任何一席沒說過的洩漏編號，也不把可能被看寫成已經被打穿。",
+        "收場只留兩條不混的路，加上三個沒有就不能談可控的閘門。不新增洩漏編號，不把可能被看寫成已經被打穿，也不把自用寫成可以持鑰。讀者若只能記住一句，那句是：鑰匙不出伺服器。"
+      ]
     }
   },
   "en": {
@@ -97,7 +145,13 @@
         ],
         "answer": "The key stays on the server. The browser holds a session.",
         "review_target": "critic",
-        "review": "A self-hosted PWA is narrower. It still must not receive the key."
+        "review": "A self-hosted PWA is narrower. It still must not receive the key.",
+        "brief": [
+          "Split the trust domain before talking about taste. A key is a bearer credential: whoever holds it can spend. The browser, an extension, a service-worker cache, and an error body are all outside that domain. A person's session can expire. The key must not sit on the same shelf, or one pasted error is the wallet.",
+          "Keep three layers apart: the person, the session, and the key. Login proves the person. An expiring cookie proves this stretch of time. The key lives only in the server environment. A BFF may hold it, but a BFF is still a server, not a disguise living in the browser. Renaming the box does not move the leak.",
+          "A public page takes the third path: it holds no key and only replays. A personal client lets the server hold the key. A self-hosted PWA is a narrower threat model. Narrower does not mean the key may cross. Narrow means fewer people can open it, not that the credential changed nature.",
+          "What I will not sign is folding 'our own people use it' into 'the key may live here'. Who can open the page does not decide whether a bearer credential still knows its owner after it leaves. A session can be revoked. A copied key is revoked only if you still believe you hold the only copy. If the verdict says the frontend may cache it for a moment, this seat does not sign. Caching is holding."
+        ]
       },
       "researcher": {
         "steps": [
@@ -107,7 +161,13 @@
         ],
         "answer": "A key in the frontend bundle is a public file.",
         "review_target": "critic",
-        "review": "Visible is not the same as already breached. No source, mark it unknown."
+        "review": "Visible is not the same as already breached. No source, mark it unknown.",
+        "brief": [
+          "Clients that ship a key inside the bundle have been scraped before. I will not invent a CVE that does not exist. What can be checked is the pattern: the bundle, the source map, the logs, and the error body are the usual exits. A key that reaches any of those is no longer a secret.",
+          "Browser storage is not a safe either. localStorage, a page an extension can read, an error pasted into a ticket: all of those are outside. Do not promote 'could be read' into 'already stolen' without a source. Those are different sentences. Tension is not evidence.",
+          "So this seat confirms the pattern, not an unnumbered breach. A key in the frontend bundle should be designed as a public file, not left in place until a CVE arrives. Waiting for a number means the bill is public in the meantime.",
+          "I can sign the pattern, not a particular breach. The pattern is the bundle, the source map, the logs, and the error body. If any of those can rebuild the key, design it as a public file. Do not wait for me to supply a CVE before you move it. A number is a label after the fact, not the premise of the boundary. The key does not belong in the bundle today either."
+        ]
       },
       "engineer": {
         "steps": [
@@ -117,7 +177,13 @@
         ],
         "answer": "The server holds the key. A static demo holds neither.",
         "review_target": "quant",
-        "review": "Unbounded means no rotation and no alert, not a slogan."
+        "review": "Unbounded means no rotation and no alert, not a slogan.",
+        "brief": [
+          "There is one short path. The environment file stays on the server. The session is an HttpOnly cookie. The stream and the error body never echo the authorization header. The upstream key does not enter the response, the log, or any setting the browser can read. Miss one of those and the boundary breaks there.",
+          "A BFF may proxy the call only if the BFF itself is on the server. If the build writes the same key into the bundle, the source map, or an error someone will paste, the name BFF does nothing. Draw the boundary on the response, not on a box in the diagram.",
+          "The static demo is the third path: this page has no key, so it cannot commit the error of holding one. The personal client is the path where the server holds the key. Do not mix those paths in one bundle and pretend a flag separates them.",
+          "The check is the artifact, not the diagram. Open the bundle, open one error, open the log. If none of the three can assemble the authorization header, the path landed. If a BFF cannot pass those three, do not let the name BFF pass it. A name that passes and an artifact that does not is the implementation this seat sends back."
+        ]
       },
       "critic": {
         "steps": [
@@ -127,7 +193,13 @@
         ],
         "answer": "No browser store and no response may rebuild the key.",
         "review_target": "engineer",
-        "review": "Draw the boundary on the response, not on a box in the diagram."
+        "review": "Draw the boundary on the response, not on a box in the diagram.",
+        "brief": [
+          "Calling it a BFF does not make a safe. If the safe writes the key into the bundle, the source map, or an error that lands in a ticket, it is not a safe. I do not care whether you name it BFF, origin, or edge function. I care whether the credential comes back out.",
+          "No browser store and no response may rebuild that key. That includes the cache, the error page, and a settings call that looks harmless. A name is not a boundary. Anything the client can reassemble is already outside.",
+          "A self-hosted PWA is narrower than a public page. What is narrower is who can open it, not what happens after it receives a key. A bearer credential does not check who was supposed to hold it. 'Our own people use it' is not 'the key may live here'.",
+          "One blade remains: if the client can rebuild the key, there is no boundary. A narrow PWA, a handsome BFF, and a browser used by our own people do not move that blade. If it can be rebuilt, delete the word safe. If it cannot, I do not block the path where the server holds the key."
+        ]
       },
       "strategist": {
         "steps": [
@@ -137,7 +209,13 @@
         ],
         "answer": "A public page holds no key. A personal client lets the server hold it.",
         "review_target": "writer",
-        "review": "Copy must not turn server-held keys into a frontend setting."
+        "review": "Copy must not turn server-held keys into a frontend setting.",
+        "brief": [
+          "Write the three paths before choosing. Static: no key, replay only, for a public page. BFF plus a short session: a person can use it, and the key stays out of the browser. Full server: complete function, complete operations, for personal use.",
+          "Choose by audience. The public page takes the first path. Personal use takes the third. Do not use the name of the second path to commit the leak of the first: say BFF, ship the key. That mix is the expensive one, because the reader believes a boundary the attacker can see is missing.",
+          "The copy has to name all three. If only the nicest path remains, the reader cannot tell that the key is not in the browser. Safety as an adjective cannot be followed, and it cannot be checked.",
+          "All three paths have to appear in the sentence the reader gets, including the one that is refused. If you only leave 'the server holds the key', the reader will supply 'what about a settings page'. The negation has to be written: the frontend does not hold a key. An unwritten negation is read as not yet decided."
+        ]
       },
       "writer": {
         "steps": [
@@ -147,7 +225,13 @@
         ],
         "answer": "The key stays on the server. The browser keeps only a session.",
         "review_target": "strategist",
-        "review": "Name all three paths. Don't keep only the nicest one."
+        "review": "Name all three paths. Don't keep only the nicest one.",
+        "brief": [
+          "The reader needs one sentence they can repeat, not a trust diagram. Do not sand 'the server holds the key' into 'the frontend can be configured too'. I only arrange conclusions that already appeared. A smoother sentence that changes the subject is not writing. It is a new judgment.",
+          "The repeatable line is: the key stays on the server, the browser keeps a session, and a page with no key only replays. Drop one clause and the reader will supply a more convenient one. The convenient one is usually a settings page that asks for the key.",
+          "All three paths stay on the page. Including the one that must not exist: the frontend holding the key. That last path has to be written as a negation, or it will be read as advice.",
+          "The three clauses someone can repeat all stay: the key is on the server, the browser has only a session, and a page with no key only replays. Drop one and the reader fills in a more convenient version. The convenient version is a settings page that asks for the key. I would rather the sentence be long than leave the third clause in a diagram."
+        ]
       },
       "quant": {
         "steps": [
@@ -157,7 +241,13 @@
         ],
         "answer": "Cost is unbounded only without a cap, rotation, and an alert.",
         "review_target": "engineer",
-        "review": "Add those three before claiming what you saved."
+        "review": "Add those three before claiming what you saved.",
+        "brief": [
+          "A leak is not a number you estimate and then accept. Without a usage cap, rotation, and an alert, the cost is unbounded. A key that reached the bundle has an upper bound set by how much the other side wants to spend, not by how quiet you think the page is.",
+          "Add the three gates before talking magnitude. A cap stops one leak. Rotation kills the old key. An alert tells you it was used. Without those, do not write that the risk was assessed. An assessment without a gate is a mood.",
+          "Convenience does not offset leak cost. Skipping one environment setup saves minutes. A key in the bundle pays an uncapped upstream bill. Those numbers are not in the same column, and they do not add up to 'worth it'.",
+          "Without a cap, rotation, and an alert, I will not write 'the cost is controllable' in any sentence. Controllable means those three gates exist, and someone looks at the alert. An alert nobody looks at is not an alert. Minutes saved on convenience do not offset an upstream bill with no upper bound. Those columns do not add."
+        ]
       }
     },
     "chair": {
@@ -166,7 +256,13 @@
         "Replies stay mute",
         "Public page holds none"
       ],
-      "answer": "The key belongs only to the server. The browser gets a session. A page with no key only replays."
+      "answer": "The key belongs only to the server. The browser gets a session. A page with no key only replays.",
+      "brief": [
+        "The seats split the boundary. Nobody claimed the key may enter the browser. The disagreement is how narrow the threat model is, not whether the key may leave. A narrow client is still a client. A bearer credential does not ask who was meant to hold it.",
+        "Two paths can be carried out, and they must not be mixed. A public page holds no key and only replays. A personal client lets the server hold the key, and the browser holds a session. If a BFF exists, it has to actually be a server: the response, the log, and the error body must not rebuild the key.",
+        "Without a cap, rotation, and an alert, do not call the cost controllable. Controllable means those three gates exist, not that someone will be careful. This verdict invents no breach number a seat did not state, and it does not promote 'could be read' into 'already stolen'.",
+        "The close keeps two paths that must not be mixed, and three gates without which cost is not controllable. It invents no breach number, does not promote 'could be read' into 'already stolen', and does not turn personal use into permission to hold the key. If the reader remembers one line, it is: the key does not leave the server."
+      ]
     }
   }
 }

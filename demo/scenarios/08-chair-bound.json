@@ -13,7 +13,13 @@
         ],
         "answer": "議長只能取捨已經出現的句子。不能新增來源。",
         "review_target": "critic",
-        "review": "取捨可以排順序。不能把沒出現的句子排進去。"
+        "review": "取捨可以排順序。不能把沒出現的句子排進去。",
+        "brief": [
+          "議長的權力是取捨，不是新增來源。取捨的意思是：這幾句已經出現，哪一句先做、哪一句被條件限制、哪一句跟另一句衝突。新增來源的意思是：事件流裡沒有的事實、沒有的數字、沒有的席位態度，被寫進結論。",
+          "空席最容易被寫成同意。沒說話不是同意，也不是反對。議長如果需要那一席的態度，就該在門控時叫醒它，而不是在合成時補一句。補一句比漏叫更難被看出來。",
+          "所以議長的輸入只有事件流。輸出可以更短、可以排序、可以標衝突。不可以更寬。更寬的那一部分，一定是某一席沒說過的話。",
+          "更短可以，更寬不行。寬出來的每一個字都要能指回某席原句。指不回的字，就是新增來源。新增來源包括補態度、補數字、補因果。三種都是議長在事件流之外寫作。事件流之外沒有這一席的權限。"
+        ]
       },
       "researcher": {
         "steps": [
@@ -23,7 +29,13 @@
         ],
         "answer": "沒有席位原文，就不能引成該席的立場。",
         "review_target": "writer",
-        "review": "好讀不能當成出處。沒有原文就沒有引文。"
+        "review": "好讀不能當成出處。沒有原文就沒有引文。",
+        "brief": [
+          "沒有席位原文，就不能引成該席的立場。這條對情報席同樣適用：我沒有寫過的來源，議長不能寫成「情報員確認」。確認是我的動詞，只能出現在我落筆的句子裡。",
+          "議長可以說「這一點沒有來源」。那是在標缺口，不是在補來源。標缺口是誠實的。補一個看起來像來源的從句，是把缺口填平，讀者就無法再問。",
+          "所以引用要能指回原句。指不回的名字，從結論裡拿掉。拿掉之後如果結論變短，短是對的。為了長度把名字留著，長度就是假的。",
+          "確認這個動詞只屬於寫過來源的那一席。議長可以標缺口，不可以填缺口。填缺口的從句一旦進了結論，讀者就不再問來源。不問來源，是情報席最不該讓議長代勞的結果。"
+        ]
       },
       "engineer": {
         "steps": [
@@ -33,7 +45,13 @@
         ],
         "answer": "引用事件流裡沒有的席，該被當成錯誤。",
         "review_target": "quant",
-        "review": "錯誤要進事件。不能用更光滑的句子蓋住。"
+        "review": "錯誤要進事件。不能用更光滑的句子蓋住。",
+        "brief": [
+          "合成器的輸入應該是事件清單，不是一段「請綜合八席」的提示。清單裡有誰寫了什麼、誰被跳過、誰打了哪一句。提示如果仍寫八席，模型就會把沒出場的名字補齊。補齊在介面上看起來像完成，在事件上是錯誤。",
+          "引用事件流裡沒有的席，該被當成錯誤，而不是當成文風。錯誤要能被檢查：結論裡的每個主語，都能在清單裡找到一句原文。找不到就拒絕這次合成，而不是發出去再讓人感覺不對勁。",
+          "實作上把跳過的席從清單移除，不要留一個空字串。空字串會被讀成「這席沒意見」。移除才是「這席不在」。不在和沒意見，下游的處理不一樣。",
+          "合成器讀清單，不讀「綜合八席」。清單裡沒有的席，結論裡就不能有。這條要能自動檢查，不能靠人覺得不對勁。覺得不對勁的時候，結論通常已經被引用走了。"
+        ]
       },
       "critic": {
         "steps": [
@@ -43,7 +61,13 @@
         ],
         "answer": "全員同意如果沒有每席原文，就是議長編的。",
         "review_target": "strategist",
-        "review": "排優先可以。補一條沒人說過的事實，不行。"
+        "review": "排優先可以。補一條沒人說過的事實，不行。",
+        "brief": [
+          "全員同意如果沒有每席原文，就是議長編的。這是最常見的越界，因為它讓結論看起來穩。穩是讀者想要的，也是最不該用編造換來的。",
+          "我可以接受議長刪掉一席的次要句子，讓結論只留被打過之後還站得住的那句。我不接受議長加一句讓兩席看起來不衝突。不衝突如果不是原句裡就有的，就是新事實。",
+          "所以批評席對議長的檢查只有一條：結論裡每一個斷言，都能指回某一席的原句或某一條互怼增量。指不回的斷言刪掉，不要改寫得更圓。",
+          "全員同意是最該被刪的一種穩。穩要來自每席原文都在、而且沒有互相打掉。少一席原文還寫全員，就是編。我刪這句，不改寫成更圓的共識。更圓的共識是同一種編，只是更好讀。"
+        ]
       },
       "strategist": {
         "steps": [
@@ -53,7 +77,13 @@
         ],
         "answer": "可以排哪條建議先做。不可以補沒人說過的事實。",
         "review_target": "analyst",
-        "review": "順序是議長的。事實的主人仍是原來那一席。"
+        "review": "順序是議長的。事實的主人仍是原來那一席。",
+        "brief": [
+          "議長可以排哪條建議先做。排序是取捨，材料都在。不可以補沒人說過的事實來讓排序看起來更有理由。理由不夠，就寫理由不夠，而不是借一句。",
+          "衝突也該留下。兩席建議相反，議長可以寫「先做這一條，因為另一條缺條件」，不能寫「兩席其實同意」。其實同意是第三種狀態，今天沒有席位達到。",
+          "對讀者，短而指得回，比長而圓更有用。長而圓的結論無法執行，因為你不知道條件是誰加的、失敗了該回去問誰。",
+          "排序可以，借理由不行。理由不夠就寫不夠。兩席相反就留下相反，並寫先做哪一條、為什麼另一條還缺條件。寫成其實同意，是製造一個沒有主人的第三建議。沒有主人的建議會被執行。"
+        ]
       },
       "writer": {
         "steps": [
@@ -63,7 +93,13 @@
         ],
         "answer": "為了好讀而補一句，仍然是編。",
         "review_target": "researcher",
-        "review": "短，不能短到把不確定刪掉。"
+        "review": "短，不能短到把不確定刪掉。",
+        "brief": [
+          "為了好讀而補一句，仍然是編。好讀可以用順序、可以用重複主語、可以把長句拆開。不可以用一句原文裡沒有的因果把兩席接起來。因果是判斷，不是修辭。",
+          "我可以把「分析員說鑰匙留在伺服器，批評員補了瀏覽器儲存也不行」收成兩句挨在一起的話。我不可以把這收成「大家同意前端不安全」這種沒有主語範圍的話。範圍一丟，判斷就變了。",
+          "所以文案席服務議長，但不放寬議長。句子能複述，而且複述出來每一分句都能指回某人。指不回的分句，再順也不留。",
+          "修辭停在順序和主語。因果、必須、其實，都是判斷，不拿來接句。接出來的句子如果有一個分句指不回某人，整句退回。退回比順口重要。順口的錯誤會被複述。"
+        ]
       },
       "quant": {
         "steps": [
@@ -73,7 +109,13 @@
         ],
         "answer": "不能把某一席的數字寫大，也不能寫沒出現的數。",
         "review_target": "engineer",
-        "review": "收窄要指回原句。不能寫成新的測量。"
+        "review": "收窄要指回原句。不能寫成新的測量。",
+        "brief": [
+          "不能把某一席的數字寫大，也不能寫沒出現的數。寫大是為了讓結論更好看。好看的數如果不是測出來的，就會被當成閘門用。閘門用錯，後面的遷移和預算都會跟著錯。",
+          "議長可以說「這個數只覆蓋了某一席測到的範圍」。那是在縮小適用，不是在改數。縮小適用是允許的，因為它沒有新增測量。",
+          "沒有出現的百分比、倍數、行數閾值，一律不進結論。需要這些數的人，應該再開一場去測，而不是請議長在合成時估一個。",
+          "沒出現的百分比、倍數、行數，兩邊都不進。縮小適用可以，改大數字不行。改大是為了好看。好看的數會變成閘門。閘門來自測量，不來自收場時的估計。"
+        ]
       }
     },
     "chair": {
@@ -82,7 +124,13 @@
         "不把空席補上",
         "分歧留在原處"
       ],
-      "answer": "議長只能合成已經出現的句子。不能編造某一席沒說過的話，也不能把空席寫成同意。"
+      "answer": "議長只能合成已經出現的句子。不能編造某一席沒說過的話，也不能把空席寫成同意。",
+      "brief": [
+        "議長只能合成已經出現的句子。可以排順序，可以留下衝突，可以把越界的一句標成已被打掉。不能編造某一席沒說過的話，也不能把空席寫成同意。",
+        "結論裡的每個斷言都要指回原句或互怼增量。指不回的名字刪掉，指不回的數字刪掉，指不回的因果刪掉。刪完變短，短是這一席的本分，不是文采不夠。",
+        "全員同意只有在每一席都有原文、而且原文沒有互相打掉時才能寫。少一席原文，就寫少了誰。寫成全員，是這一題要擋住的那一句。",
+        "收場自限：只合成已經出現的句子。指不回的名字、數字、因果都刪。空席不寫成同意。全員只有在每席都有原文且沒有互打時才寫。這一題若做不到，就寫少了誰，不寫全員。"
+      ]
     }
   },
   "en": {
@@ -97,7 +145,13 @@
         ],
         "answer": "The chair may only choose among lines that already appeared.",
         "review_target": "critic",
-        "review": "Choosing can rank order. It cannot rank a line that never appeared."
+        "review": "Choosing can rank order. It cannot rank a line that never appeared.",
+        "brief": [
+          "The chair's power is selection, not a new source. Selection means these sentences already appeared: which one to do first, which one is conditional, which one conflicts with another. A new source means a fact, a number, or a seat's attitude that is not in the stream gets written into the verdict.",
+          "An empty seat is the easiest to write as agreement. Not speaking is not agreement, and it is not dissent. If the chair needs that seat's attitude, the gate should have woken it. Supplying a sentence at synthesis is harder to see than failing to wake it.",
+          "So the chair's input is only the event stream. The output may be shorter, ordered, and marked where it conflicts. It may not be wider. The wider part is always something a seat did not say.",
+          "Shorter is allowed. Wider is not. Every extra word has to point back at some seat's original line. A word that cannot point back is a new source. A new source includes a supplied attitude, a supplied number, and a supplied cause. All three are the chair writing outside the stream. Outside the stream, this seat has no authority."
+        ]
       },
       "researcher": {
         "steps": [
@@ -107,7 +161,13 @@
         ],
         "answer": "Without the seat's own line, you cannot quote it as that seat's position.",
         "review_target": "writer",
-        "review": "Readability is not a source. No original line, no quotation."
+        "review": "Readability is not a source. No original line, no quotation.",
+        "brief": [
+          "Without a seat's original line, do not cite it as that seat's position. The same rule binds this seat: a source I never wrote cannot become 'the researcher confirmed'. Confirmed is my verb. It appears only in a sentence I wrote.",
+          "The chair may say 'this point has no source'. That marks a gap. It does not fill a source. Marking the gap is honest. Filling it with a clause that looks like a source closes the question the reader should still be able to ask.",
+          "A citation has to point back at an original line. A name that cannot point back comes out of the verdict. If the verdict gets shorter, short is correct. Keeping a name for length makes the length false.",
+          "The verb confirmed belongs only to the seat that wrote the source. The chair may mark a gap. The chair may not fill a gap. Once a clause that fills the gap enters the verdict, the reader stops asking for the source. A reader who stops asking is the outcome this seat most refuses to let the chair produce."
+        ]
       },
       "engineer": {
         "steps": [
@@ -117,7 +177,13 @@
         ],
         "answer": "Citing a seat absent from the event stream is an error.",
         "review_target": "quant",
-        "review": "The error enters the events. A smoother sentence must not cover it."
+        "review": "The error enters the events. A smoother sentence must not cover it.",
+        "brief": [
+          "The synthesizer's input should be the event list, not a prompt that says 'combine all eight'. The list says who wrote what, who was skipped, and who struck which line. If the prompt still says eight seats, the model will complete the missing names. Completion looks finished on the page and is an error in the events.",
+          "Citing a seat that is not in the stream should be treated as an error, not as style. The error has to be checkable: every subject in the verdict can be found as an original line in the list. If it cannot, refuse the synthesis. Do not ship it and wait for someone to feel that something is off.",
+          "Remove a skipped seat from the list. Do not leave an empty string. An empty string is read as 'this seat had no view'. Removal is 'this seat is not here'. Downstream treats those differently.",
+          "The synthesizer reads the list. It does not read 'combine all eight'. A seat that is not in the list cannot be in the verdict. That rule has to be checked automatically, not by someone feeling that something is off. By the time it feels off, the verdict has usually already been cited."
+        ]
       },
       "critic": {
         "steps": [
@@ -127,7 +193,13 @@
         ],
         "answer": "Unanimity without each seat's own line is the chair inventing.",
         "review_target": "strategist",
-        "review": "Ranking is allowed. Adding a fact nobody said is not."
+        "review": "Ranking is allowed. Adding a fact nobody said is not.",
+        "brief": [
+          "Unanimous agreement without an original line from every seat is the chair inventing it. That is the usual crossing, because it makes the verdict look stable. Stable is what a reader wants, and the last thing that should be bought with invention.",
+          "I can accept the chair dropping a seat's secondary sentence so the verdict keeps only the line that still stood after it was struck. I do not accept the chair adding a sentence so two seats look as if they do not conflict. A missing conflict that was not in the originals is a new fact.",
+          "The check on the chair is one line: every claim in the verdict points back to a seat's original or to a critique delta. A claim that cannot point back is deleted. It is not rewritten until it sounds rounder.",
+          "Unanimous agreement is the kind of stability most worth deleting. Stability has to come from every seat having an original line, and from those lines not striking each other. Writing everyone while one original is missing is invention. I delete that sentence. I do not rewrite it into a rounder consensus. A rounder consensus is the same invention, only easier to read."
+        ]
       },
       "strategist": {
         "steps": [
@@ -137,7 +209,13 @@
         ],
         "answer": "The chair may rank which recommendation comes first. It may not add a fact.",
         "review_target": "analyst",
-        "review": "The order belongs to the chair. The fact still belongs to the seat."
+        "review": "The order belongs to the chair. The fact still belongs to the seat.",
+        "brief": [
+          "The chair may rank which recommendation to do first. Ranking is selection. The material is already there. The chair may not add a fact nobody stated in order to make the ranking look better reasoned. If the reason is thin, write that the reason is thin. Do not borrow a sentence.",
+          "A conflict should stay. If two seats recommend opposite moves, the chair may write 'do this one first, because the other is missing a condition'. The chair may not write 'the two seats actually agree'. Actual agreement is a third state. No seat reached it today.",
+          "For the reader, short and point-back-able is more useful than long and round. A long round verdict cannot be carried out, because you do not know who added the condition or which seat to return to when it fails.",
+          "Ranking is allowed. Borrowing a reason is not. If the reason is thin, write that it is thin. If two seats contradict, keep the contradiction, and write which one to do first and which condition the other still lacks. Writing that they actually agree manufactures a third recommendation with no owner. A recommendation with no owner will be carried out."
+        ]
       },
       "writer": {
         "steps": [
@@ -147,7 +225,13 @@
         ],
         "answer": "Adding a line to make it readable is still invention.",
         "review_target": "researcher",
-        "review": "Short cannot mean the uncertainty was deleted."
+        "review": "Short cannot mean the uncertainty was deleted.",
+        "brief": [
+          "Adding a sentence so it reads better is still invention. Readability can use order, repeated subjects, and a long sentence split in two. It cannot use a cause that was not in the original to join two seats. A cause is a judgment, not rhetoric.",
+          "I can set 'the analyst said the key stays on the server' next to 'the critic added that browser storage does not work either'. I cannot collapse that into 'everyone agrees the frontend is unsafe', a sentence with no scoped subject. Drop the scope and the judgment changes.",
+          "This seat serves the chair and does not widen the chair. A sentence can be repeated, and each clause of the repetition points back at someone. A clause that cannot point back does not stay, however smooth it is.",
+          "Rhetoric stops at order and subjects. Cause, must, and actually are judgments. They are not used to join sentences. If the joined sentence has a clause that cannot point back at someone, the whole sentence goes back. Going back matters more than flow. A flowing error gets repeated."
+        ]
       },
       "quant": {
         "steps": [
@@ -157,7 +241,13 @@
         ],
         "answer": "The chair cannot enlarge a seat's number, or write one that never appeared.",
         "review_target": "engineer",
-        "review": "A narrower claim must point at the old line. It is not a new measurement."
+        "review": "A narrower claim must point at the old line. It is not a new measurement.",
+        "brief": [
+          "Do not write a seat's number larger, and do not write a number that never appeared. Writing it larger makes the verdict look better. A better-looking number that was not measured will be used as a gate. A wrong gate pulls the later migration and the later budget with it.",
+          "The chair may say 'this number covers only the range one seat measured'. That narrows where it applies. It does not change the number. Narrowing where it applies is allowed, because it adds no measurement.",
+          "A percentage, a multiple, or a row threshold that never appeared stays out of the verdict. Someone who needs those numbers should open another session and measure them, not ask the chair to estimate one while closing.",
+          "A percentage, a multiple, or a row count that never appeared enters on neither side. Narrowing where a number applies is allowed. Writing the number larger is not. Larger is for looks. A better-looking number becomes a gate. A gate comes from a measurement, not from an estimate at the close."
+        ]
       }
     },
     "chair": {
@@ -166,7 +256,13 @@
         "Don't fill an empty seat",
         "Leave the dissent"
       ],
-      "answer": "Synthesize only lines that already appeared. Do not invent a missing line, or count an empty seat as yes."
+      "answer": "Synthesize only lines that already appeared. Do not invent a missing line, or count an empty seat as yes.",
+      "brief": [
+        "The chair may only synthesize sentences that already appeared. It may order them, keep a conflict, and mark a line that crossed a boundary as struck. It may not invent what a seat did not say, and it may not write an empty seat as agreement.",
+        "Every claim in the verdict points back to an original line or a critique delta. A name that cannot point back is deleted. A number that cannot point back is deleted. A cause that cannot point back is deleted. If that makes the verdict shorter, short is the job, not a lack of style.",
+        "Unanimous agreement can be written only when every seat has an original line and those lines did not strike each other. If one original is missing, name who is missing. Writing 'everyone' is the sentence this question is here to stop.",
+        "The close limits itself: synthesize only sentences that already appeared. Delete a name, a number, or a cause that cannot point back. An empty seat is not written as agreement. Everyone is written only when every seat has an original and none of them struck each other. If this question cannot do that, name who is missing. Do not write everyone."
+      ]
     }
   }
 }

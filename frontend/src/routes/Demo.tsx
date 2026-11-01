@@ -313,6 +313,7 @@ export function Demo() {
             name={seatName(seat.id, lang)}
             expert={experts.find((item) => item.id === seat.id)}
             steps={seat.id === "leader" ? side.chair.steps : side.seats[seat.id]?.steps ?? []}
+            brief={seat.id === "leader" ? side.chair.brief ?? [] : side.seats[seat.id]?.brief ?? []}
             skip={side.seats[seat.id]?.skip}
             revealed={revealed[seat.id] ?? 0}
             gating={council.gating || experts.length === 0}
@@ -347,6 +348,7 @@ function ExpertCard({
   name,
   expert,
   steps,
+  brief,
   skip,
   revealed,
   gating,
@@ -358,6 +360,7 @@ function ExpertCard({
   name: string;
   expert?: CouncilExpertView;
   steps: readonly string[];
+  brief: readonly string[];
   skip?: string;
   revealed: number;
   gating: boolean;
@@ -377,6 +380,9 @@ function ExpertCard({
           ? copy.waiting
           : expert?.content || "";
   const review = expert?.review || (expert?.critiquing && target ? copy.critique(target) : "");
+  const finished = expert?.status === "done" || expert?.status === "error";
+  const briefCount = standby || gating ? 0 : finished ? brief.length : revealed;
+  const paragraphs = brief.slice(0, briefCount);
   return (
     <article className={`card${standby ? " standby" : ""}${expert?.challengedBy ? " hit" : ""}${running ? " live" : ""}${seatId === "leader" ? " chair" : ""}`}>
       <header>
@@ -392,6 +398,16 @@ function ExpertCard({
       </header>
       <div className="card-body">
         <StepChain steps={steps} revealed={standby || gating ? 0 : revealed} active={Boolean(running && !position && !review)} />
+        {paragraphs.length ? (
+          <>
+            <p className="field">{copy.reasoning}</p>
+            {paragraphs.map((paragraph) => (
+              <p className="brief" key={paragraph}>
+                {paragraph}
+              </p>
+            ))}
+          </>
+        ) : null}
         <p className="field">{copy.position}</p>
         <p className="ink">
           {position || "·"}

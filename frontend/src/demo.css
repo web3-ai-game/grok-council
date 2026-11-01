@@ -457,7 +457,18 @@ html.lights-app[data-lights="off"] .card {
 }
 
 .card-body::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
+}
+
+.brief {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(28, 25, 21, 0.78);
+}
+
+html.lights-app[data-lights="off"] .brief {
+  color: rgba(244, 241, 234, 0.72);
 }
 
 .field {
