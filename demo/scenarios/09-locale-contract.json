@@ -13,12 +13,12 @@
         ],
         "answer": "兩種語言要同一判斷。數字、否定、主語不能漂。",
         "review_target": "critic",
-        "review": "對齊的是判斷。語感不同，不能當成判斷不同。",
+        "review": "「最容易被弄丟的是「不」。少一個不，結論就反了。」\n對齊的是判斷，這半句成立。語感不同不能當成判斷不同，這半句也成立。兩句沒有說主語。主語換了，語感可以仍然自然，判斷已經是另一個建議。對齊判斷時，主語和否定、數字同一級，不能留在語感裡。",
         "brief": [
+          "契約不是字對字。契約是同一判斷：數字、否定、主語不能漂。語感不同，推不出判斷不同。主語換了，就不是翻譯，是另一個建議。",
           "兩種語言要同一判斷。同一判斷的意思是：主語相同、否定相同、數字相同、條件相同。語感可以不同。判斷不能為了語感漂。漂了，讀者會按自己的語言執行另一個結論。",
           "最容易漂的是「不」。中文少一個不，英文多一個 not，兩邊就相反。其次是條件：中文寫「超標再換」，英文寫成「可以考慮換」，條件被刪掉了。刪條件和改否定一樣，都是另一個決策。",
-          "所以先鎖判斷，再寫中英。鎖的方式是同一組欄位：誰、做什麼、在什麼條件下、不做什麼。欄位齊了再翻譯。翻譯時對欄位，不對文采。",
-          "四個欄位對不上，就不是同一句。語感再好也不補判。補判最常發生在否定和條件上，因為這兩樣最不像文采，也最容易被當成修辭刪掉。刪掉之後，兩邊讀者執行的是兩個決策。"
+          "兩種語言的主語、否定或數字有一個不一致，這席撤回「這是同一句」。語感差異不構成這個反例。"
         ]
       },
       "researcher": {
@@ -29,12 +29,12 @@
         ],
         "answer": "翻譯不能加入另一語沒有的條件，也不能刪掉有的。",
         "review_target": "writer",
-        "review": "典故會讓一句更好聽，也會讓它變成另一句。",
+        "review": "「兩句都要能複述，而且複述出來是同一件事。」\n像人話，推不出可以加一句原文沒有的讓步。讓步是條件。另一語沒有這個條件，加上去就不是翻譯。這句若被收成「不好聽就可以加讓步」，契約被語感改掉了。典故同樣：更好聽，也是另一句。",
         "brief": [
+          "翻譯不能加入另一語沒有的條件，也不能刪掉有的。典故會讓一句更好聽，也會讓它變成另一句。加進去的讓步如果原文沒有，就是新條件。",
           "翻譯不能加入另一語沒有的條件，也不能刪掉有的。我沒有來源把某一句成語寫成另一句更強的技術斷言。成語如果帶了新的範圍，它就不是翻譯，是新情報。",
           "專有詞要對上，不要意譯成一個更寬的類。SQLite 不要寫成「資料庫」。門控不要寫成「智能選擇」。寬的類會讓另一種語言的讀者以為範圍變了。範圍變了，契約就破了。",
-          "所以情報席只檢查有沒有新增事實。不檢查哪一種語言更好聽。更好聽如果需要一個另一語沒有的例子，例子就不加。",
-          "專有詞保持原樣。意譯成更寬的類，就是新增範圍。新增範圍是新情報，不從翻譯產生。成語如果帶了另一語沒有的條件，成語也不用。好看的詞不是欄位。"
+          "任一語比另一語多一個條件、少一個條件，或靠典故增加了原句沒有的讓步，這席撤回這條翻譯。"
         ]
       },
       "engineer": {
@@ -45,12 +45,12 @@
         ],
         "answer": "中英必須同一組欄位。缺一句就不要用另一語補。",
         "review_target": "quant",
-        "review": "欄位對上還不夠。數字欄位的值也必須相同。",
+        "review": "「數字、單位、大小方向，兩種語言必須相同。」\n數字、單位、方向必須相同，這句是值的契約。它不代替欄位契約。欄位缺了，另一語有值也不許補。這句若被收成「值相同就可以缺欄位」，失敗被換成了隱含繼承。缺一句就不要用另一語補。",
         "brief": [
+          "中英必須同一組欄位。缺一句就失敗，不要用另一語補。欄位對上還不夠：數字欄位的值也必須相同。缺了可以失敗，值反了會騙。",
           "中英必須是同一組欄位，不是兩篇各自寫完再互相補。缺一句就不要用另一語補。補了，兩種語言的契約就變成「誰最後寫誰算」。最後寫的人通常看不見自己加了條件。",
           "實作上把判斷存成欄位，再渲染成兩種語言。欄位裡有否定、數字、條件。渲染層可以調整詞序，不可以改欄位。改欄位的翻譯，該在檢查時失敗，而不是上線後等人發現兩邊建議相反。",
-          "缺欄位就兩種語言一起缺，並標明缺。不要讓英文讀者看到一個中文沒有的閘門。那個閘門會被當成產品行為，而它只存在於一句翻譯裡。",
-          "缺欄位就兩種語言一起缺，並在畫面上標明。不要讓一種語言的讀者看到另一種語言沒有的閘門。那個閘門會被當成產品行為。產品行為如果只存在於一句譯文裡，就是契約破了還沒有人報錯。"
+          "任一語缺欄位，或同一欄位的值不同，這席拒絕發布。不接受用另一語把洞補上。"
         ]
       },
       "critic": {
@@ -61,12 +61,12 @@
         ],
         "answer": "最容易被弄丟的是「不」。少一個不，結論就反了。",
         "review_target": "strategist",
-        "review": "先鎖判斷再寫兩語。不要為了一種語感改判斷。",
+        "review": "「先鎖判斷，再寫中英。不要為了語感改判斷。」\n先鎖判斷再寫兩語，這句沒有把「不」列進要鎖的東西。判斷如果只鎖了肯定句，否定會在第二語裡為了順被拿掉。要鎖的包括否定。不要為了一種語感改判斷，尤其不要改「不」。",
         "brief": [
+          "最容易被弄丟的是「不」。少一個不，結論就反了。先鎖判斷再寫兩語。不要為了一種語感改判斷。語感順而否定丟了，比缺譯更糟：缺了可以失敗，反了會騙。",
           "最容易被弄丟的是「不」。少一個不，結論就反了。我對翻譯的檢查先數否定，再數數字，再看條件還在不在。文采排在這三項後面。",
           "「可以考慮」「建議關注」「在適當時候」這類詞，如果另一語是一個硬條件，就是把硬條件譯軟了。譯軟是刪除。刪除不因語氣禮貌而通過。",
-          "所以批評席不改寫整段譯文。只標出哪一個欄位漂了。漂了的欄位退回，兩種語言一起改。只改一邊，下一次還會漂。",
-          "先數不，再數數字，再看條件還在不在。譯軟的詞，包括可以考慮、適當時候、建議關注，只要另一語是硬條件，就算刪除。刪除不因禮貌通過。只改一邊，下一次還會漂。"
+          "任一語少了一個「不」或多了一個「不」，這席要求該句不能發布。不接受為了順而留著。"
         ]
       },
       "strategist": {
@@ -77,12 +77,12 @@
         ],
         "answer": "先鎖判斷，再寫中英。不要為了語感改判斷。",
         "review_target": "analyst",
-        "review": "主語換了，就不是翻譯，是另一個建議。",
+        "review": "「兩種語言要同一判斷。數字、否定、主語不能漂。」\n數字、否定、主語不能漂，這句是契約的內容。它沒有寫順序。若先寫一種語言再讓另一種遷就語感，主語會在第二步漂掉。先鎖判斷再寫兩語。不要為了一種語感改判斷，包括不要改主語。",
         "brief": [
+          "先鎖判斷，再寫中英。不要為了語感改判斷。主語換了，就不是翻譯，是另一個建議。鎖判斷時主語、否定、條件一起鎖，不能只鎖最好聽的肯定句。",
           "先鎖判斷，再寫中英。不要為了語感改判斷。語感是某一種語言裡怎樣更像人話。人話如果把「不換」說成「再觀察」，策略就變了。變了的策略不是更好的翻譯，是另一個策略。",
           "兩個語言的讀者要能執行同一個動作。動作不同，就不是雙語，是兩份建議。兩份建議會在團隊裡各找支持者，最後沒有人知道哪一份算數。",
-          "推薦把契約寫在發佈前：主語、否定、數字、條件，兩種語言對得上才發。對不上就發一種語言，並標明另一種還沒有。一種誠實的語言，比兩種相反的語言有用。",
-          "對不上就只發一種語言，並寫明另一種還沒有。不要為了雙語同時發兩份相反的建議。相反的建議會在團隊裡各找支持者。一種誠實的語言能執行。兩種相反的語言只會爭誰算數。"
+          "若一種語言的主語和另一種不同，這席撤回「判斷已鎖」。語感再順也不簽。"
         ]
       },
       "writer": {
@@ -93,12 +93,12 @@
         ],
         "answer": "兩句都要能複述，而且複述出來是同一件事。",
         "review_target": "researcher",
-        "review": "像人話不能靠加一句原文沒有的讓步。",
+        "review": "「翻譯不能加入另一語沒有的條件，也不能刪掉有的。」\n不能加入另一語沒有的條件，這句禁止增條件。它沒有禁止用典故把條件換成聽起來像同一件、其實是另一件的事。典故會讓一句更好聽，也會讓它變成另一句。複述出來必須仍是同一件事，不能只是同一種情緒。",
         "brief": [
+          "兩句都要能複述，而且複述出來是同一件事。像人話不能靠加一句原文沒有的讓步，也不能靠典故把條件換成聽眾熟悉的另一個條件。",
           "兩句都要能複述，而且複述出來是同一件事。複述測試比對照詞彙有用。請一個只讀中文的人和一個只讀英文的人各說一次他們會做什麼。兩次不一樣，翻譯就失敗，不管句子多順。",
           "我可以換詞序、拆長句、重複主語。我不可以為了順口刪掉「不」，也不可以為了強調加上另一語沒有的「必須」。順口和強調都不是新欄位的理由。",
-          "寫完之後把兩種語言的欄位並排。並排時不看修辭，只看四樣：誰、做什麼、條件、否定。四樣相同，才算這一席的工作做完。",
-          "驗收是複述，不是詞彙表。兩邊讀者說出的動作不一樣，翻譯就失敗。我可以拆句、重複主語。我不可以為了順口刪不，也不可以為了強調加必須。順口和強調都不新增欄位。"
+          "兩種語言的複述對不上同一判斷，這席不簽。不好聽可以改寫，不能改判斷。"
         ]
       },
       "quant": {
@@ -109,12 +109,12 @@
         ],
         "answer": "數字、單位、大小方向，兩種語言必須相同。",
         "review_target": "engineer",
-        "review": "方向反了比缺譯更糟。缺了可以失敗，反了會騙。",
+        "review": "「中英必須同一組欄位。缺一句就不要用另一語補。」\n同一組欄位，推不出欄位裡的值相同。欄位都叫「上限」，一語是 8、一語是 5，欄位對上了，判斷反了或漂了。欄位對上還不夠。數字欄位的值也必須相同。方向反了比缺譯更糟。",
         "brief": [
+          "數字、單位、大小方向，兩種語言必須相同。方向反了比缺譯更糟。缺了可以失敗，反了會騙。8 不能在另一語變成 5，大於不能變成小於。",
           "數字、單位、大小方向，兩種語言必須相同。中文的「不超過」，英文如果寫成 more than，方向就反了。單位從毫秒寫成秒，閘門就差一千倍。這兩種漂都不屬於文采。",
           "沒有出現的數，兩種語言都不加。不能因為英文句需要一個例子，就補一個中文沒有的百分比。例子是新測量。新測量不從翻譯裡產生。",
-          "比較級也算數字的方向。更貴、更慢、更窄，兩邊要同一方向。一邊更貴、一邊更划算，就是兩個結論。兩個結論不能同時算這一場的答案。",
-          "方向、單位、數字三者綁在一起。毫秒寫成秒，閘門差一千倍。不超過寫成 more than，方向就反了。比較級也是方向。一邊更貴、一邊更划算，不能同時算這一場的答案。例子用的新數字，兩邊都不加。"
+          "任一語的數字、單位或比較方向和另一語不同，這席拒絕發布。不接受「大概同一個數」。"
         ]
       }
     },
@@ -126,10 +126,10 @@
       ],
       "answer": "一句話兩種語言，契約是同一判斷。否定、數字和條件不能在翻譯裡增刪。",
       "brief": [
-        "一句話兩種語言，契約是同一判斷。主語、否定、數字、條件不能在翻譯裡增刪。語感可以不同。判斷為了語感而漂，就不算同一句。",
-        "缺欄位就兩種語言一起缺。不用另一語補。硬條件不能譯成「可以考慮」。專有詞不譯成更寬的類。沒有出現的數字，兩邊都不加。",
-        "發佈前對四樣：誰、做什麼、條件、否定。對不上就只發已經對上的那一種語言，並標明另一種還沒有。一種誠實的語言，比兩種相反的語言有用。",
-        "收場契約：同一判斷，四欄對得上才算同一句。硬條件不譯軟，專有詞不譯寬，沒有的數字不加，缺的欄位兩種語言一起缺。對不上就只發已經對上的那一種，並標明另一種還沒有。"
+        "契約不是字對字，是同一判斷。分析師搶紅隊的那句成立：語感不同不是判斷不同，但主語必須和否定、數字同一級，不能留在語感裡。紅隊搶策略家的那句成立：要鎖的包括「不」。少一個不，結論就反了。",
+        "策略家搶分析師的那句成立：先鎖判斷再寫兩語，否則主語在第二步漂掉。情報官搶表達者的那句成立：典故和額外讓步都會把一句變成另一句。表達者搶情報官的那句成立：禁止增條件，還要禁止用典故把條件換成另一件事。",
+        "工程師搶量化員的那句成立：值的契約不代替欄位契約，缺一句不能用另一語補。量化員搶工程師的那句成立：欄位對上不夠，值必須相同。方向反了比缺譯更糟。缺了可以失敗，反了會騙。",
+        "可執行的是：先鎖判斷，再寫中英。否定、數字、單位、方向、主語、條件都不能增刪。缺欄位就失敗，不用另一語補。語感可以不同。判斷不能漂。"
       ]
     }
   },
@@ -145,12 +145,12 @@
         ],
         "answer": "Both languages carry the same judgment. Numbers, negations, and the subject must not drift.",
         "review_target": "critic",
-        "review": "Align the judgment. A different ear is not a different judgment.",
+        "review": "\"The easiest word to lose is not. Drop it and the verdict flips.\"\nThe half that says align the judgment holds. The half that says a different ear is not a different judgment also holds. Neither half mentions the subject. Change the subject, and the line can still sound natural while the judgment has become another recommendation. When aligning the judgment, the subject sits at the same rank as the negation and the numbers. It cannot be left inside the ear.",
         "brief": [
+          "The contract is not word-for-word. The contract is the same judgment: numbers, negations, and the subject must not drift. A different ear does not entail a different judgment. Change the subject, and it is not a translation. It is another recommendation.",
           "The two languages have to carry the same judgment. Same judgment means the same subject, the same negation, the same numbers, and the same conditions. Tone may differ. The judgment may not drift for the sake of tone. If it drifts, a reader will carry out a different verdict in their own language.",
           "What drifts first is 'not'. Drop one 不 in Chinese, or add one not in English, and the two sides are opposites. Conditions drift next: Chinese says 'migrate when the line is crossed', English says 'consider migrating', and the condition is gone. Deleting a condition is a different decision, the same as flipping a negation.",
-          "Lock the judgment, then write both languages. Lock it as one set of fields: who, what, under what condition, and what not to do. Translate against the fields, not against style.",
-          "If the four fields do not match, it is not the same sentence. Better tone does not get to repair the judgment. The repair usually happens on the negation and the condition, because those two look least like style and are easiest to delete as rhetoric. After the deletion, readers on the two sides carry out two decisions."
+          "If the subject, the negation, or a number differs between the two languages, this seat withdraws \"this is the same sentence.\" A difference of ear is not that counterexample."
         ]
       },
       "researcher": {
@@ -161,12 +161,12 @@
         ],
         "answer": "A translation cannot add a condition the other language lacks, or drop one it has.",
         "review_target": "writer",
-        "review": "A local allusion makes a line nicer and also makes it a different line.",
+        "review": "\"Both lines must be repeatable, and the repetition must be the same claim.\"\nSounding human does not entail adding a concession the original lacked. A concession is a condition. The other language does not have that condition, so adding it is not a translation. Closed as \"if it sounds bad, add a concession,\" the contract has been retuned by ear. An allusion is the same case: nicer, and also a different line.",
         "brief": [
+          "A translation cannot add a condition the other language lacks, or drop one it has. A local allusion makes a line nicer and also makes it a different line. A concession that was not in the original is a new condition.",
           "A translation may not add a condition the other language does not have, and it may not delete one that it does. I have no source for turning an idiom into a stronger technical claim. If the idiom brings a new scope, it is not a translation. It is new intelligence.",
           "Name the thing, do not paraphrase it into a wider class. SQLite should not become 'a database'. The gate should not become 'intelligent selection'. A wider class teaches the reader in the other language that the scope changed. If the scope changed, the contract is broken.",
-          "This seat checks only whether a fact was added. It does not check which language sounds better. If sounding better needs an example the other language does not have, the example is not added.",
-          "Keep the proper name as it is. Paraphrasing it into a wider class adds scope. Added scope is new intelligence. It does not come from translation. If an idiom brings a condition the other language does not have, do not use the idiom. A handsome word is not a field."
+          "If either language has one more condition, one fewer condition, or a concession added by allusion that the original lacked, this seat withdraws that translation."
         ]
       },
       "engineer": {
@@ -177,12 +177,12 @@
         ],
         "answer": "Chinese and English must share the same fields. Don't fill a gap from the other tongue.",
         "review_target": "quant",
-        "review": "Matching fields is not enough. The number in the field must match too.",
+        "review": "\"The numeral, the unit, and the direction of comparison must match.\"\nThe numeral, the unit, and the direction must match. That is the contract on values. It does not replace the contract on fields. If a field is missing, a value in the other language may not fill it. Closed as \"if the values match, a field may be missing,\" a failure has been replaced by implied inheritance. Don't fill a gap from the other tongue.",
         "brief": [
+          "Chinese and English must share the same fields. A missing line fails. Do not fill it from the other tongue. Matching fields is not enough: the value in a number field must match too. Missing can fail. A flipped value deceives.",
           "Chinese and English have to be the same set of fields, not two essays written separately and then used to patch each other. If a sentence is missing, do not fill it from the other language. Once you do, the contract becomes 'whoever wrote last wins'. The person who wrote last usually cannot see the condition they added.",
           "Store the judgment as fields, then render both languages. The fields hold the negation, the numbers, and the conditions. The render may change word order. It may not change a field. A translation that changes a field should fail the check, not ship and wait for someone to notice the two sides recommend opposite moves.",
-          "A missing field is missing in both languages, and it is marked missing. Do not let an English reader see a gate that Chinese does not have. That gate will be treated as product behavior, and it exists only in one translated sentence.",
-          "A missing field is missing in both languages, and the page says so. Do not let a reader of one language see a gate the other language does not have. That gate will be treated as product behavior. If product behavior exists only in one translated sentence, the contract is already broken and nobody has raised an error."
+          "If either language lacks a field, or the same field has a different value, this seat refuses to publish. Filling the hole from the other tongue is not accepted."
         ]
       },
       "critic": {
@@ -193,12 +193,12 @@
         ],
         "answer": "The easiest word to lose is not. Drop it and the verdict flips.",
         "review_target": "strategist",
-        "review": "Lock the judgment, then write both. Don't retune it for one ear.",
+        "review": "\"Lock the judgment, then write both. Don't change it to suit one language.\"\nLock the judgment, then write both. That line does not list \"not\" among the things to lock. If the judgment locks only the affirmative, the negation will be removed in the second language to make it smooth. What gets locked includes the negation. Do not retune the judgment for one ear, and do not retune \"not.\"",
         "brief": [
+          "The easiest word to lose is not. Drop it and the verdict flips. Lock the judgment, then write both. Do not retune it for one ear. A smooth line that lost its negation is worse than a missing line: missing can fail, flipped deceives.",
           "What is easiest to lose is 'not'. Lose one and the verdict reverses. The check counts negations first, then numbers, then whether the condition is still there. Style comes after those three.",
           "Phrases like 'consider', 'worth watching', and 'at an appropriate time' are a deletion if the other language has a hard condition. Softening is deletion. Politeness does not let a deletion pass.",
-          "This seat does not rewrite the whole translation. It marks which field drifted. A drifted field goes back, and both languages change together. Fix only one side and it will drift again.",
-          "Count the negations, then the numbers, then whether the condition is still there. A softened phrase, including consider, at an appropriate time, and worth watching, counts as a deletion whenever the other language has a hard condition. Politeness does not pass a deletion. Fix only one side and it will drift again."
+          "If either language has one fewer \"not\" or one more \"not,\" this seat requires that line not be published. Leaving it because it sounds better is not accepted."
         ]
       },
       "strategist": {
@@ -209,12 +209,12 @@
         ],
         "answer": "Lock the judgment, then write both. Don't change it to suit one language.",
         "review_target": "analyst",
-        "review": "Change the subject and it is not a translation. It is another recommendation.",
+        "review": "\"Both languages carry the same judgment. Numbers, negations, and the subject must not drift.\"\nNumbers, negations, and the subject must not drift. That is the content of the contract. It does not state the order. Write one language first and let the other accommodate an ear, and the subject drifts on the second step. Lock the judgment, then write both. Do not change the judgment to suit one language, and do not change the subject.",
         "brief": [
+          "Lock the judgment, then write both. Do not change it to suit one language. Change the subject and it is not a translation. It is another recommendation. When the judgment is locked, lock the subject, the negation, and the conditions together. Do not lock only the nicest affirmative.",
           "Lock the judgment, then write both languages. Do not change the judgment for tone. Tone is how a sentence sounds like speech in one language. If speech turns 'do not migrate' into 'keep watching', the strategy changed. A changed strategy is not a better translation. It is another strategy.",
           "Readers in both languages have to be able to carry out the same action. Different actions are not bilingual. They are two recommendations. Two recommendations will each find supporters, and nobody will know which one counts.",
-          "Write the contract before you publish: subject, negation, numbers, and conditions match in both languages, or you do not publish. If they do not match, publish one language and say the other is not ready. One honest language is more useful than two that contradict each other.",
-          "If they do not match, publish one language and say the other is not ready. Do not publish two opposite recommendations in order to look bilingual. Opposite recommendations will each find supporters. One honest language can be carried out. Two that contradict each other only argue about which one counts."
+          "If the subject differs between the two languages, this seat withdraws \"the judgment is locked.\" It does not sign however natural it sounds."
         ]
       },
       "writer": {
@@ -225,12 +225,12 @@
         ],
         "answer": "Both lines must be repeatable, and the repetition must be the same claim.",
         "review_target": "researcher",
-        "review": "Sounding human cannot mean adding a concession the original lacked.",
+        "review": "\"A translation cannot add a condition the other language lacks, or drop one it has.\"\nA translation cannot add a condition the other language lacks. That forbids adding a condition. It does not forbid an allusion that swaps the condition for something that sounds like the same thing and is not. A local allusion makes a line nicer and also makes it a different line. The repetition has to still be the same claim, not merely the same mood.",
         "brief": [
+          "Both lines must be repeatable, and the repetition must be the same claim. Sounding human cannot mean adding a concession the original lacked, and it cannot mean swapping a condition for a familiar one by allusion.",
           "Both sentences have to be repeatable, and the repetition has to be the same thing. A repetition test beats a glossary. Ask someone who reads only Chinese and someone who reads only English what they would do. If the two answers differ, the translation failed, however smooth the sentences are.",
           "I may change word order, split a long sentence, and repeat the subject. I may not drop a 'not' so it flows, and I may not add a 'must' the other language does not have in order to add emphasis. Flow and emphasis are not reasons for a new field.",
-          "After writing, put the fields of both languages side by side. Do not look at rhetoric. Look at four things: who, what, the condition, and the negation. When those four match, this seat's work is done.",
-          "The acceptance test is repetition, not a glossary. If readers on the two sides name different actions, the translation failed. I may split a sentence and repeat the subject. I may not drop a not so it flows, and I may not add a must for emphasis. Flow and emphasis do not add a field."
+          "If the two repetitions do not match the same judgment, this seat does not sign. An awkward line may be rewritten. The judgment may not."
         ]
       },
       "quant": {
@@ -241,12 +241,12 @@
         ],
         "answer": "The numeral, the unit, and the direction of comparison must match.",
         "review_target": "engineer",
-        "review": "A flipped direction is worse than a missing line. Missing can fail. Flipped deceives.",
+        "review": "\"Chinese and English must share the same fields. Don't fill a gap from the other tongue.\"\nSharing the same fields does not entail the values in those fields match. Both fields can be named \"cap\" while one language says 8 and the other says 5. The fields match, and the judgment has drifted. Matching fields is not enough. The number in the field must match too. A flipped direction is worse than a missing line.",
         "brief": [
+          "The numeral, the unit, and the direction of comparison must match in both languages. A flipped direction is worse than a missing line. Missing can fail. Flipped deceives. 8 cannot become 5 in the other language, and greater-than cannot become less-than.",
           "Numbers, units, and direction have to match in both languages. If Chinese says 'not above' and English says 'more than', the direction flipped. Write milliseconds as seconds and the gate is off by a thousand. Neither drift is style.",
           "A number that never appeared is added in neither language. Do not supply a percentage Chinese does not have because the English sentence wants an example. An example is a new measurement. A new measurement does not come from translation.",
-          "A comparative is a direction too. More expensive, slower, narrower: both sides need the same direction. More expensive on one side and a bargain on the other are two verdicts. Two verdicts cannot both be this session's answer.",
-          "Direction, unit, and number travel together. Write milliseconds as seconds and the gate is off by a thousand. Write 'not above' as 'more than' and the direction flips. A comparative is a direction too. More expensive on one side and a bargain on the other cannot both be this session's answer. A new number used as an example is added on neither side."
+          "If either language differs in numeral, unit, or direction of comparison, this seat refuses to publish. \"Roughly the same number\" is not accepted."
         ]
       }
     },
@@ -258,10 +258,10 @@
       ],
       "answer": "One sentence, two languages, one judgment. Do not add or drop a negation, a number, or a condition.",
       "brief": [
-        "One sentence, two languages. The contract is the same judgment. Subject, negation, numbers, and conditions may not be added or deleted in translation. Tone may differ. A judgment that drifts for tone is not the same sentence.",
-        "A missing field is missing in both languages. Do not fill it from the other. A hard condition may not be translated as 'consider'. A proper name may not become a wider class. A number that never appeared is added on neither side.",
-        "Before publishing, match four things: who, what, the condition, and the negation. If they do not match, publish only the language that is ready, and say the other is not. One honest language is more useful than two that contradict each other.",
-        "The contract at the close: one judgment, and the four fields match, or it is not the same sentence. A hard condition is not softened. A proper name is not widened. A missing number is not added. A missing field is missing in both languages. If they do not match, publish only the language that matches, and say the other is not ready."
+        "The contract is not word-for-word. It is the same judgment. Analyst's cut-in on Red Team lands: a different ear is not a different judgment, and the subject sits at the same rank as the negation and the numbers. It cannot be left inside the ear. Red Team's cut-in on Strategist lands: what gets locked includes \"not.\" Drop it and the verdict flips.",
+        "Strategist's cut-in on Analyst lands: lock the judgment, then write both, or the subject drifts on the second step. Intel's cut-in on Communicator lands: an allusion and an extra concession both make a line into a different line. Communicator's cut-in on Intel lands: forbidding an added condition is not enough. An allusion that swaps the condition for a different claim is also forbidden.",
+        "Systems' cut-in on Quant lands: the contract on values does not replace the contract on fields. A missing line must not be filled from the other tongue. Quant's cut-in on Systems lands: matching fields is not enough. The value must match. A flipped direction is worse than a missing line. Missing can fail. Flipped deceives.",
+        "What is executable: lock the judgment, then write both. Do not add or drop a negation, a number, a unit, a direction, a subject, or a condition. A missing field fails. Do not fill it from the other tongue. The ear may differ. The judgment must not drift."
       ]
     }
   }

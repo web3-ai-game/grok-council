@@ -13,12 +13,12 @@
         ],
         "answer": "天花板是寫入衝突和單機故障，不是行數恐懼。",
         "review_target": "critic",
-        "review": "恐懼不是測量。沒有鎖等待數據，就還不到換庫。",
+        "review": "「沒還原過的備份，不是天花板之上的安全網。」\n恐懼不是測量。沒有鎖等待、沒有恢復演練的時間，就還沒有天花板的數據。這句若被拿去擋一切換庫討論可以，但不能被收成「所以永遠不換」。永遠不在這句裡。沒超標之前不換，超標就換。",
         "brief": [
+          "題目問的是什麼時候該換，不是行數好不好看。天花板若沒有測量，就只是恐懼。能當閘門的只有鎖等待和恢復時間。行數推不出該換。",
           "天花板要寫成會壞的方式，不要寫成行數恐懼。SQLite 先壞在寫入互相等，再壞在這一台機器不見了。行數本身不是閘門。一張很小的表，只要寫入擠在一起，一樣會卡。一張很大的表，如果寫入稀疏、備份演練過，可以繼續留。",
           "所以不要用「總有一天不夠」來提前換庫。不夠要有讀數：鎖等待超過你定的線，或恢復時間超過你定的線。沒有這兩條線，換庫只是在用架構圖緩解焦慮。",
-          "單機故障是真天花板，而且它不隨行數線性到來。機器不見了，再多的行數討論都幫不上。備份演練過，這條才算被看見。沒演練過的備份，只是一個檔案。",
-          "我拒絕用行數恐懼提前換庫，也拒絕把先留寫成永遠留。先留要帶兩個讀數的線：鎖等待、恢復時間。線沒寫下來，先留就只是拖延。線寫下來又沒有人看，換庫的條件就永遠不會到。條件要能被讀到，才算條件。"
+          "鎖等待或恢復時間超標，這席撤回「現在不換」。沒有這兩個數之前，不接受換庫。"
         ]
       },
       "researcher": {
@@ -29,12 +29,12 @@
         ],
         "answer": "WAL 能撐一類負載。它不能把單機變成多機。",
         "review_target": "engineer",
-        "review": "先例只說明這種負載常見，不說明你的恢復演練做過。",
+        "review": "「現在用 SQLite，加上 WAL 和演練過的備份。」\n演練過的備份是另一個事件，不是 WAL 的推論。WAL 解決讀寫交錯，不解決機器沒了。先例只能證明這種負載常見，不能證明你的還原做過。這句若被讀成「加了 WAL 就有安全網」，把兩個機制合成了一個。",
         "brief": [
+          "WAL 能撐的是一類讀寫交錯的單機負載。先例只說明這種負載常見。先例推不出這台機器的恢復演練做過，也推不出單機變成了多機。",
           "WAL 讓讀寫不要互相卡死，這是這一類負載上被反覆用過的做法。它沒有把一台機器變成多台。我沒有找到「行數一到某個整數就必須換庫」的來源，所以不寫那個整數。沒有來源的閾值，就是編出來的閘門。",
           "能核對的是機制，不是吉祥數字。WAL 改善的是同一台機器上的等待。複製、多機、自動切換，是另一類系統，不是 WAL 的隱含功能。把這兩類寫成同一句，讀者會以為開了 WAL 就有了多機。",
-          "所以情報席只確認：WAL 能撐一類負載，不能把單機變成多機。行數閾值如果沒有測量和來源，就不要進結論。需要閾值的人，應該去量鎖等待，而不是去找一個好看的行數。",
-          "我沒有那個整數，所以結論裡不該出現那個整數。誰補了一個「超過多少行就換」，誰就是在編閘門。WAL 的來源只支撐「同一台機器上少等待」，不支撐「因此可以多機」。這兩句不要接在一起。"
+          "若這台機器的恢復演練失敗，或負載已經不是 WAL 能撐的那一類，這席撤回「WAL 能撐這一類」。先例不能代替這一次演練。"
         ]
       },
       "engineer": {
@@ -45,12 +45,12 @@
         ],
         "answer": "現在用 SQLite，加上 WAL 和演練過的備份。",
         "review_target": "quant",
-        "review": "接口留著就好。沒超標之前，遷移本身就是成本。",
+        "review": "「閘門是鎖等待和恢復時間，不是行數。」\n閘門沒超標之前，遷移的成本是確定的，換庫的收益是想像的規模。接口留著就好，留著不等於現在就搬。這句若被收成「所以要先把遷移做完」，把預留寫成了義務。沒超標之前，遷移本身就是成本。",
         "brief": [
+          "現在的負載沒有超標數據，遷移本身就是成本。接口可以留，庫可以先不換。WAL 和演練過的還原是留下 SQLite 的條件，不是換庫的理由。",
           "現在就留 SQLite。加上 WAL，讓讀不要被寫堵住。備份不是複製一份就算，要演練還原：定時把備份恢復到一台乾淨的機器上，量它要多久、資料到哪一秒。沒跑過的腳本，不算備份。",
           "換庫的條件寫成兩個讀數，不寫成心情。鎖等待超過線，或恢復時間超過線，再換。之前不換。換的時候要有這兩個數，不然半年後沒人記得為什麼動了這層。",
-          "不要為了「以後好擴」先引入一套現在用不到的多機。用不到的複雜度也會壞，而且壞的時候沒有人熟。現在的路徑短：SQLite、WAL、演練過的還原。短不是簡陋，是現在的負載配得上。",
-          "落地清單就三件：留下 SQLite、打開 WAL、把還原演練排進日程並留下分鐘數。少了第三件，備份仍是一個檔案。我不把「以後再演練」算進已經做完。以後再演練的系統，在機器不見的那天沒有分鐘數。"
+          "鎖等待或恢復時間超標，這席撤回「現在用 SQLite」。接口留著，不能被讀成已經遷移。"
         ]
       },
       "critic": {
@@ -61,12 +61,12 @@
         ],
         "answer": "沒還原過的備份，不是天花板之上的安全網。",
         "review_target": "engineer",
-        "review": "WAL 解決的是讀寫交錯，不是機器沒了。",
+        "review": "「現在用 SQLite，加上 WAL 和演練過的備份。」\nWAL 和演練過的備份被寫在同一句裡，讀者會以為兩件都做了。WAL 可以今天開。演練沒有做過，就不能寫成已經有。這句要拆開：現在用 SQLite 加 WAL；還原沒演練過之前，不寫安全網。",
         "brief": [
+          "沒還原過的備份不是安全網。備份檔存在，推不出恢復時間達標，也推不出機器沒了還能起來。天花板之上的那一層，要有一次演練的時間，不能只有一個檔名。",
           "工程師說備份。我問的是還原。一份沒有人恢復過的檔案，不能算天花板之上的安全網。機器不見的那天，你需要的是分鐘數，不是「我們有備份」這句話。",
           "也不接受用行數當閘門。行數好看、好寫進投影片，但它不預測鎖等待，也不預測恢復時間。用一個不預測故障的數來決定架構，是在換一個更難被質疑的理由。",
-          "所以批評只留兩刀。沒演練過的備份，刪掉「安全」這兩個字。沒有鎖等待或恢復讀數，刪掉「該換了」。其餘的，SQLite 可以留。",
-          "沒跑過的還原，刪掉安全。沒有讀數的該換了，刪掉該換了。我不動其餘的。SQLite 可以留，留的理由是負載匹配，不是因為換庫麻煩。麻煩不是留的理由，讀數才是。"
+          "有一次演練過的還原，而且時間被記下來，這席才不再把備份叫做沒有安全網。沒有這次演練，就不簽。"
         ]
       },
       "strategist": {
@@ -77,12 +77,12 @@
         ],
         "answer": "鎖等待或恢復時間超標再換。之前不換。",
         "review_target": "writer",
-        "review": "不要寫永遠夠用。寫超標再換。",
+        "review": "「SQLite 現在夠。超標再換，不預支架構。」\n「現在夠」如果沒有下一句，讀者只聽見永遠。條件要寫在同一段裡：超標再換，不預支架構。這句若被收成永遠不換，觸發條件被刪掉了。刪掉條件，就不是這席的建議。",
         "brief": [
+          "決策規則必須帶觸發條件。沒有觸發條件的「現在夠」，會被讀成永遠夠。鎖等待或恢復時間超標再換。之前不換。這是規則，不是心情。",
           "先留，不是永遠留。先留的意思是：現在的負載用 SQLite 配 WAL，代價清楚，恢復路徑要演練。永遠留是另一句話，今天沒有人有資格說。",
           "換的條件要在換之前寫下來。鎖等待超標，或恢復時間超標。兩個都沒超，就不要因為別的系統更流行而換。流行不是讀數。讀數沒超標，換庫的成本就是純開銷。",
-          "對讀者的建議要帶條件。現在用，加上 WAL 和演練。超標再換。不要寫成「SQLite 永遠夠」，也不要寫成「趕快換」。兩句都比條件句好聽，也都比條件句容易錯。",
-          "給讀者的句子必須帶條件，否則會被收成口號。口號只有兩種，永遠夠，或趕快換。兩種都比條件句容易傳，也都更容易錯。我要傳的是：現在留，超標再換，超標指哪兩個數。"
+          "文案裡只剩「永遠夠用」或只剩「快換」，這席撤回。條件沒寫出來，讀者只會聽見永遠，或聽見現在就要搬。"
         ]
       },
       "writer": {
@@ -93,12 +93,12 @@
         ],
         "answer": "SQLite 現在夠。超標再換，不預支架構。",
         "review_target": "strategist",
-        "review": "條件不寫出來，讀者只會聽見永遠。",
+        "review": "「鎖等待或恢復時間超標再換。之前不換。」\n「之前不換」要和「超標再換」同時出現。只寫前半，就是永遠。只寫後半，讀者不知道現在該不該動。這句若被收成一句口號，條件不在了。條件不寫出來，讀者只會聽見永遠。",
         "brief": [
+          "讀者能複述的必須包括觸發條件，不能只有「現在夠」。少了條件，方便的補法是永遠，或是現在就換。兩種補法都不是原句。",
           "能複述的是條件，不是立場口號。SQLite 現在夠。超標再換。超標指的是鎖等待或恢復時間，不是行數，也不是別人的架構圖。這三個限定少一個，句子就會被讀成永遠留或立刻換。",
           "不要為了乾淨刪掉 WAL 和演練。沒有這兩件，『現在夠』只是一個願望。讀者會照著願望上線，然後在第一次寫入擁擠時發現願望沒有備份。",
-          "也不要加「為了未來擴展，建議預先換庫」。那一句今天沒有席位說過，是為了看起來周全而補的。周全如果改變了條件，就不要寫。",
-          "三個限定都要能被只讀一句的人帶走：現在夠、閘門是鎖等待或恢復時間、不是行數。少一個，這句就會在轉述裡變成永遠留或立刻換。轉述是這一席的驗收，不是原文好看不好看。"
+          "若複述出來沒有「超標再換」，這席不簽。句子可以短，不能短到把條件刪掉。"
         ]
       },
       "quant": {
@@ -109,12 +109,12 @@
         ],
         "answer": "閘門是鎖等待和恢復時間，不是行數。",
         "review_target": "analyst",
-        "review": "沒有這兩個數，天花板只是情緒。",
+        "review": "「天花板是寫入衝突和單機故障，不是行數恐懼。」\n行數恐懼被排除了，排除推不出已經量過鎖等待。沒有這兩個數，天花板仍是情緒，只是換了一個名字。這句若被收成「所以我們已經知道還沒到天花板」，測量被跳過了。先有數，再談換不換。",
         "brief": [
+          "閘門是兩個時間：鎖等待、恢復時間。行數不是閘門。沒有這兩個數，天花板只是情緒，不能拿來批准遷移，也不能拿來證明永遠不換。",
           "閘門要用會動的數。鎖等待是寫入互相等的時間。恢復時間是從備份回到能用要多久。行數是存量，存量不告訴你這兩個時間。用存量當閘門，等於用一個不相關的軸做決定。",
           "所以先定線，再談換不換。線沒有定，任何「快到天花板」都是形容詞。形容詞不能觸發遷移，也不能事後解釋為什麼沒遷。",
-          "WAL 的收益也要記在同一張表上：它降的是等待，不是故障域。故障域還是這一台。把等待的改善說成可用性的改善，會讓人少做那次還原演練。",
-          "兩個閘門都是時間，不是存量。我不會簽一個行數閾值，也不會把 WAL 的等待下降記成可用性上升。可用性要看機器不見之後多久回來。那個數來自演練，不來自 WAL 的說明書。"
+          "兩個數都有了，而且有一個超標，這席才接受換。兩個數都沒有，就不接受任何一邊的「已經知道」。"
         ]
       }
     },
@@ -126,10 +126,10 @@
       ],
       "answer": "單機 SQLite 先留，WAL 和演練過的還原一起上。鎖等待或恢復超標再換。",
       "brief": [
-        "單機 SQLite 先留。這是負載匹配，不是信仰。WAL 要加上，因為讀寫互相等是這一類負載先碰到的牆。備份要演練還原，因為沒跑過的檔案不是安全網。",
-        "換庫的閘門只有兩個讀數：鎖等待，或恢復時間。行數不是閘門。沒有來源的整數閾值不進結論。沒超標之前不換，也不為了流行預支架構。",
-        "沒有席位把 SQLite 說成永遠夠，也沒有席位拿出必須立刻換的測量。所以結論帶條件：現在留，超標再換。條件缺一，就不算這一場的結論。",
-        "收場帶條件：現在留，WAL 加上，還原要演練出分鐘數，鎖等待或恢復時間超標再換。行數不進閘門。沒有來源的整數不進結論。沒有人把今天說成必須換，也沒有人把今天說成永遠。"
+        "天花板是寫入衝突和單機故障，不是行數恐懼。分析師搶紅隊的那句要收窄：沒有鎖等待數據，就還不到換庫；這不推出永遠不換。永遠不在任何一席的原句裡。",
+        "情報官搶工程師的那句成立。WAL 不是演練過的還原。先例不代替這一次恢復演練。紅隊搶的是同一處的另一半：沒還原過的備份不能寫進「演練過」。兩條都成立，所以結論把 WAL 和演練過的還原拆開寫。",
+        "量化員搶分析師的那句成立：沒有鎖等待和恢復時間這兩個數，天花板只是情緒。工程師搶量化員的那句也成立：沒超標之前，遷移本身就是成本，接口留著不是現在就搬。",
+        "策略家和表達者互搶的是句子能不能帶上觸發條件。兩條都成立。可執行的是：單機 SQLite 先留，WAL 現在上，還原要演練並記時間。鎖等待或恢復超標再換。之前不換。"
       ]
     }
   },
@@ -145,12 +145,12 @@
         ],
         "answer": "The ceiling is write contention and one dead machine, not row fear.",
         "review_target": "critic",
-        "review": "Fear is not a measurement. No lock-wait data, no swap.",
+        "review": "\"A backup you have not restored is not a net above the ceiling.\"\nFear is not a measurement. Without lock-wait data and without a timed restore rehearsal, there is no ceiling figure yet. The line may block a swap that has no data. It may not be closed as \"therefore never swap.\" Never is not in the line. Do not swap before the bar breaks. Swap when it does.",
         "brief": [
+          "The question is when to swap, not whether a row count looks large. A ceiling without a measurement is fear. The only gates that can decide it are lock wait and restore time. Row count does not entail a swap.",
           "Write the ceiling as the way it fails, not as a fear of row counts. SQLite fails first when writes wait on each other, then when this one machine is gone. Row count is not a gate. A small table stalls if writes pile up. A large table can stay if writes are sparse and the restore has been rehearsed.",
           "Do not migrate early because it will 'someday be too small'. Too small needs a reading: lock wait above the line you set, or restore time above the line you set. Without those two lines, a new database is an architecture diagram used as anxiety relief.",
-          "A single-machine failure is a real ceiling, and it does not arrive in proportion to rows. When the machine is gone, the row-count discussion does not help. The backup counts only after a restore has been rehearsed. An unrehearsed backup is a file.",
-          "I refuse an early migration driven by fear of row counts, and I refuse writing 'stay for now' as 'stay forever'. Stay for now needs two lines someone can read: lock wait, and restore time. If the lines are not written down, staying is only delay. If they are written and nobody reads them, the condition for migrating never arrives. A condition counts only if it can be read."
+          "If lock wait or restore time breaks the bar, this seat withdraws \"do not swap yet.\" Without those two numbers, a swap is not accepted."
         ]
       },
       "researcher": {
@@ -161,12 +161,12 @@
         ],
         "answer": "WAL can hold one class of load. It cannot turn one machine into many.",
         "review_target": "engineer",
-        "review": "Precedent says the load is common. It does not say you rehearsed a restore.",
+        "review": "\"Use SQLite now, with WAL and a restore you have practiced.\"\nA restore you have practiced is a separate event, not a corollary of WAL. WAL covers read-write overlap. It does not cover a dead machine. Precedent can show the load is common. It cannot show that your restore was done. Read as \"WAL, therefore a safety net,\" the line fuses two mechanisms into one.",
         "brief": [
+          "WAL can hold one class of single-node load where reads and writes overlap. Precedent only says that class is common. Precedent does not entail that this machine's restore was rehearsed, and it does not turn one machine into many.",
           "WAL keeps reads and writes from blocking each other. That pattern is used on this class of load. It does not turn one machine into many. I do not have a source for 'at this integer of rows you must migrate', so I will not write that integer. A threshold with no source is an invented gate.",
           "What can be checked is the mechanism, not a lucky number. WAL improves waiting on the same machine. Replication, several machines, and automatic failover are another kind of system. They are not implied by WAL. Writing them as one sentence teaches the reader that WAL includes a cluster.",
-          "So this seat confirms only that WAL can carry one class of load, and cannot turn one machine into many. A row threshold with no measurement and no source stays out of the verdict. Someone who wants a threshold should measure lock wait, not shop for a round number.",
-          "I do not have that integer, so the verdict should not contain that integer. Whoever adds 'migrate after this many rows' is inventing a gate. The sources for WAL support only 'less waiting on the same machine'. They do not support 'therefore many machines'. Those two sentences do not connect."
+          "If this machine's restore rehearsal fails, or the load is no longer the class WAL can hold, this seat withdraws \"WAL can hold this class.\" Precedent does not substitute for this rehearsal."
         ]
       },
       "engineer": {
@@ -177,12 +177,12 @@
         ],
         "answer": "Use SQLite now, with WAL and a restore you have practiced.",
         "review_target": "quant",
-        "review": "Keep the seam. Before the bar breaks, the migration is the cost.",
+        "review": "\"The gate is lock wait and restore time, not row count.\"\nBefore the gate breaks, the cost of migrating is real and the benefit is a scale you do not have. Keep the seam. Keeping it is not the same as moving now. Closed as \"so finish the migration first,\" a reservation has been written as a duty. Before the bar breaks, the migration is the cost.",
         "brief": [
+          "There is no over-bar measurement for the current load, so the migration itself is the cost. The seam can stay. The database does not have to move yet. WAL and a practiced restore are the conditions for keeping SQLite, not a reason to swap.",
           "Keep SQLite for now. Add WAL so reads are not stuck behind writes. A backup is not a copy. Rehearse the restore: put the backup on a clean machine on a schedule, and measure how long it takes and which second the data reaches. A script that has never run is not a backup.",
           "Write the migration condition as two readings, not a mood. Migrate when lock wait crosses the line, or when restore time crosses the line. Not before. When you migrate, keep those two numbers, or six months later nobody will remember why this layer moved.",
-          "Do not introduce a multi-machine system you do not need yet, in the name of later scale. Unused complexity also fails, and nobody is practiced when it does. The path now is short: SQLite, WAL, a rehearsed restore. Short is not crude. It matches the load you have.",
-          "The landing list is three items: keep SQLite, turn on WAL, and put a restore rehearsal on the calendar with a number of minutes. Without the third, the backup is still a file. I do not count 'we will rehearse later' as done. A system that will rehearse later has no number of minutes on the day the machine is gone."
+          "If lock wait or restore time breaks the bar, this seat withdraws \"use SQLite now.\" A seam left in place must not be read as a migration already done."
         ]
       },
       "critic": {
@@ -193,12 +193,12 @@
         ],
         "answer": "A backup you have not restored is not a net above the ceiling.",
         "review_target": "engineer",
-        "review": "WAL covers read-write overlap. It does not cover a dead machine.",
+        "review": "\"Use SQLite now, with WAL and a restore you have practiced.\"\nWAL and a practiced backup are in one sentence, so a reader will think both are done. WAL can be turned on today. A rehearsal that has not happened cannot be written as already there. Split the line: SQLite with WAL now. Do not write a safety net before the restore has been rehearsed.",
         "brief": [
+          "A backup you have not restored is not a safety net. A backup file does not entail that restore time meets the bar, and it does not entail that a dead machine comes back. The layer above the ceiling needs a timed rehearsal, not a filename.",
           "The engineer said backup. I am asking about restore. A file nobody has recovered is not a net above the ceiling. The day the machine is gone, you need a number of minutes, not the sentence 'we have a backup'.",
           "A row count is also refused as a gate. It looks good on a slide. It does not predict lock wait, and it does not predict restore time. Deciding architecture on a number that does not predict the failure is a way to pick a reason that is harder to question.",
-          "Two cuts remain. An unrehearsed backup loses the word safe. Without a lock-wait or restore reading, 'time to migrate' goes too. The rest may stay on SQLite.",
-          "An unrehearsed restore loses the word safe. A 'time to migrate' with no reading loses 'time to migrate'. I do not touch the rest. SQLite may stay. The reason is a load match, not that migrating is a bother. A bother is not a reason to stay. A reading is."
+          "Only a restore that has been rehearsed, with the time written down, lets this seat stop calling the backup no net. Without that rehearsal, it does not sign."
         ]
       },
       "strategist": {
@@ -209,12 +209,12 @@
         ],
         "answer": "Swap when lock wait or restore time breaks the bar. Not before.",
         "review_target": "writer",
-        "review": "Don't write that it is enough forever. Write the trigger.",
+        "review": "\"SQLite is enough now. Swap when the trigger hits.\"\n\"Enough now\" without the next sentence is heard as forever. The trigger has to sit in the same paragraph: swap when it hits, do not spend for a scale you do not have. Closed as never swap, the trigger has been deleted. Delete the trigger, and it is no longer this seat's recommendation.",
         "brief": [
+          "A decision rule needs its trigger. \"Enough now\" without a trigger is read as enough forever. Swap when lock wait or restore time breaks the bar. Not before. That is a rule, not a mood.",
           "Stay for now is not stay forever. Stay for now means the current load fits SQLite with WAL, the cost is clear, and the restore path has to be rehearsed. Forever is a different sentence. Nobody here has earned it.",
           "Write the condition before you need it. Lock wait over the line, or restore time over the line. If neither has crossed, do not migrate because another system is more fashionable. Fashion is not a reading. A migration without a crossed line is pure overhead.",
-          "The advice to the reader needs the condition. Use it now, with WAL and a rehearsal. Migrate when the line is crossed. Do not write 'SQLite is always enough', and do not write 'migrate immediately'. Both sound better than the conditional, and both are easier to get wrong.",
-          "The sentence for the reader has to keep the condition, or it collapses into a slogan. There are only two slogans: enough forever, or migrate now. Both travel more easily than the conditional, and both are easier to get wrong. What I want to travel is: stay now, migrate when the line is crossed, and here are the two numbers that are the line."
+          "If the copy keeps only \"enough forever\" or only \"swap now,\" this seat withdraws. When the trigger is unspoken, the reader hears forever, or hears that the move happens now."
         ]
       },
       "writer": {
@@ -225,12 +225,12 @@
         ],
         "answer": "SQLite is enough now. Swap when the trigger hits.",
         "review_target": "strategist",
-        "review": "If the trigger is unspoken, the reader only hears forever.",
+        "review": "\"Swap when lock wait or restore time breaks the bar. Not before.\"\n\"Not before\" has to appear with \"swap when the bar breaks.\" The first half alone is forever. The second half alone does not say whether to move now. Closed as a slogan, the trigger is gone. If the trigger is unspoken, the reader only hears forever.",
         "brief": [
+          "What a reader can repeat must include the trigger, not only \"enough now.\" Without the trigger, the convenient completion is forever, or swap now. Neither completion is the original line.",
           "What can be repeated is the condition, not a slogan. SQLite is enough now. Migrate when the line is crossed. The line is lock wait or restore time, not row count, and not someone else's diagram. Drop one of those limits and the sentence is read as forever, or as migrate today.",
           "Do not delete WAL and the rehearsal to make the line cleaner. Without those two, 'enough now' is a wish. The reader will ship the wish, and meet the first write pile-up with no restore they have ever run.",
-          "Do not add 'migrate ahead of time for future scale'. No seat said that today. It would be added to look complete. Completeness that changes the condition does not get written.",
-          "Three limits have to survive a person who reads one sentence: enough now, the gate is lock wait or restore time, and it is not row count. Drop one and the retelling becomes forever or migrate today. The retelling is the acceptance test for this seat, not whether the original looked clean."
+          "If the repetition has no \"swap when the bar breaks,\" this seat does not sign. The sentence may be short. It may not be short enough to delete the trigger."
         ]
       },
       "quant": {
@@ -241,12 +241,12 @@
         ],
         "answer": "The gate is lock wait and restore time, not row count.",
         "review_target": "analyst",
-        "review": "Without those two numbers, the ceiling is a mood.",
+        "review": "\"The ceiling is write contention and one dead machine, not row fear.\"\nRuling out row fear does not entail that lock wait has been measured. Without those two numbers, the ceiling is still a mood with a new name. Closed as \"so we already know we are under the ceiling,\" the measurement has been skipped. Get the numbers, then argue the swap.",
         "brief": [
+          "The gate is two times: lock wait, and restore time. Row count is not a gate. Without those two numbers, the ceiling is a mood. It cannot authorize a migration, and it cannot prove never swap.",
           "A gate has to be a number that moves. Lock wait is how long writes wait on each other. Restore time is how long it takes to come back from a backup. Row count is a stock. A stock does not tell you either time. Using the stock as a gate is a decision on an unrelated axis.",
           "Set the line before debating the migration. With no line, every 'near the ceiling' is an adjective. An adjective cannot trigger a migration, and it cannot explain later why you did not migrate.",
-          "WAL's gain belongs on the same sheet: it reduces waiting, not the failure domain. The failure domain is still this machine. Calling a shorter wait an availability win is how the restore rehearsal gets skipped.",
-          "Both gates are times, not a stock. I will not sign a row threshold, and I will not record WAL's shorter wait as higher availability. Availability is how long until the machine comes back after it is gone. That number comes from a rehearsal, not from the WAL manual."
+          "Only when both numbers exist, and one breaks the bar, does this seat accept a swap. If both numbers are missing, it accepts neither side's \"we already know.\""
         ]
       }
     },
@@ -258,10 +258,10 @@
       ],
       "answer": "Keep SQLite, with WAL and a practiced restore. Swap when lock wait or restore time breaks the bar.",
       "brief": [
-        "Keep single-node SQLite for now. That is a load match, not a belief. Add WAL, because writes waiting on each other is the wall this load hits first. Rehearse the restore, because a file that has never been run is not a net.",
-        "The migration gate is two readings: lock wait, or restore time. Row count is not a gate. An integer threshold with no source does not enter the verdict. Do not migrate before a line is crossed, and do not pre-build a fashionable architecture.",
-        "No seat called SQLite enough forever, and no seat brought a measurement that requires a migration today. The verdict keeps the condition: stay now, migrate when the line is crossed. Drop the condition and it is no longer this session's verdict.",
-        "The close keeps the condition: stay now, add WAL, rehearse the restore until you have minutes, and migrate when lock wait or restore time crosses the line. Row count is not a gate. An integer with no source does not enter the verdict. Nobody made today a mandatory migration, and nobody made today forever."
+        "The ceiling is write contention and one dead machine, not row fear. Analyst's cut-in on Red Team has to be narrowed: no lock-wait data, no swap yet. That does not entail never. Never is not in any seat's line.",
+        "Intel's cut-in on Systems lands. WAL is not a practiced restore. Precedent does not replace this rehearsal. Red Team hits the other half of the same point: a backup you have not restored cannot be written as practiced. Both land, so the verdict writes WAL and the practiced restore apart.",
+        "Quant's cut-in on Analyst lands: without lock wait and restore time, the ceiling is a mood. Systems' cut-in on Quant also lands: before the bar breaks, the migration is the cost. A seam is not a move that happens now.",
+        "Strategist and Communicator cut in on whether the sentence carries its trigger. Both land. What is executable: keep single-node SQLite, turn WAL on now, rehearse the restore and write down the time. Swap when lock wait or restore time breaks the bar. Not before."
       ]
     }
   }

@@ -13,12 +13,12 @@
         ],
         "answer": "可以收場，但必須寫明誰失敗、因此少了什麼。",
         "review_target": "critic",
-        "review": "記名不夠。還要寫少掉的是反證，不是態度。",
+        "review": "「收場可以。用議長的話補上失敗席，不可以。」\n記名是必要的，不是充分的。誰失敗，還要寫少掉的是反證，不是態度。這句若被收成「點了名就可以收成沒有異議」，記名被用來填洞。點名之後，洞還在。洞不是同意。",
         "brief": [
+          "可以收場。收場的條件是寫明誰失敗、因此少了什麼。少掉的是那一席的工具，不是那一席的態度。記名而不寫少了什麼，讀者會把洞讀成沒有異議。",
           "一席失敗，整場仍可收場，但必須寫明誰失敗、因此少了什麼。少了的東西通常是那一席才有的工具：量化沒有數字，情報沒有來源，批評沒有那一刀。少了就要寫少了，不能把其餘席位的句子說成已經覆蓋。",
           "失敗不是同意，也不是反對。空白不能被讀成「沒有異議」。沒有異議是每一席都寫了、而且沒有互打。少一席，異議的檢查就不完整。不完整可以收場，不可以說成完整。",
-          "關鍵席如果就是這一題的工具本身，失敗就不要裝有答案。普通席失敗，記名後收場。這條區分要在收場前寫明，不然每次都會被收成「大致可以」。",
-          "可以收場的前提是說得出少了什麼。說不出，就還不知道洞在哪，不該收。知道洞在哪，讀者才能決定要不要補測。把洞說成其餘席位已經覆蓋，是在沒有比較的情況下宣布完整。沒有比較的完整，不簽名。"
+          "結論沒有點名失敗席，或把少掉的句子寫成態度，這席撤回「可以收場」。"
         ]
       },
       "researcher": {
@@ -29,12 +29,12 @@
         ],
         "answer": "失敗席沒有立場。不能把空白讀成同意。",
         "review_target": "writer",
-        "review": "不要寫成棄權。棄權是選擇，超時不是。",
+        "review": "「寫量化員失敗，沒有數字。不要寫沒有異議。」\n不要寫成沒有異議，這半句成立。不要寫成棄權，這半句你沒寫。沒有異議和棄權都是發言。超時不是。這句若只禁止沒有異議，讀者還有一個同樣假的狀態詞可用。兩種寫法都要禁止。",
         "brief": [
+          "失敗席沒有立場。空白不能讀成同意，也不能讀成棄權。棄權是選擇。超時不是。沒有立場，就沒有可以引用的句子。",
           "失敗席沒有立場。不能把空白讀成同意，也不能讀成「情報上沒有反例」。沒有反例是我查過之後的句子。我沒查，就沒有這句。議長不能替我寫查過。",
           "如果失敗的是別席，我只確認自己寫過的來源還在。不確認失敗席本來會說什麼。本來會說是推測。推測不進結論，即使它讓收場看起來更穩。",
-          "所以這一題情報席的邊界是：失敗是事件，不是一種沉默的態度。態度需要原文。沒有原文，就只有事件：誰失敗了，哪一類句子因此缺席。",
-          "失敗席沒有查過，所以不能有查過才配寫的句子。我也不推測它本來會說什麼。本來會說一旦進了結論，這場就不再是失敗記錄，而是一場由別人代寫的成功。代寫的成功比失敗更難追。"
+          "結論把失敗席寫成同意、棄權或沒有異議，這席要求刪掉那個狀態詞。留下的只能是失敗。"
         ]
       },
       "engineer": {
@@ -45,12 +45,12 @@
         ],
         "answer": "一席錯誤就標記並繼續。不要為了齊席卡死整場。",
         "review_target": "quant",
-        "review": "這席沒有留下數字。結論不能補一個。",
+        "review": "「超時，沒有數字。」\n沒有數字，這句成立。它推不出因此不能收場。收場可以，收場時不能補數。這句若被拿去卡死整場，缺失被寫成了停機條件。標記並繼續。繼續的結論裡沒有這個數。",
         "brief": [
+          "一席錯誤就標記並繼續。不要為了齊席卡死整場。繼續推不出可以替失敗席補一個數字。這席沒有留下數字，結論就不能補一個。",
           "一席錯誤就標記並繼續。不要為了齊席把整場卡死，也不要自動重試到齊。自動重試會把一次故障變成一段更長的等待，而且重試回來的句子不一定還跟前面的席在同一題上。",
           "錯誤要進事件流：席位、錯誤、時間。結論合成時讀得到這條事件，才能把「量化員失敗，沒有數字」寫進去。讀不到，合成器就會用其餘席位把洞填上。",
-          "介面不要把錯誤卡片渲染成還沒開始。還沒開始和失敗，讀者的理解相反。失敗是決定的一部分，要留在牌面上，跟待命一樣可讀。",
-          "錯誤進事件，卡片標失敗，合成器讀得到這條才允許收場。讀不到，它會用其餘席位填洞。不自動重試到齊。重試回來的句子不一定還在同一題上，卻會被當成這一場的原文。"
+          "整場因一席超時而停住，或結論補了一個失敗席沒有留下的數字，這席撤回「標記並繼續」的實作。"
         ]
       },
       "critic": {
@@ -61,12 +61,12 @@
         ],
         "answer": "收場可以。用議長的話補上失敗席，不可以。",
         "review_target": "strategist",
-        "review": "一般席可以缺。題目依賴的那席失敗，就別裝有答案。",
+        "review": "「普通席失敗就收場並註明。關鍵席失敗就不要裝有答案。」\n普通席失敗就收場並註明，這半句成立。關鍵席失敗就不要裝有答案，這半句也成立。兩句中間要寫明這一題哪一席是關鍵。沒寫明，讀者會把量化員當普通席。這一題的數字席失敗了，結論就必須說沒有數字。",
         "brief": [
+          "收場可以。用議長的話補上失敗席，不可以。一般席可以缺。題目依賴的那席失敗，就別裝有那個工具的答案。這一題依賴數字，量化員失敗，結論裡就沒有數。",
           "收場可以。用議長的話補上失敗席，不可以。這是跟門控同一條縫：缺席不能被引用。失敗是另一種缺席，處理相同。不同的是原因要寫成錯誤，而不是跳過。",
           "我也不接受「其餘席位已經足夠」。足夠是一個新判斷，需要有人比較過缺的那一塊。沒有比較，足夠就是為了收場而說的。為了收場而說的話，不進結論。",
-          "所以批評席只留兩句。可以收場。不能把洞說成沒有洞。洞的名字是失敗的那一席，以及它沒有交出來的那類句子。",
-          "失敗和跳過都是缺席，都不能被引用。差別只在原因寫錯誤還是寫跳過。用議長的話補上，兩種缺席都越界。其餘席位已經足夠，也越界，因為足夠沒有被比較過。"
+          "結論用議長的句子填上失敗席的工具，或在關鍵席失敗後仍寫出那個工具的答案，這席不簽。"
         ]
       },
       "strategist": {
@@ -77,12 +77,12 @@
         ],
         "answer": "普通席失敗就收場並註明。關鍵席失敗就不要裝有答案。",
         "review_target": "analyst",
-        "review": "這題的數字席失敗了。結論就必須說沒有數字。",
+        "review": "「可以收場，但必須寫明誰失敗、因此少了什麼。」\n寫明誰失敗、因此少了什麼，還要寫少掉的是這一題依賴的工具。少了態度，和少了數字，收場規則不同。這句若被收成「記名即可，任何席都一樣」，關鍵席被寫成了普通席。這一題少的是數字。",
         "brief": [
+          "先分普通席和關鍵席。普通席失敗，記名後收場。關鍵席失敗，不要裝有那個工具的答案。這一題量化員是關鍵席，因為題目問的是數字。沒有數字，就寫沒有數字。",
           "先分這席是不是這一題的關鍵工具。量化題裡量化員失敗，就不要裝有數字答案。邊界題裡文案失敗，結論仍可收，但要少掉「能複述的那一句」，並寫明少了。",
           "普通席失敗就收場並註明。關鍵席失敗就停在「這一題沒有答案」，而不是停在一個由議長補上的答案。補上的答案會被執行。執行之後，沒有席位對那個數負責。",
-          "推薦寫在收場條件上。能指出少了什麼，就收。不能指出，就還不能收，因為你不知道洞在哪。知道洞在哪，讀者才能決定要不要補測，而不是把這場當成完整的。",
-          "關鍵席失敗就停在沒有答案。普通席失敗就記名收場。這一題若量化是關鍵，結論裡就不能有數。有數就是裝有答案。裝有答案會被執行，執行之後沒有席位對那個數負責。"
+          "若把量化員當普通席收場，並給出一個數，這席撤回這個分類。分類錯了，收場規則就用錯了。"
         ]
       },
       "writer": {
@@ -93,12 +93,12 @@
         ],
         "answer": "寫量化員失敗，沒有數字。不要寫沒有異議。",
         "review_target": "researcher",
-        "review": "這兩句讀者分得出來。混成一句就不行。",
+        "review": "「失敗席沒有立場。不能把空白讀成同意。」\n空白不能讀成同意，這句是狀態。它沒有給讀者可複述的句子。讀者需要的是：量化員失敗，沒有數字。這兩句分得出來。混成「失敗席沒有同意」就不行。不要只寫不能怎麼讀，要寫出能複述的那兩句。",
         "brief": [
+          "能複述的只有兩句，而且不能混：量化員失敗。沒有數字。不要寫沒有異議，不要寫部分席位未能完成。不點名的失敗無法回放。",
           "寫量化員失敗，沒有數字。不要寫沒有異議。沒有異議比失敗好讀，也是另一個結論。讀者看到沒有異議，就不會再去補那一次測量。",
           "句子要短，並且點名。誰失敗，缺了哪一類句子，其餘結論因此少了什麼。不要用「部分席位未能完成」這種不點名的話。不點名的失敗無法被回放，也無法被追。",
-          "我可以把其餘席位的原句照實收短。我不可以在收短時把洞的邊緣磨平，讓它看起來像本來就沒有這一席。本來就沒有，和叫了但失敗，是兩個事件。",
-          "點名，並寫沒有數字。不寫沒有異議，不寫部分席位未能完成。不點名的失敗無法回放。沒有異議會讓讀者不去補測。兩種寫法都比失敗好讀，也都是另一個結論。"
+          "複述出來是「沒有異議」或「沒有數字所以沒超標」，這席不簽。兩句必須分得開。"
         ]
       },
       "quant": {
@@ -110,10 +110,10 @@
         "answer": "",
         "error": "超時，沒有數字。",
         "brief": [
+          "這席在數字出來之前失敗。失敗之前沒有數，所以沒有立場可以留。空白不是零，也不是沒有超標。上一次別的題的數不能挪來。",
           "這席在數字出來之前失敗。失敗之前沒有數，所以沒有立場可以留。不要把上一次別的題的數挪來用，也不要把其餘席位的形容詞換成一個數。",
           "讀者該看到的是錯誤，不是一個空白的量化結論。空白會被讀成零，或讀成沒有超標。兩種讀法都是在替這席發明測量。",
-          "如果稍後重跑只為了補這個數，那是新的一場，不是把這一場的結論改成有數。這一場的記錄停在失敗。",
-          "這席沒有數。空白不是零，也不是沒有超標。上一次別的題的數不能挪來。其餘席位的形容詞不能換成數。稍後補測是新的一場，不把這一場改成有數。記錄停在失敗。"
+          "若結論出現一個數，而這一場的事件流裡沒有這個數，這席的失敗記錄仍在，那個數不能算這一場的測量。"
         ]
       }
     },
@@ -125,10 +125,10 @@
       ],
       "answer": "一席失敗仍可收場。必須記名，不能把空白讀成同意，也不能用議長的話補上。",
       "brief": [
-        "一席失敗仍可收場。必須記名：誰失敗，缺了哪一類句子。不能把空白讀成同意，不能寫成沒有異議，也不能用議長的話把洞補上。",
-        "其餘席位的句子照實保留，並寫明它們沒有覆蓋失敗席的工具。覆蓋是新判斷。沒有人比較過，就不寫覆蓋。",
-        "關鍵席失敗就不要裝有答案。普通席失敗，記名後收場。這一題量化員沒有交出數字，所以結論裡沒有數，也沒有一個由別人估出來的數。",
-        "收場記名：量化員失敗，沒有數字。空白不是同意，不是沒有異議，也不由議長補上。其餘句子照實留，並寫明沒有覆蓋這塊。關鍵席沒交出工具，結論就不裝有那個工具的答案。"
+        "一席失敗仍可收場。分析師搶紅隊的那句成立：記名不夠，還要寫少掉的是反證，不是態度。紅隊搶策略家的那句成立：這一題量化員是關鍵席，不是普通席。關鍵席失敗，就不要裝有數字。",
+        "策略家搶分析師的那句成立：少了態度，和少了數字，收場規則不同。這一題少的是數字。情報官搶表達者的那句成立：沒有異議和棄權都要禁止，超時不是這兩種發言。",
+        "表達者搶情報官的那句成立：不能只寫空白不能怎麼讀，要寫出能複述的兩句：量化員失敗，沒有數字。工程師搶量化員的那句成立：沒有數字，推不出不能收場。標記並繼續。繼續時不補數。",
+        "可執行的是：記名，寫沒有數字。空白不是同意，不是棄權，不是沒有異議，也不由議長補上。其餘句子照實留，並寫明沒有覆蓋這塊。稍後補測是新的一場，不把這一場改成有數。"
       ]
     }
   },
@@ -144,12 +144,12 @@
         ],
         "answer": "You may close, but name who failed and what the verdict therefore lacks.",
         "review_target": "critic",
-        "review": "A name is not enough. Say the missing piece is a counterargument, not a mood.",
+        "review": "\"Closing is allowed. Filling the failed seat with the chair's words is not.\"\nA name is necessary, not sufficient. Who failed, and also that the missing piece is a counterargument, not an attitude. Closed as \"once it is named, it may be closed as no objection,\" the name has been used to fill the hole. After the name, the hole is still there. The hole is not agreement.",
         "brief": [
+          "You may close. Closing requires naming who failed and what the verdict therefore lacks. What is missing is that seat's tool, not that seat's attitude. A name without what is missing lets the reader read the hole as no objection.",
           "The session can still close if one seat fails, but it has to say who failed and what is therefore missing. What is missing is usually the tool only that seat had: no number from quant, no source from research, no strike from the critic. Write the missing piece. Do not say the other seats already covered it.",
           "Failure is not agreement, and it is not dissent. A blank cannot be read as 'no objection'. No objection means every seat wrote, and none of them struck each other. Miss one seat and the check for objection is incomplete. Incomplete may close. It may not be called complete.",
-          "If the failed seat is the tool this question actually needed, do not pretend there is an answer. If an ordinary seat failed, close and name it. Write that distinction before you close, or every failure will be rounded into 'roughly fine'.",
-          "Closing is allowed only if you can say what is missing. If you cannot, you do not yet know where the hole is, and you should not close. Once the reader knows where the hole is, they can decide whether to measure again. Calling the hole covered by the other seats announces completeness without a comparison. Completeness without a comparison does not get a signature."
+          "If the verdict does not name the failed seat, or writes the missing line as an attitude, this seat withdraws \"you may close.\""
         ]
       },
       "researcher": {
@@ -160,12 +160,12 @@
         ],
         "answer": "A failed seat has no position. Its blank cannot be read as agreement.",
         "review_target": "writer",
-        "review": "Don't call it abstention. Abstention is a choice. A timeout is not.",
+        "review": "\"Write that Quant failed, so there is no number. Don't write no objection.\"\nThe half that says don't write no objection holds. You did not write the half that says don't call it abstention. No objection and abstention are both speeches. A timeout is not. If the line forbids only no objection, the reader still has an equally false status word available. Both wordings are forbidden.",
         "brief": [
+          "A failed seat has no position. Its blank cannot be read as agreement, and it cannot be read as abstention. Abstention is a choice. A timeout is not. No position, no sentence that can be cited.",
           "A failed seat has no position. Do not read the blank as agreement, and do not read it as 'research found no counterexample'. No counterexample is a sentence I write after I have looked. I did not look, so that sentence does not exist. The chair cannot write that I looked.",
           "If another seat failed, I only confirm that the sources I did write are still there. I do not confirm what the failed seat would have said. Would have said is a guess. A guess does not enter the verdict, even if it makes the close look steadier.",
-          "The boundary is: failure is an event, not a silent attitude. An attitude needs an original line. With no original line, there is only the event: who failed, and which kind of sentence is therefore absent.",
-          "A failed seat did not look, so it cannot have a sentence that only a look can produce. I also do not guess what it would have said. Once would-have-said enters the verdict, the session is no longer a record of failure. It is a success ghostwritten by someone else. A ghostwritten success is harder to chase than a failure."
+          "If the verdict writes the failed seat as agreement, abstention, or no objection, this seat requires that status word deleted. What remains may only be the failure."
         ]
       },
       "engineer": {
@@ -176,12 +176,12 @@
         ],
         "answer": "Mark the error and continue. Don't freeze the table for a full set.",
         "review_target": "quant",
-        "review": "This seat left no number. The verdict cannot supply one.",
+        "review": "\"Timed out. No number.\"\nNo number: that holds. It does not entail you cannot close. Closing is allowed. Closing cannot supply the number. Used to freeze the table, the absence has been written as a halt condition. Mark the error and continue. The verdict that continues does not contain this number.",
         "brief": [
+          "Mark the error and continue. Do not freeze the table to keep the set complete. Continuing does not entail supplying a number for the failed seat. This seat left no number, so the verdict cannot supply one.",
           "Mark the error and continue. Do not freeze the session to keep the table full, and do not retry until it is full. An automatic retry turns one fault into a longer wait, and the sentence that comes back may no longer be on the same question as the seats that already wrote.",
           "The error has to enter the stream: seat, error, time. Synthesis can write 'quant failed, there is no number' only if it can read that event. If it cannot, it will fill the hole with the other seats.",
-          "Do not render an error card as not started. Not started and failed are opposite readings. Failure is part of the decision. It stays on the card, as readable as standby.",
-          "The error enters the stream, the card says failed, and synthesis may close only if it can read that event. If it cannot, it will fill the hole with the other seats. Do not retry until the table is full. A sentence that comes back from a retry may no longer be on the same question, and it will still be treated as this session's original."
+          "If the table freezes because one seat timed out, or the verdict supplies a number the failed seat did not leave, this seat withdraws that implementation of \"mark and continue.\""
         ]
       },
       "critic": {
@@ -192,12 +192,12 @@
         ],
         "answer": "Closing is allowed. Filling the failed seat with the chair's words is not.",
         "review_target": "strategist",
-        "review": "An ordinary seat can miss. If the seat the question depends on fails, don't pretend you have the answer.",
+        "review": "\"An ordinary miss can still close, with a note. A key miss cannot pretend to answer.\"\nThe half that says an ordinary miss can still close, with a note, holds. The half that says a key miss cannot pretend to answer also holds. Between them, the line has to say which seat is key on this question. If it does not, the reader will treat Quant as ordinary. The number seat failed. The verdict has to say there is no number.",
         "brief": [
+          "Closing is allowed. Filling the failed seat with the chair's words is not. An ordinary seat can miss. If the seat the question depends on fails, do not pretend to have that tool's answer. This question depends on a number. Quant failed, so the verdict has no number.",
           "Closing is allowed. Filling the failed seat with the chair's words is not. This is the same seam as the gate: an absence cannot be cited. Failure is another absence, and it is handled the same way. What differs is the reason: write error, not skip.",
           "I also refuse 'the other seats were already enough'. Enough is a new judgment. It needs someone who compared the missing piece. Without that comparison, enough is something said in order to close. A sentence said in order to close does not enter the verdict.",
-          "Two sentences remain. You may close. You may not call the hole the absence of a hole. The hole has a name: the seat that failed, and the kind of sentence it did not deliver.",
-          "Failure and a skip are both absences, and neither can be cited. The only difference is whether the reason says error or skip. Filling either with the chair's words crosses the line. 'The other seats were already enough' also crosses it, because enough was never compared."
+          "If the verdict fills the failed seat's tool with the chair's sentence, or still writes that tool's answer after the key seat failed, this seat does not sign."
         ]
       },
       "strategist": {
@@ -208,12 +208,12 @@
         ],
         "answer": "An ordinary miss can still close, with a note. A key miss cannot pretend to answer.",
         "review_target": "analyst",
-        "review": "The number seat failed. The verdict has to say there is no number.",
+        "review": "\"You may close, but name who failed and what the verdict therefore lacks.\"\nName who failed and what the verdict therefore lacks, and also write that what is missing is the tool this question depends on. Missing an attitude and missing a number use different closing rules. Closed as \"a name is enough, every seat is the same,\" the key seat has been written as ordinary. What this question lacks is a number.",
         "brief": [
+          "Split ordinary seats from the key seat first. An ordinary miss can still close, with a note. A key miss cannot pretend to have that tool's answer. On this question Quant is the key seat, because the question asks for a number. No number, write that there is no number.",
           "First decide whether this seat is the tool the question needed. If quant fails on a numbers question, do not pretend there is a numeric answer. If writing fails on a boundary question, the verdict can still close, but it loses 'the sentence someone can repeat', and it says so.",
           "An ordinary seat fails, you close and name it. A critical seat fails, you stop at 'this question has no answer', not at an answer the chair supplied. A supplied answer will be carried out. After that, no seat is responsible for the number.",
-          "Put the recommendation on the condition for closing. If you can point at what is missing, close. If you cannot, you cannot close yet, because you do not know where the hole is. Once the reader knows where the hole is, they can decide whether to measure again, instead of treating this session as complete.",
-          "If the critical seat failed, stop at no answer. If an ordinary seat failed, close and name it. If quant is critical on this question, the verdict cannot contain a number. A number means pretending there is an answer. A pretended answer will be carried out, and after that no seat is responsible for the number."
+          "If Quant is closed as an ordinary seat and a number is still given, this seat withdraws that classification. Classify it wrong, and the closing rule is the wrong rule."
         ]
       },
       "writer": {
@@ -224,12 +224,12 @@
         ],
         "answer": "Write that Quant failed, so there is no number. Don't write no objection.",
         "review_target": "researcher",
-        "review": "A reader can tell those two lines apart. One blended line cannot.",
+        "review": "\"A failed seat has no position. Its blank cannot be read as agreement.\"\nA blank cannot be read as agreement. That is a status rule. It does not give the reader a sentence they can repeat. What the reader needs is: Quant failed, so there is no number. A reader can tell those two lines apart. One blended line, \"the failed seat did not agree,\" cannot. Do not write only how it must not be read. Write the two lines that can be repeated.",
         "brief": [
+          "Only two lines can be repeated, and they must not be blended: Quant failed. There is no number. Do not write no objection. Do not write that some seats could not finish. A failure without a name cannot be replayed.",
           "Write that quant failed and there is no number. Do not write that there was no objection. No objection is easier to read than failure, and it is a different verdict. A reader who sees no objection will not go back and take the measurement.",
           "Keep the sentence short, and name the seat. Who failed, which kind of sentence is missing, and what the remaining verdict therefore lacks. Do not write 'some seats could not finish'. An unnamed failure cannot be replayed and cannot be chased.",
-          "I may shorten the other seats' original lines as they stand. I may not sand the edge of the hole while shortening, so it looks as if that seat was never called. Never called, and called but failed, are two events.",
-          "Name the seat, and write that there is no number. Do not write that there was no objection, and do not write that some seats could not finish. An unnamed failure cannot be replayed. No objection tells the reader not to measure again. Both phrasings are easier to read than failure, and both are a different verdict."
+          "If the repetition is \"no objection\" or \"no number, therefore not over the bar,\" this seat does not sign. The two lines have to stay apart."
         ]
       },
       "quant": {
@@ -241,10 +241,10 @@
         "answer": "",
         "error": "Timed out. No number.",
         "brief": [
+          "This seat failed before a number existed. No number before the failure, so no position to keep. A blank is not zero, and it is not \"not over the bar.\" A number from another question cannot be moved here.",
           "This seat failed before a number existed. There is no number, so there is no position to keep. Do not borrow a number from another question, and do not turn another seat's adjective into a number.",
           "The reader should see the error, not an empty quant conclusion. Empty is read as zero, or as not over the line. Both readings invent a measurement for this seat.",
-          "If a later run exists only to supply this number, that is a new session. It does not rewrite this session into one that had a number. This session's record stops at the failure.",
-          "This seat has no number. A blank is not zero, and it is not under the line. A number from another question cannot be moved here. Another seat's adjective cannot be turned into a number. A later measurement is a new session. It does not rewrite this one into a session that had a number. The record stops at the failure."
+          "If the verdict contains a number and this session's event stream does not, the failure record still stands. That number is not a measurement of this session."
         ]
       }
     },
@@ -256,10 +256,10 @@
       ],
       "answer": "You may still close. Name the failed seat. A blank is not agreement, and the chair may not fill it.",
       "brief": [
-        "The session can still close if one seat fails. It has to name who failed and which kind of sentence is missing. A blank is not agreement. It is not 'no objection'. The chair's words do not fill the hole.",
-        "Keep the other seats' sentences as they stand, and write that they do not cover the failed seat's tool. Coverage is a new judgment. Nobody compared the missing piece, so coverage is not written.",
-        "If the critical seat failed, do not pretend there is an answer. If an ordinary seat failed, close and name it. On this question quant delivered no number, so the verdict has no number, and no number estimated by someone else.",
-        "The close names it: quant failed, and there is no number. A blank is not agreement, not the absence of objection, and not something the chair fills in. The other sentences stay as written, and the verdict says they do not cover this piece. If the critical seat did not deliver its tool, the verdict does not pretend to have that tool's answer."
+        "You may still close. Analyst's cut-in on Red Team lands: a name is not enough. Say the missing piece is a counterargument, not an attitude. Red Team's cut-in on Strategist lands: on this question Quant is the key seat, not an ordinary one. The key seat failed, so do not pretend to have a number.",
+        "Strategist's cut-in on Analyst lands: missing an attitude and missing a number use different closing rules. What this question lacks is a number. Intel's cut-in on Communicator lands: both no objection and abstention are forbidden. A timeout is neither of those speeches.",
+        "Communicator's cut-in on Intel lands: do not write only how the blank must not be read. Write the two lines that can be repeated: Quant failed, so there is no number. Systems' cut-in on Quant lands: no number does not entail you cannot close. Mark the error and continue. Do not supply the number while continuing.",
+        "What is executable: name the seat, and write that there is no number. A blank is not agreement, not abstention, not no objection, and the chair may not fill it. The other lines stay as said, and they do not cover this hole. A later rerun is a new session. It does not rewrite this one as having a number."
       ]
     }
   }

@@ -13,12 +13,12 @@
         ],
         "answer": "公開頁給看。登入客戶端給用。不要共用一條權限。",
         "review_target": "critic",
-        "review": "看起來像，不是權限像。讀者和操作者要分開寫。",
+        "review": "「用旗標把私有路徑藏在公開包裡，旗標忘了就洩。」\n看起來像，被你寫成了需要分開的理由，但沒有寫出分開的是哪一層。讀者和操作者要分開寫：誰可以看，誰可以改真資料。這句若被收成「不像就安全」，檢查被換成了外觀。外觀可以像。權限不能像。",
         "brief": [
+          "公開頁的讀者不是登入客戶端的操作者。看起來像，推不出權限像。兩條權限寫成一條，旗標或路由忘了，私有路徑就在公開包裡。",
           "公開頁和登入客戶端是兩個信任域，不是一個產品的兩種皮膚。公開頁會被索引、被快取、被不認識的人打開。登入客戶端有會話，會話後面才有鑰匙。把兩條路做成同一個包，再用旗標隱藏私有路徑，旗標忘了就洩。",
           "外觀可以像。權限不能共用。像的意思是讀者認得這是同一個專案。共用的意思是公開頁能碰到只該在會話裡的東西：鑰匙、私有回放、會產生帳單的呼叫。碰得到，邊界就不存在。",
-          "所以先分開部署，再談像不像。公開頁只做回放，不持鑰。登入操作走伺服器。兩條路的錯誤體、日誌、設定接口也不共用。共用任何一條，就等於把私有路徑留在公開包裡。",
-          "像，只允許到認得是同一個專案為止。再往下像，就會把設定頁、錯誤頁、一條會打上游的按鈕也做成一樣。一樣的按鈕在公開頁上就是一條不該存在的路。邊界畫在按鈕在不在，不畫在顏色像不像。"
+          "若公開包裡能找到只該在會話裡的路徑、資料或鑰匙，這席撤回「沒有共用一條權限」。外觀共用組件不構成這個反例。"
         ]
       },
       "researcher": {
@@ -29,12 +29,12 @@
         ],
         "answer": "會被索引的頁，不該出現只該在會話裡的內容。",
         "review_target": "engineer",
-        "review": "索引只是一條外洩面。錯誤頁和快取是另外兩條。",
+        "review": "「公開回放是靜態頁。登入操作走伺服器。」\n公開回放是靜態頁，推不出錯誤頁和快取也是靜態且不含會話。靜態是部署方式，不是三條外洩面的證明。索引只是一條。這句若被收成「靜態頁就不會洩」，另外兩條被名字蓋住了。",
         "brief": [
+          "會被索引的頁，不該出現只該在會話裡的內容。索引只是一條外洩面。錯誤頁和快取是另外兩條。只堵索引，推不出另外兩條也不洩。",
           "會被索引的頁，不該出現只該在會話裡的內容。這不是風格建議。搜尋引擎、快取、別人貼出去的連結，都會把公開頁上的字留住。留住之後，你改旗標也刪不掉已經被收走的那一版。",
           "我沒有把「可能被索引」寫成「已經被收錄」。沒有來源就不升格。但設計要按會被索引來做，因為公開頁的預設就是可被拿到。按私有來設計公開頁，是把例外當預設。",
-          "所以情報席只確認這條模式：公開表面和會話內容要分開。不確認某一次具體的洩漏。模式足夠決定架構，不需要等一個已經發生的例子才分家。",
-          "設計按會被拿走來做，結論不按已經被拿走來寫。這兩句要分開。分開之後，架構仍然要拆。不拆，是在等一個例子才承認公開頁的預設。公開頁的預設就是可被拿到，不需要例子。"
+          "錯誤頁、快取或索引結果裡出現會話內容，這席撤回「公開頁沒有會話內容」。三條都要查，不能只查 robots。"
         ]
       },
       "engineer": {
@@ -45,12 +45,12 @@
         ],
         "answer": "公開回放是靜態頁。登入操作走伺服器。",
         "review_target": "strategist",
-        "review": "外觀可以共用組件。私有路徑不能進公開包。",
+        "review": "「外觀可以像。權限和資料必須分開。」\n外觀可以像，被你寫成了組件可以共用。組件共用推不出私有路徑可以進公開包。私有路徑不能進公開包，這句要留在推薦裡，不能只留「外觀可以共用」。共用了組件、包裡仍有那條路徑，就是沒拆。",
         "brief": [
+          "公開回放是靜態頁，不持鑰。登入操作走伺服器。外觀可以共用組件。私有路徑的程式不能進公開包。分開路由若仍把程式打進同一個包，路由沒有分開權限。",
           "公開回放是靜態頁，構建產物裡沒有鑰匙、沒有會話接口、沒有會打上游的函式。登入操作是另一條部署，請求進伺服器，鑰匙留在環境檔。兩個產物不要共用一個會把私有模組打進去的入口。",
           "用功能旗標把私有路徑藏在公開包裡，是最常見的假分開。旗標是執行時判斷，包是已經發出去的檔案。檔案裡有私有模組，旗標只決定它跑不跑，不決定它在不在。",
-          "所以檢查點放在產物上，不放在旗標上。打開公開包，搜不到鑰匙、搜不到私有路由、搜不到上游位址。搜得到，這次分開就沒有做完。",
-          "驗收是打開公開包搜三樣：鑰匙、私有路由、上游位址。搜得到，旗標不論開還是關，這次分開都沒做完。旗標決定跑不跑，包決定在不在。在，就已經交出了私有路徑。"
+          "公開包的產物裡出現私有路徑的程式、接口或鑰匙，這席撤回「已經拆開」。旗標隱藏不算拆開。"
         ]
       },
       "critic": {
@@ -61,12 +61,12 @@
         ],
         "answer": "用旗標把私有路徑藏在公開包裡，旗標忘了就洩。",
         "review_target": "engineer",
-        "review": "分開路由不夠。公開包裡不能有那條路徑的程式。",
+        "review": "「公開回放是靜態頁。登入操作走伺服器。」\n靜態頁和伺服器路徑拆開了，推不出程式也拆開了。同一個構建可以把私有路徑打進公開包，再用旗標藏起來。這句若被收成「路由不同就安全」，構建產物沒被檢查。分開路由不夠。",
         "brief": [
+          "用旗標把私有路徑藏在公開包裡，旗標忘了就洩。分開路由不夠。公開包裡不能有那條路徑的程式。檢查看產物，不看功能旗標的預設值。",
           "像同一個產品，不是同一個權限。我要打的是「先做一個包，再用旗標區分」。區分如果發生在已經下載的程式裡，下載的人就擁有兩條路。擁有了再隱藏，不叫邊界。",
           "錯誤頁也算。公開頁的錯誤如果帶出登入路徑的內部位址、請求編號、或一段只該在伺服器日誌裡的句子，旗標就沒有擋住這一條。邊界要在每種回應上成立，不只在首頁上成立。",
-          "所以批評的條件是：公開產物裡重建不出私有路徑。重建得出，外觀再像也不通過。像是給人看的，重建不出來才是邊界。",
-          "我打的是交付之後才隱藏。隱藏要發生在對方還沒拿到檔案之前。拿到了再靠旗標，旗標是請求，不是邊界。錯誤頁如果帶出內部位址，首頁再乾淨也不算過。"
+          "若公開包產物裡搜不到私有路徑的程式，這席不再擋這次拆分。搜得到，旗標的預設值不能當辯護。"
         ]
       },
       "strategist": {
@@ -77,12 +77,12 @@
         ],
         "answer": "外觀可以像。權限和資料必須分開。",
         "review_target": "writer",
-        "review": "像，要寫成看起來像。不要寫成就是同一套。",
+        "review": "「公開頁寫明這是回放。登入頁寫明這會動真資料。」\n寫明這是回放、那會動真資料，是標籤。標籤推不出權限已經分開。標對了而包是同一套，讀者被正確告知，攻擊面沒變。像，要寫成看起來像。不要寫成就是同一套。標籤不能代替拆包。",
         "brief": [
+          "外觀可以像。權限和資料必須分開。像，要寫成看起來像，不能寫成就是同一套。讀者分不清這兩句時，會在公開頁上找登入才有的操作。",
           "讀者要的是能看。使用者要的是能用。這是兩個觀眾，不該共用一條權限。公開頁服務第一個觀眾，代價是不能碰鑰匙。登入客戶端服務第二個觀眾，代價是要有伺服器。",
           "不要為了少維護一個部署，把兩個觀眾收成一個包。少維護是真的節省。節省的前提是洩漏成本為零。公開包裡有私有路徑，前提不成立，節省就不能進決策。",
-          "推薦寫成兩條路，外觀可以像，入口必須分開。像讓人認得專案。分開讓索引爬不到會話裡的東西。只做像、不做分開，是在用熟悉感掩蓋權限。",
-          "少維護一個部署，只有在洩漏成本為零時才進決策。公開包裡有私有模組，成本不是零。所以這筆節省不採用。採用的是兩條入口，外觀可以像。像是認得，不是共用。"
+          "若給讀者的句子把公開頁和登入客戶端寫成同一個應用、同一條權限，這席撤回推薦。"
         ]
       },
       "writer": {
@@ -93,12 +93,12 @@
         ],
         "answer": "公開頁寫明這是回放。登入頁寫明這會動真資料。",
         "review_target": "analyst",
-        "review": "這兩句不能合成一句「我們很安全」。",
+        "review": "「公開頁給看。登入客戶端給用。不要共用一條權限。」\n讀者和操作者分開寫了，推不出這兩句可以收成一個安全形容詞。收成形容詞之後，哪一頁不持鑰、哪一頁會動真資料，都指不回去。這兩句不能合成一句「我們很安全」。",
         "brief": [
+          "公開頁必須能複述成「這是回放」。登入頁必須能複述成「這會動真資料」。兩句不能合成「我們很安全」。安全如果只是形容詞，就沒有人能檢查。",
           "公開頁要寫明這是回放，不會打上游，也不收鑰匙。登入頁要寫明這會動真資料、會產生呼叫。兩句都寫，讀者才不會在公開頁上尋找一個不該存在的設定欄。",
           "不要用同一句「開始使用」蓋住兩條路。開始使用在公開頁上只能是開始看。在登入頁上才是開始做。詞一樣，動作不一樣，就要拆開寫。",
-          "文案不新增技術承諾。不寫「我們保證不會被索引」，因為那不是這一席能保證的。只寫這個頁面持有什麼、不持有什麼。持有清單比保證句難讀，也比保證句真。",
-          "公開頁寫「這是回放，不收鑰匙」。登入頁寫「這會動真資料」。不要共用「開始使用」。詞一樣會讓人在公開頁上找設定欄。找不到還找，是因為文案承諾了一個動作，頁面卻不該有那個動作。"
+          "若兩頁的文案合成了一句「我們很安全」，或公開頁沒寫這是回放，這席不簽。"
         ]
       },
       "quant": {
@@ -109,12 +109,12 @@
         ],
         "answer": "公開頁不該產生 Key 帳單。帳單只在登入路徑。",
         "review_target": "critic",
-        "review": "零 Key 是公開頁的驗收，不是文案。",
+        "review": "「用旗標把私有路徑藏在公開包裡，旗標忘了就洩。」\n旗標忘了就洩，洩的不只是資料，也是帳單。零 Key 若只寫在文案裡，沒有當成公開頁的驗收，這句就沒有閘門。零 Key 是驗收，不是文案。沒有這條帳，就不能寫公開頁是安全的。",
         "brief": [
+          "公開頁不該產生 Key 帳單。帳單只在登入路徑。零 Key 是公開頁的驗收，不是文案。沒有這條驗收，外觀像不像跟成本無關。",
           "公開頁不該產生鑰匙帳單。它沒有鑰匙，就沒有上游呼叫，這筆應該是零。不是很小，是零。很小代表還有一條路徑在打，只是你覺得不常發生。",
           "帳單只在登入路徑。登入路徑的成本按呼叫和 token 記，不跟公開頁的流量混在同一列。混在同一列，一次公開頁的異常流量會被讀成模型變貴，或一次模型呼叫會被讀成靜態頁的成本。",
-          "所以兩本帳。公開頁記託管和流量。登入路徑記上游。中間沒有一筆「偶爾的演示呼叫」。有那一筆，邊界就已經破了。",
-          "公開頁的上游帳單必須是零，不是很小。很小代表還有呼叫。還有呼叫，邊界就破了，不管那筆在帳上好不好看。兩本帳不要併。併了之後，你無法知道是流量變了，還是鑰匙被用了。"
+          "公開頁的請求產生了 Key 帳單，這席撤回「公開頁不持鑰」。文案寫了零 Key 不能代替這條帳。"
         ]
       }
     },
@@ -126,10 +126,10 @@
       ],
       "answer": "公開頁只做回放，不持鑰。登入客戶端另走伺服器。外觀可以像，權限不能共用。",
       "brief": [
-        "公開頁只做回放，不持鑰，不打上游。登入客戶端另走伺服器，鑰匙留在環境檔。外觀可以像，權限不能共用，產物不能是同一個包加一個旗標。",
-        "會被索引的頁不放只該在會話裡的內容。錯誤體、日誌和設定接口跟首頁用同一條邊界。公開頁的帳單應為零，登入路徑另記。不是很小，是零。",
-        "沒有席位主張一個包就能安全區分兩種觀眾。結論也不把「可能被索引」升格成某一次已經發生的洩漏。分開是設計，不是事後補救。",
-        "收場：公開頁只回放，產物裡沒有鑰匙和上游。登入另走伺服器。外觀可以像，旗標不算分開。公開帳單為零。可能被索引不升格成已經洩漏，但設計按會被拿到來做。"
+        "公開頁給看，登入客戶端給用。分析師搶紅隊的那句要收窄後才成立：看起來像不是權限像，但「不像就安全」也不成立。分開的是讀者和操作者，不是外觀。",
+        "情報官搶工程師的那句成立：索引只是一條外洩面，錯誤頁和快取是另外兩條。靜態頁這個名字蓋不住那兩條。紅隊搶工程師的那句也成立：分開路由不夠，公開包裡不能有私有路徑的程式。旗標隱藏不算拆開。",
+        "工程師搶策略家的那句成立：外觀可以共用組件，私有路徑不能進公開包。策略家搶表達者的那句成立：像，要寫成看起來像，不要寫成就是同一套。表達者搶分析師的那句成立：兩句不能合成「我們很安全」。",
+        "量化員搶紅隊的那句成立：零 Key 是公開頁的驗收，不是文案。可執行的是：公開頁只做回放，不持鑰，包裡沒有私有路徑。登入另走伺服器。外觀可以像，權限不能共用。"
       ]
     }
   },
@@ -145,12 +145,12 @@
         ],
         "answer": "The public page is for watching. The client is for using. Don't share a permission.",
         "review_target": "critic",
-        "review": "Looking alike is not the same permission. Name the reader and the operator apart.",
+        "review": "\"A private path behind a flag in the public bundle leaks when the flag is forgotten.\"\nLooking alike is written as a reason to split, and the line does not say which layer is being split. Name the reader and the operator apart: who may watch, and who may change real data. Closed as \"if it does not look alike, it is safe,\" the check has been replaced by appearance. The look may match. The permission may not.",
         "brief": [
+          "The reader of the public page is not the operator of the signed-in client. Looking alike does not entail the same permission. Write both permissions as one, and a forgotten flag or route leaves a private path in the public bundle.",
           "A public page and a signed-in client are two trust domains, not two skins of one product. A public page is indexed, cached, and opened by people you do not know. A signed-in client has a session, and only behind that session is there a key. Build both paths into one bundle and hide the private path behind a flag, and a forgotten flag is a leak.",
           "The look may match. The permission may not be shared. Matching means a reader recognizes the project. Sharing means the public page can touch what belongs only in a session: the key, a private replay, a call that creates a bill. If it can touch them, the boundary is not there.",
-          "Separate the deploys before debating how alike they look. The public page only replays and holds no key. Signed-in work goes through the server. Their error bodies, logs, and settings calls are not shared either. Share any one of those and the private path is still in the public bundle.",
-          "Alike is allowed only as far as recognizing the same project. Alike beyond that copies the settings page, the error page, and a button that calls upstream. The same button on the public page is a path that should not exist. Draw the boundary on whether the button is there, not on whether the color matches."
+          "If the public bundle contains a path, a datum, or a key that belongs only in a session, this seat withdraws \"they do not share a permission.\" Shared visual components are not that counterexample."
         ]
       },
       "researcher": {
@@ -161,12 +161,12 @@
         ],
         "answer": "A page that can be indexed must not hold session-only content.",
         "review_target": "engineer",
-        "review": "Indexing is one leak. Error pages and caches are two more.",
+        "review": "\"Public replay is a static page. Signed-in actions go through the server.\"\nPublic replay being a static page does not entail that error pages and caches are static and free of session content. Static is a deploy method, not proof about three leak surfaces. Indexing is one. Closed as \"a static page cannot leak,\" the other two are covered by a name.",
         "brief": [
+          "A page that can be indexed must not hold session-only content. Indexing is one leak. Error pages and caches are two more. Blocking the index does not entail the other two do not leak.",
           "A page that can be indexed should not contain what belongs only in a session. That is not a style note. A search engine, a cache, and a link someone else pastes will keep the words that were on the public page. After that, changing the flag does not delete the copy that was already taken.",
           "I am not promoting 'might be indexed' into 'already indexed'. No source, no promotion. The design still has to assume it will be taken, because a public page is reachable by default. Designing a public page as if it were private treats the exception as the default.",
-          "This seat confirms the pattern only: the public surface and the session content stay apart. It does not confirm one specific leak. The pattern is enough to decide the architecture. You do not wait for an example that already happened before you split them.",
-          "Design as if it will be taken. Do not write the verdict as if it already was. Those two sentences stay apart. After they are apart, the architecture still splits. Not splitting waits for an example before admitting what a public page is by default. A public page is reachable by default. It does not need an example."
+          "If an error page, a cache, or an index result contains session content, this seat withdraws \"the public page holds no session content.\" All three have to be checked. robots.txt is not the whole check."
         ]
       },
       "engineer": {
@@ -177,12 +177,12 @@
         ],
         "answer": "Public replay is a static page. Signed-in actions go through the server.",
         "review_target": "strategist",
-        "review": "Shared components are fine. A private path must not ship in the public bundle.",
+        "review": "\"The look can match. Permission and data must not.\"\nThe look may match, and that has been written as permission to share components. Shared components do not entail that a private path may ship in the public bundle. \"A private path must not ship in the public bundle\" has to stay in the recommendation. It cannot be reduced to \"components may be shared.\" Shared components with that path still in the bundle means it was not split.",
         "brief": [
+          "Public replay is a static page and holds no key. Signed-in actions go through the server. Visual components may be shared. The code of a private path must not ship in the public bundle. Split routes that still bundle that code have not split the permission.",
           "The public replay is a static page. The build artifact has no key, no session call, and no function that hits upstream. Signed-in work is a separate deploy. The request enters the server, and the key stays in the environment file. The two artifacts must not share an entry that pulls the private module into the public build.",
           "Hiding a private path in the public bundle behind a feature flag is the usual fake split. A flag is a runtime check. A bundle is a file you already shipped. If the private module is in the file, the flag decides whether it runs, not whether it is there.",
-          "Put the check on the artifact, not on the flag. Open the public bundle. The key, the private route, and the upstream address must be absent. If they can be found, the split is not finished.",
-          "Acceptance is opening the public bundle and searching for three things: the key, a private route, and the upstream address. If any of them is there, the split is not finished, whether the flag is on or off. The flag decides whether it runs. The bundle decides whether it is present. Present means the private path has already been delivered."
+          "If the public bundle's artifact contains the private path's code, interface, or key, this seat withdraws \"they have been split.\" Hiding it behind a flag is not a split."
         ]
       },
       "critic": {
@@ -193,12 +193,12 @@
         ],
         "answer": "A private path behind a flag in the public bundle leaks when the flag is forgotten.",
         "review_target": "engineer",
-        "review": "Split routes are not enough. The public bundle must not contain that code.",
+        "review": "\"Public replay is a static page. Signed-in actions go through the server.\"\nSplitting a static page from a server path does not entail the code was split. One build can put the private path in the public bundle and hide it with a flag. Closed as \"different routes, therefore safe,\" the build artifact was not checked. Split routes are not enough.",
         "brief": [
+          "A private path behind a flag in the public bundle leaks when the flag is forgotten. Split routes are not enough. The public bundle must not contain that code. The check is the artifact, not the flag's default.",
           "Looking like the same product is not the same permission. The strike is against 'one bundle, then a flag'. If the split happens inside a program the visitor already downloaded, the visitor has both paths. Hiding something after it has been delivered is not a boundary.",
           "Error pages count. If a public error carries an internal address from the signed-in path, a request id, or a sentence that belonged in the server log, the flag did not stop that path. The boundary has to hold on every response, not only on the front page.",
-          "The condition is: the public artifact must not rebuild a private path. If it can, a matching look does not pass. The look is for people. Not being able to rebuild the path is the boundary.",
-          "The strike is against hiding something after delivery. Hiding has to happen before the other side has the file. A flag after delivery is a request, not a boundary. If an error page carries an internal address, a clean front page does not pass."
+          "If a search of the public bundle finds no code for the private path, this seat stops blocking this split. If it finds it, the flag's default is not a defense."
         ]
       },
       "strategist": {
@@ -209,12 +209,12 @@
         ],
         "answer": "The look can match. Permission and data must not.",
         "review_target": "writer",
-        "review": "Write that it looks alike. Don't write that it is the same app.",
+        "review": "\"The public page says this is a replay. The signed-in page says this touches real data.\"\nSaying this is a replay, and that the other page touches real data, is a label. A label does not entail the permission has been split. A correct label on one shared bundle informs the reader and leaves the attack surface. Write that it looks alike. Do not write that it is the same app. A label does not replace splitting the bundle.",
         "brief": [
+          "The look can match. Permission and data must not. \"Alike\" has to be written as looking alike, not as being the same app. When a reader cannot tell those sentences apart, they look for signed-in actions on the public page.",
           "A reader wants to look. A user wants to act. Those are two audiences, and they should not share one permission. The public page serves the first, at the cost of never touching a key. The signed-in client serves the second, at the cost of having a server.",
           "Do not collapse both audiences into one bundle to maintain one less deploy. The saving is real. It holds only if the cost of a leak is zero. A private path inside the public bundle means the premise is false, and the saving does not enter the decision.",
-          "Write two paths. The look may match. The entry must be separate. Matching lets someone recognize the project. Separation keeps an index from reaching what lives in a session. Matching without separation uses familiarity to cover permission.",
-          "Maintaining one less deploy enters the decision only if the cost of a leak is zero. A private module in the public bundle means the cost is not zero. So that saving is not taken. What is taken is two entries. The look may match. Matching is recognition, not sharing."
+          "If the sentence given to a reader writes the public page and the signed-in client as one app and one permission, this seat withdraws the recommendation."
         ]
       },
       "writer": {
@@ -225,12 +225,12 @@
         ],
         "answer": "The public page says this is a replay. The signed-in page says this touches real data.",
         "review_target": "analyst",
-        "review": "Those two lines must not collapse into we are safe.",
+        "review": "\"The public page is for watching. The client is for using. Don't share a permission.\"\nNaming the reader and the operator apart does not entail those two lines may collapse into a safety adjective. After that collapse, which page holds no key and which page touches real data can no longer be pointed at. Those two lines must not collapse into \"we are safe.\"",
         "brief": [
+          "The public page must repeat as \"this is a replay.\" The signed-in page must repeat as \"this touches real data.\" The two lines must not collapse into \"we are safe.\" If safe is only an adjective, nobody can check it.",
           "The public page has to say this is a replay: it does not call upstream, and it does not take a key. The signed-in page has to say this touches real data and makes calls. Write both, or the reader will look on the public page for a settings field that should not exist.",
           "Do not cover both paths with one 'get started'. On the public page, getting started can only mean looking. On the signed-in page, it means doing. The word is the same and the action is not, so write them apart.",
-          "Copy does not add a technical promise. Do not write that we guarantee it will not be indexed. This seat cannot promise that. Write what this page holds and what it does not hold. A holding list is harder to read than a guarantee, and it is truer.",
-          "The public page says this is a replay and it does not take a key. The signed-in page says this touches real data. Do not share 'get started'. The same words send someone looking for a settings field on the public page. If they keep looking, the copy promised an action the page should not have."
+          "If the copy of the two pages collapses into \"we are safe,\" or the public page does not say it is a replay, this seat does not sign."
         ]
       },
       "quant": {
@@ -241,12 +241,12 @@
         ],
         "answer": "The public page should not create a key bill. The bill stays on the signed-in path.",
         "review_target": "critic",
-        "review": "Zero keys is an acceptance test for the public page, not copy.",
+        "review": "\"A private path behind a flag in the public bundle leaks when the flag is forgotten.\"\nA forgotten flag leaks data and also leaks a bill. If zero keys is only written in the copy, and is not an acceptance test for the public page, the line has no gate. Zero keys is an acceptance test, not copy. Without that bill check, do not write that the public page is safe.",
         "brief": [
+          "The public page should not create a key bill. The bill stays on the signed-in path. Zero keys is an acceptance test for the public page, not copy. Without that test, whether the look matches is irrelevant to cost.",
           "A public page should not produce a key bill. It has no key, so it has no upstream call, and that line should be zero. Not small. Zero. Small means a path is still calling, and you only think it happens rarely.",
           "The bill lives on the signed-in path. Record it as calls and tokens, and do not mix it with public-page traffic in the same column. Mix them, and a spike of public traffic is read as the model getting expensive, or one model call is read as the cost of a static page.",
-          "Two books. The public page records hosting and traffic. The signed-in path records upstream. There is no middle line called 'the occasional demo call'. If that line exists, the boundary is already broken.",
-          "The upstream bill for the public page has to be zero, not small. Small means a call still exists. If a call still exists, the boundary is broken, however tidy the line looks on the bill. Do not merge the two books. After the merge, you cannot tell whether traffic changed or the key was used."
+          "If a request from the public page creates a key bill, this seat withdraws \"the public page holds no key.\" Copy that says zero keys does not replace that bill."
         ]
       }
     },
@@ -258,10 +258,10 @@
       ],
       "answer": "The public page only replays and holds no key. Login uses the server. Looks may match. Permission may not.",
       "brief": [
-        "The public page only replays. It holds no key and does not call upstream. The signed-in client takes a separate server path, and the key stays in the environment. The look may match. The permission may not be shared. The artifact may not be one bundle plus a flag.",
-        "A page that can be indexed does not carry what belongs only in a session. Error bodies, logs, and settings calls use the same boundary as the front page. The public bill should be zero. The signed-in path is recorded separately. Not small. Zero.",
-        "No seat claimed one bundle can safely tell two audiences apart. The verdict also does not promote 'might be indexed' into a leak that has already happened. The split is a design, not a repair after the fact.",
-        "The close: the public page only replays, and the artifact has no key and no upstream. Signed-in work takes a separate server. The look may match. A flag is not a split. The public bill is zero. 'Might be indexed' is not promoted into a leak that already happened, but the design assumes the page can be taken."
+        "The public page is for watching. The signed-in client is for using. Analyst's cut-in on Red Team lands only after it is narrowed: looking alike is not the same permission, and \"unlike, therefore safe\" does not hold either. What is split is the reader and the operator, not the look.",
+        "Intel's cut-in on Systems lands: indexing is one leak, and error pages and caches are two more. The name \"static page\" does not cover those two. Red Team's cut-in on Systems also lands: split routes are not enough. The public bundle must not contain the private path's code. A flag is not a split.",
+        "Systems' cut-in on Strategist lands: components may be shared, and a private path must not ship in the public bundle. Strategist's cut-in on Communicator lands: write that it looks alike, do not write that it is the same app. Communicator's cut-in on Analyst lands: the two lines must not collapse into \"we are safe.\"",
+        "Quant's cut-in on Red Team lands: zero keys is an acceptance test for the public page, not copy. What is executable: the public page only replays, holds no key, and its bundle has no private path. Login uses the server. Looks may match. Permission may not."
       ]
     }
   }

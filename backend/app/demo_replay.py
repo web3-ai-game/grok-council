@@ -160,6 +160,7 @@ def _timed_events(scenario: dict[str, Any], lang: str) -> list[tuple[int, int, s
         awake.append((seat_id, script))
 
     parallel_end = GATE_MS
+    spans: dict[str, tuple[int, int]] = {}
     for index, (seat_id, script) in enumerate(awake):
         t = GATE_MS + 80 + index * STAGGER_MS
         push(t, "expert.start", {"expert_id": seat_id})
@@ -168,9 +169,12 @@ def _timed_events(scenario: dict[str, Any], lang: str) -> list[tuple[int, int, s
         t, seq = _play_thought(events, t, seq, seat_id, _thought_text(script, failed))
         t += 90
         if failed:
+            spans[seat_id] = (t, t)
             push(t, "expert.done", {"expert_id": seat_id, "error": str(script.get("error") or "")})
         else:
+            answer_start = t
             t, seq = _stream(events, t, seq, "expert.delta", {"expert_id": seat_id}, str(script.get("answer") or ""))
+            spans[seat_id] = (answer_start, t)
             t += 40
             push(t, "expert.done", {"expert_id": seat_id})
         parallel_end = max(parallel_end, t)
@@ -180,30 +184,34 @@ def _timed_events(scenario: dict[str, Any], lang: str) -> list[tuple[int, int, s
         for seat_id, script in awake
         if script.get("review") and script.get("review_target") and not script.get("error")
     ]
-    cursor = parallel_end + PHASE_GAP_MS
-    push(cursor, "phase", {"phase": "review"})
-    for offset in range(0, len(reviews), 2):
-        pair_end = cursor
-        for seat_id, script in reviews[offset : offset + 2]:
-            target = str(script.get("review_target"))
-            t = cursor
+    grouped: dict[str, list[tuple[str, dict[str, Any]]]] = {}
+    for seat_id, script in reviews:
+        target = str(script.get("review_target"))
+        grouped.setdefault(target, []).append((seat_id, script))
+    cuts: list[tuple[str, str, str, int]] = []
+    for target, group in grouped.items():
+        answer_start, answer_done = spans.get(target, (parallel_end, parallel_end))
+        duration = max(0, answer_done - answer_start)
+        gap = 0 if len(group) <= 1 else min(360, max(70, (duration - 140) // len(group)))
+        for n, (seat_id, script) in enumerate(group):
+            at = answer_start + min(160, int(duration * 0.22)) + n * gap
+            if target in spans and at >= answer_done:
+                at = answer_start + min(36 + n * 28, max(0, duration - 16))
+            cuts.append((seat_id, target, str(script.get("review") or ""), at))
+    review_end = parallel_end
+    if cuts:
+        push(min(item[3] for item in cuts), "phase", {"phase": "review"})
+        for seat_id, target, review, at in cuts:
+            t = at
             push(t, "review.start", {"expert_id": seat_id, "target_id": target})
-            t += 80
-            t, seq = _stream(
-                events,
-                t,
-                seq,
-                "review.delta",
-                {"expert_id": seat_id, "target_id": target},
-                str(script.get("review") or ""),
-            )
+            t += 60
+            t, seq = _stream(events, t, seq, "review.delta", {"expert_id": seat_id, "target_id": target}, review)
             t += 40
             push(t, "review.done", {"expert_id": seat_id, "target_id": target})
-            pair_end = max(pair_end, t)
-        cursor = pair_end + 220
+            review_end = max(review_end, t)
 
     chair = side.get("chair") if isinstance(side.get("chair"), dict) else {}
-    synth_at = cursor + PHASE_GAP_MS
+    synth_at = max(parallel_end, review_end) + PHASE_GAP_MS
     push(synth_at, "phase", {"phase": "synth"})
     push(synth_at, "synth.start", {})
     push(synth_at, "expert.start", {"expert_id": "leader"})

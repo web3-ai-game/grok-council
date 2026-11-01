@@ -6,7 +6,7 @@ import "./demo.css";
 
 const demoMode = import.meta.env.MODE === "demo";
 if (demoMode) {
-  document.documentElement.classList.add("lights-app");
+  document.documentElement.classList.add("cockpit");
 } else {
   await import("./styles.css");
   const { initTheme } = await import("./lib/store");
