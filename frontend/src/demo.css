@@ -107,6 +107,7 @@ html.lights-app *::-webkit-scrollbar-corner {
 .prompt,
 .topic-scroller,
 .rail,
+.moe,
 .controls,
 .verdict,
 .table-label,
@@ -450,35 +451,36 @@ html.lights-app[data-lights="off"] .card {
 .card-body {
   flex: 1;
   min-height: 0;
-  overflow: hidden;
-  padding-right: 2px;
-  display: flex;
-  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0 2px 10px 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 100, 66, 0.55) transparent;
 }
 
 .reason-scroll {
-  flex: 1 1 auto;
-  min-height: 64px;
   max-height: 145px;
+  overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: rgba(201, 100, 66, 0.45) transparent;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 14px), transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 14px), transparent 100%);
+  scrollbar-color: rgba(201, 100, 66, 0.7) transparent;
 }
 
+.card-body::-webkit-scrollbar,
 .reason-scroll::-webkit-scrollbar {
-  width: 3px;
+  width: 5px;
 }
 
+.card-body::-webkit-scrollbar-thumb,
 .reason-scroll::-webkit-scrollbar-thumb {
-  background: rgba(201, 100, 66, 0.45);
+  background: rgba(201, 100, 66, 0.62);
   border-radius: 99px;
 }
 
 .trace {
   margin: 0;
-  padding: 1px 0 8px 11px;
+  padding: 1px 14px 16px 11px;
   border-left: 2px solid rgba(201, 100, 66, 0.38);
   font-family: "JetBrains Mono", "SF Mono", "PingFang TC", "Noto Sans TC", ui-monospace, monospace;
   font-size: 12.5px;
@@ -589,52 +591,127 @@ html.lights-app[data-lights="off"] .field {
 .moe {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 0 0;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 6px;
+  border-radius: 16px;
+  border: 1px solid rgba(28, 25, 21, 0.08);
+  background: rgba(255, 252, 248, 0.78);
+}
+
+html.lights-app[data-lights="off"] .moe {
+  border-color: rgba(244, 241, 234, 0.1);
+  background: #1c1b18;
 }
 
 .pills {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  flex: none;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(28, 25, 21, 0.04);
+}
+
+html.lights-app[data-lights="off"] .pills {
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .pills button {
-  border: 1px solid rgba(28, 25, 21, 0.1);
-  background: rgba(255, 252, 248, 0.72);
+  border: 0;
+  background: transparent;
   color: inherit;
   border-radius: 999px;
-  padding: 6px 10px;
+  padding: 7px 11px;
   font: inherit;
   font-size: 12px;
   cursor: pointer;
 }
 
-html.lights-app[data-lights="off"] .pills button {
-  border-color: rgba(244, 241, 234, 0.12);
-  background: rgba(255, 255, 255, 0.04);
-}
-
 .pills button.on {
   background: #c96442;
-  border-color: #c96442;
   color: #fffaf6;
 }
 
-.meter {
-  margin: 0;
+.stats {
+  display: flex;
+  flex: 1;
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-family: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
-  font-size: 12px;
-  color: rgba(28, 25, 21, 0.62);
+  justify-content: flex-end;
+  gap: 6px;
 }
 
-html.lights-app[data-lights="off"] .meter {
-  color: rgba(244, 241, 234, 0.62);
+.stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: rgba(201, 100, 66, 0.08);
+}
+
+.stat b {
+  font-family: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 560;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.stat span {
+  color: rgba(28, 25, 21, 0.48);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+html.lights-app[data-lights="off"] .stat span {
+  color: rgba(244, 241, 234, 0.46);
+}
+
+.moe .transport {
+  flex: none;
+}
+
+.voices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 16px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.voices li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px;
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.voices b {
+  color: #c96442;
+  font-weight: 560;
+}
+
+.voices span {
+  min-width: 0;
+}
+
+.voices .out {
+  opacity: 0.45;
+}
+
+.synth {
+  margin-top: 14px;
+}
+
+.verdict .reason-scroll {
+  max-height: 148px;
 }
 
 .chain line,
@@ -702,14 +779,6 @@ html.lights-app[data-lights="off"] .meter {
   flex: none;
 }
 
-.card .ink,
-.card .review {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
 .ink {
   color: #1c1915;
 }
@@ -764,8 +833,18 @@ html.lights-app[data-lights="off"] .review {
 
 @media (max-width: 800px) {
   .moe {
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+
+  .stats {
+    order: 3;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .voices {
+    grid-template-columns: 1fr;
   }
 }
 

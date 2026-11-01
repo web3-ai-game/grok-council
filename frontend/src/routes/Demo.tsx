@@ -361,6 +361,20 @@ export function Demo() {
   const verdictReady = Boolean(chair?.content);
   const statusLine =
     phase === "review" ? copy.nowReview : phase === "parallel" ? copy.nowWrite : phase === "gate" ? copy.nowGate : copy.verdictWait;
+  const chairTrace = traces.leader;
+  const chairShown = chairTrace ? typedCount(chairTrace.text, chairTrace.elapsed) : 0;
+  const chairThought = chairTrace && chairShown > 0 ? chairTrace.text.slice(0, chairShown) : "";
+  const chairLive = Boolean(chairTrace && chairShown < chairTrace.text.length);
+  const voices = SEATS.filter((seat) => seat.id !== "leader").map((seat) => {
+    const expert = experts.find((item) => item.id === seat.id);
+    const quiet = expert?.status === "standby";
+    return {
+      id: seat.id,
+      name: seatShort(seat.id, lang),
+      quiet,
+      text: quiet ? side.seats[seat.id]?.skip || copy.skipFallback : expert?.content || "",
+    };
+  });
 
   return (
     <div className="sandbox">
@@ -425,10 +439,28 @@ export function Demo() {
             </button>
           ))}
         </div>
-        <p className="meter">{meter}</p>
-      </div>
-
-      <div className="controls">
+        <div className="stats" aria-label={meter}>
+          <span className="stat">
+            <b>
+              {active}/8
+            </b>
+            <span>{lang === "zh" ? "席喚醒" : "Active"}</span>
+          </span>
+          {skipped ? (
+            <span className="stat">
+              <b>{skipped}</b>
+              <span>{lang === "zh" ? `跳過 · 省 ${save}%` : `Gated · ${save}%`}</span>
+            </span>
+          ) : null}
+          <span className="stat">
+            <b>{clockLabel(thinkMs)}</b>
+            <span>{lang === "zh" ? "思考" : "Thinking"}</span>
+          </span>
+          <span className="stat">
+            <b>{tokens.toLocaleString("en-US")}</b>
+            <span>tokens</span>
+          </span>
+        </div>
         <div className="transport" role="group" aria-label={copy.playback}>
           <button type="button" onClick={() => setPaused((value) => !value)}>
             {paused ? copy.resume : copy.pause}
@@ -475,8 +507,26 @@ export function Demo() {
           <p className="eyebrow">{verdictReady ? copy.verdict : copy.phase}</p>
           <p className="answer">
             {chair?.content || (phase === "synth" ? "" : statusLine)}
-            {phase === "synth" ? <i /> : null}
+            {phase === "synth" && !chair?.content ? <i /> : null}
           </p>
+          {voices.some((item) => item.text) ? (
+            <ul className="voices">
+              {voices
+                .filter((item) => item.text)
+                .map((item) => (
+                  <li key={item.id} className={item.quiet ? "out" : ""}>
+                    <b>{item.name}</b>
+                    <span>{item.text}</span>
+                  </li>
+                ))}
+            </ul>
+          ) : null}
+          {chairThought ? (
+            <div className="synth">
+              <p className="field">{copy.verdictReason}</p>
+              <ReasonScroll text={chairThought} live={chairLive} />
+            </div>
+          ) : null}
         </div>
       </section>
       <p className="footnote">{copy.note}</p>
