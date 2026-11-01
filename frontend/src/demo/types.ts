@@ -1,5 +1,6 @@
 export type SeatScript = {
   standby?: boolean;
+  skip?: string;
   steps?: string[];
   reasoning?: string;
   answer?: string;

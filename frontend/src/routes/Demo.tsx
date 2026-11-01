@@ -24,7 +24,8 @@ const COPY = {
       ["review", "互怼"],
       ["synth", "合成"],
     ] as const,
-    standby: "STANDBY · 門控跳過（省 Token）",
+    standby: "未出場",
+    skipFallback: "這一題沒有喚醒。結論不會引用這一席。",
     reasoning: "推理鏈",
     position: "立場",
     review: "互怼",
@@ -48,7 +49,10 @@ const COPY = {
     gated: "門控跳過 2 席",
     verdict: "議長結論",
     verdictReason: "議長推理",
-    verdictWait: "席位還在寫。結論留在這條，不進格子。",
+    verdictWait: "出場的席還在寫。結論在互怼之後。",
+    nowGate: "正在點名。",
+    nowWrite: "席位正在寫。",
+    nowReview: "席位正在互怼。",
     table: "席位記錄",
     speed: "速度",
   },
@@ -65,7 +69,8 @@ const COPY = {
       ["review", "Review"],
       ["synth", "Synthesis"],
     ] as const,
-    standby: "STANDBY · Gate skipped",
+    standby: "Not called",
+    skipFallback: "This topic did not wake this seat. The verdict will not cite it.",
     reasoning: "Reasoning",
     position: "Position",
     review: "Cross-review",
@@ -89,7 +94,10 @@ const COPY = {
     gated: "Gate skipped 2",
     verdict: "Chair's verdict",
     verdictReason: "Chair's reasoning",
-    verdictWait: "Seats are still writing. The verdict stays in this bar.",
+    verdictWait: "The seats are still writing. The verdict comes after review.",
+    nowGate: "The gate is choosing.",
+    nowWrite: "The seats are writing.",
+    nowReview: "The seats are reviewing.",
     table: "The table",
     speed: "Speed",
   },
@@ -136,7 +144,6 @@ export function Demo() {
   const copy = COPY[lang];
   const script = useMemo(() => buildTimeline(scenario, lang), [scenario, lang]);
   const side = scenario[lang];
-  const table = SEATS.filter((seat) => seat.id !== "leader");
   const skipped = Object.values(side.seats).filter((item) => item.standby).length;
 
   useEffect(() => {
@@ -218,6 +225,9 @@ export function Demo() {
   const experts = council.experts;
   const chair = experts.find((item) => item.id === "leader");
   const wakeLabel = skipped ? (lang === "zh" ? `門控跳過 ${skipped} 席` : `Gate skipped ${skipped}`) : copy.awake;
+  const verdictReady = Boolean(chair?.content);
+  const statusLine =
+    phase === "review" ? copy.nowReview : phase === "parallel" ? copy.nowWrite : phase === "gate" ? copy.nowGate : copy.verdictWait;
 
   return (
     <div className="sandbox">
@@ -295,13 +305,15 @@ export function Demo() {
 
       <p className="table-label">{copy.table}</p>
       <div className="board">
-        {table.map((seat) => (
+        {SEATS.map((seat) => (
           <ExpertCard
             key={seat.id}
+            seatId={seat.id}
             emoji={seat.emoji}
             name={seatName(seat.id, lang)}
             expert={experts.find((item) => item.id === seat.id)}
-            steps={side.seats[seat.id]?.steps ?? []}
+            steps={seat.id === "leader" ? side.chair.steps : side.seats[seat.id]?.steps ?? []}
+            skip={side.seats[seat.id]?.skip}
             revealed={revealed[seat.id] ?? 0}
             gating={council.gating || experts.length === 0}
             copy={copy}
@@ -317,9 +329,9 @@ export function Demo() {
           active={phase === "synth" && !chair?.content}
         />
         <div className="verdict-copy">
-          <p className="eyebrow">{copy.verdict}</p>
+          <p className="eyebrow">{verdictReady ? copy.verdict : copy.phase}</p>
           <p className="answer">
-            {chair?.content || (phase === "synth" ? "" : copy.verdictWait)}
+            {chair?.content || (phase === "synth" ? "" : statusLine)}
             {phase === "synth" ? <i /> : null}
           </p>
         </div>
@@ -330,19 +342,23 @@ export function Demo() {
 }
 
 function ExpertCard({
+  seatId,
   emoji,
   name,
   expert,
   steps,
+  skip,
   revealed,
   gating,
   copy,
   lang,
 }: {
+  seatId: string;
   emoji: string;
   name: string;
   expert?: CouncilExpertView;
   steps: readonly string[];
+  skip?: string;
   revealed: number;
   gating: boolean;
   copy: Copy;
@@ -350,30 +366,47 @@ function ExpertCard({
 }) {
   const standby = expert?.status === "standby";
   const running = expert?.status === "running" || expert?.critiquing;
+  const waiting = seatId === "leader" && expert?.status === "pending";
   const target = expert?.reviewTarget ? seatShort(expert.reviewTarget, lang) : "";
   const position =
-    expert?.status === "error" ? expert.error || copy.failed : expert?.content || "";
+    expert?.status === "error"
+      ? expert.error || copy.failed
+      : standby
+        ? skip || copy.skipFallback
+        : waiting
+          ? copy.waiting
+          : expert?.content || "";
   const review = expert?.review || (expert?.critiquing && target ? copy.critique(target) : "");
   return (
-    <article className={`card${standby ? " standby" : ""}${expert?.challengedBy ? " hit" : ""}${running ? " live" : ""}`}>
+    <article className={`card${standby ? " standby" : ""}${expert?.challengedBy ? " hit" : ""}${running ? " live" : ""}${seatId === "leader" ? " chair" : ""}`}>
       <header>
         <span className="mark" aria-hidden>
           {emoji}
         </span>
         <div>
           <strong>{name}</strong>
-          <em>{gating ? copy.selecting : standby ? copy.standby : statusWord(expert?.status, copy)}</em>
+          <em>
+            {gating ? copy.selecting : standby ? copy.standby : waiting ? copy.waiting : statusWord(expert?.status, copy)}
+          </em>
         </div>
       </header>
-      <StepChain steps={steps} revealed={standby || gating ? 0 : revealed} active={Boolean(running && !position && !review)} />
-      <p className="line ink">
-        {position || "·"}
-        {running && !review && position ? <i /> : null}
-      </p>
-      <p className="line review">
-        {review || "·"}
-        {expert?.critiquing ? <i /> : null}
-      </p>
+      <div className="card-body">
+        <StepChain steps={steps} revealed={standby || gating ? 0 : revealed} active={Boolean(running && !position && !review)} />
+        <p className="field">{copy.position}</p>
+        <p className="ink">
+          {position || "·"}
+          {running && position ? <i /> : null}
+        </p>
+        {review ? (
+          <>
+            <p className="field">{copy.review}</p>
+            <p className="review">
+              {review}
+              {expert?.critiquing ? <i /> : null}
+            </p>
+          </>
+        ) : null}
+      </div>
     </article>
   );
 }

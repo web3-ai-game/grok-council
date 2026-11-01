@@ -50,6 +50,51 @@ html.lights-app body {
   font-family: "SF Pro Text", "SF Pro", -apple-system, "PingFang TC", "PingFang SC", "Noto Sans TC", sans-serif;
 }
 
+html.lights-app {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 100, 66, 0.55) transparent;
+}
+
+html.lights-app[data-lights="off"] {
+  scrollbar-color: rgba(224, 178, 162, 0.5) transparent;
+}
+
+html.lights-app::-webkit-scrollbar,
+html.lights-app *::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+html.lights-app::-webkit-scrollbar-track,
+html.lights-app *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html.lights-app::-webkit-scrollbar-thumb,
+html.lights-app *::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 99px;
+  background: rgba(201, 100, 66, 0.45);
+  background-clip: padding-box;
+}
+
+html.lights-app::-webkit-scrollbar-thumb:hover,
+html.lights-app *::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 100, 66, 0.75);
+  background-clip: padding-box;
+}
+
+html.lights-app[data-lights="off"]::-webkit-scrollbar-thumb,
+html.lights-app[data-lights="off"] *::-webkit-scrollbar-thumb {
+  background: rgba(224, 178, 162, 0.4);
+  background-clip: padding-box;
+}
+
+html.lights-app::-webkit-scrollbar-corner,
+html.lights-app *::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 .sandbox {
   min-height: 100vh;
   color: inherit;
@@ -252,8 +297,7 @@ html.lights-app[data-lights="off"] .rail span {
 
 .topic-scroller {
   margin-top: 14px;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: visible;
 }
 
 .topics,
@@ -263,9 +307,8 @@ html.lights-app[data-lights="off"] .rail span {
 }
 
 .topics {
-  flex-wrap: nowrap;
-  width: max-content;
-  padding-bottom: 4px;
+  flex-wrap: wrap;
+  width: auto;
 }
 
 .topics button {
@@ -282,14 +325,14 @@ html.lights-app[data-lights="off"] .rail span {
 
 .verdict {
   box-sizing: border-box;
-  height: 120px;
+  min-height: 120px;
   margin-top: 14px;
-  overflow: hidden;
+  overflow: visible;
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);
   gap: 16px;
-  align-items: center;
-  padding: 12px 16px;
+  align-items: start;
+  padding: 16px 18px;
   border-radius: 18px;
   background: #fffdfb;
   border: 1px solid rgba(28, 25, 21, 0.08);
@@ -307,13 +350,8 @@ html.lights-app[data-lights="off"] .verdict {
 }
 
 .verdict .answer {
-  display: -webkit-box;
   margin: 6px 0 0;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  max-height: 2.7em;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 560;
   letter-spacing: -0.03em;
   line-height: 1.35;
@@ -362,16 +400,15 @@ html.lights-app[data-lights="off"] .mono {
 
 .card {
   box-sizing: border-box;
-  height: 232px;
+  height: 476px;
   overflow: hidden;
   border-radius: 16px;
   border: 1px solid rgba(28, 25, 21, 0.08);
   background: rgba(255, 252, 248, 0.9);
-  padding: 10px 12px;
-  display: grid;
-  grid-template-rows: 34px 96px 22px 22px;
+  padding: 12px 12px 10px;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
-  align-content: start;
 }
 
 html.lights-app[data-lights="off"] .card {
@@ -408,6 +445,35 @@ html.lights-app[data-lights="off"] .card {
   letter-spacing: 0.01em;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.card-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding-right: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 100, 66, 0.55) transparent;
+}
+
+.card-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.field {
+  margin: 10px 0 4px;
+  color: rgba(28, 25, 21, 0.46);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+html.lights-app[data-lights="off"] .field {
+  color: rgba(244, 241, 234, 0.42);
+}
+
+.card.chair {
+  border-color: rgba(201, 100, 66, 0.28);
 }
 
 .mark {
@@ -499,13 +565,18 @@ html.lights-app[data-lights="off"] .card {
   text-overflow: ellipsis;
 }
 
-.ink {
-  color: #1c1915;
+.ink,
+.review {
+  white-space: normal;
+  overflow: visible;
+  height: auto;
+  font-size: 15px;
+  line-height: 1.5;
+  text-overflow: unset;
 }
 
-.card .line {
-  font-size: 13px;
-  line-height: 22px;
+.ink {
+  color: #1c1915;
 }
 
 html.lights-app[data-lights="off"] .ink {
@@ -563,7 +634,7 @@ html.lights-app[data-lights="off"] .review {
 
   .verdict {
     grid-template-columns: 1fr;
-    height: 120px;
+    min-height: 0;
   }
 
   .verdict .chain {

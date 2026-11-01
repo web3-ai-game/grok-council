@@ -18,7 +18,8 @@
       "researcher": {
         "standby": true,
         "steps": [],
-        "answer": ""
+        "answer": "",
+        "skip": "沒有可核對的外部來源，這一題不喚醒。"
       },
       "engineer": {
         "steps": [
@@ -53,7 +54,8 @@
       "writer": {
         "standby": true,
         "steps": [],
-        "answer": ""
+        "answer": "",
+        "skip": "這一題比的是過程，不需要另一套文案。"
       },
       "quant": {
         "steps": [
@@ -92,7 +94,8 @@
       "researcher": {
         "standby": true,
         "steps": [],
-        "answer": ""
+        "answer": "",
+        "skip": "No checkable outside source, so this seat stays out."
       },
       "engineer": {
         "steps": [
@@ -127,7 +130,8 @@
       "writer": {
         "standby": true,
         "steps": [],
-        "answer": ""
+        "answer": "",
+        "skip": "This topic is about the process, not a second wording."
       },
       "quant": {
         "steps": [
