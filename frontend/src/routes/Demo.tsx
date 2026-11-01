@@ -579,6 +579,13 @@ function ExpertCard({
   const shown = !trace || standby || gating ? 0 : typedCount(trace.text, trace.elapsed);
   const thought = trace && shown > 0 ? trace.text.slice(0, shown) : "";
   const thinking = Boolean(trace && shown < trace.text.length && !standby && !gating);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const hover = useRef(false);
+  useEffect(() => {
+    const el = bodyRef.current;
+    if (!el || !thinking || hover.current) return;
+    el.scrollTop = el.scrollHeight;
+  }, [thought, thinking]);
   return (
     <article className={`card${standby ? " standby" : ""}${hit ? " hit" : ""}${running ? " live" : ""}${seatId === "leader" ? " chair" : ""}`}>
       <header>
@@ -593,13 +600,27 @@ function ExpertCard({
         </div>
       </header>
       <StepChain steps={steps} revealed={standby || gating ? 0 : revealed} active={Boolean(running && !position && !review && !thought)} />
-      <div className="card-body">
+      <div
+        className="card-body"
+        ref={bodyRef}
+        onMouseEnter={() => {
+          hover.current = true;
+        }}
+        onMouseLeave={() => {
+          hover.current = false;
+          const el = bodyRef.current;
+          if (el && thinking) el.scrollTop = el.scrollHeight;
+        }}
+      >
         {standby ? (
           <p className="skip">{skip || copy.skipFallback}</p>
         ) : (
           <>
             <p className="field">{copy.reasoning}</p>
-            <ReasonScroll text={thought} live={thinking} />
+            <p className={thinking ? "trace live" : "trace"}>
+              {thought || "·"}
+              {thinking ? <i /> : null}
+            </p>
           </>
         )}
         {incoming ? <p className="incoming">{copy.challenged(incoming)}</p> : null}
