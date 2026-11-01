@@ -1,11 +1,12 @@
 import { SEATS, seatName } from "./seats";
 import type { Lang } from "./seats";
-import type { Phase, ScenarioFile, TimedEvent } from "./types";
+import type { Phase, ScenarioFile, SeatScript, TimedEvent } from "./types";
 
 export const TICK_MS = 56;
 export const STAGGER_MS = 320;
 export const GATE_MS = 1200;
 export const PHASE_GAP_MS = 460;
+export const STEP_MS = 480;
 
 let seq = 0;
 
@@ -40,6 +41,19 @@ function stream(
   return t;
 }
 
+function scriptSteps(script: SeatScript | undefined): string[] {
+  return (script?.steps ?? []).filter((step) => step.length > 0).slice(0, 3);
+}
+
+function playSteps(events: TimedEvent[], at: number, expertId: string, steps: string[], limit = steps.length): number {
+  let t = at;
+  for (let index = 0; index < limit; index += 1) {
+    push(events, t, "expert.step", { expert_id: expertId, index, label: steps[index] ?? "" });
+    t += STEP_MS;
+  }
+  return t;
+}
+
 export function buildTimeline(scenario: ScenarioFile, lang: Lang): TimedEvent[] {
   seq = 0;
   const side = scenario[lang];
@@ -67,17 +81,23 @@ export function buildTimeline(scenario: ScenarioFile, lang: Lang): TimedEvent[] 
     let t = GATE_MS + 80 + index * STAGGER_MS;
     push(events, t, "expert.start", { expert_id: seat.id });
     t += 140;
-    t = stream(events, t, "expert.reasoning", { expert_id: seat.id }, script?.reasoning ?? "");
-    t += 160;
-    t = stream(events, t, "expert.delta", { expert_id: seat.id }, script?.answer ?? "");
-    t += 40;
-    push(events, t, "expert.done", { expert_id: seat.id });
+    const steps = scriptSteps(script);
+    const failed = Boolean(script?.error);
+    t = playSteps(events, t, seat.id, steps, failed ? Math.min(2, steps.length) : steps.length);
+    t += 120;
+    if (failed) {
+      push(events, t, "expert.done", { expert_id: seat.id, error: script?.error });
+    } else {
+      t = stream(events, t, "expert.delta", { expert_id: seat.id }, script?.answer ?? "");
+      t += 40;
+      push(events, t, "expert.done", { expert_id: seat.id });
+    }
     parallelEnd = Math.max(parallelEnd, t);
   });
 
   const reviews = awake.filter((seat) => {
     const script = side.seats[seat.id];
-    return Boolean(script?.review && script.review_target);
+    return Boolean(script?.review && script.review_target && !script.error);
   });
   let cursor = parallelEnd + PHASE_GAP_MS;
   push(events, cursor, "phase", { phase: "review" satisfies Phase });
@@ -104,8 +124,8 @@ export function buildTimeline(scenario: ScenarioFile, lang: Lang): TimedEvent[] 
   push(events, synthAt, "synth.start", {});
   push(events, synthAt, "expert.start", { expert_id: "leader" });
   let t = synthAt + 160;
-  t = stream(events, t, "synth.reasoning", {}, side.chair.reasoning);
-  t += 180;
+  t = playSteps(events, t, "leader", (side.chair.steps ?? []).slice(0, 3));
+  t += 160;
   t = stream(events, t, "synth.delta", {}, side.chair.answer);
   t += 40;
   push(events, t, "expert.done", { expert_id: "leader" });

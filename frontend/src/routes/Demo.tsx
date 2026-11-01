@@ -48,7 +48,7 @@ const COPY = {
     gated: "門控跳過 2 席",
     verdict: "議長結論",
     verdictReason: "議長推理",
-    verdictWait: "席位還在寫。結論出現在這裡，不在第八張卡裡。",
+    verdictWait: "席位還在寫。結論留在這條，不進格子。",
     table: "席位記錄",
     speed: "速度",
   },
@@ -89,7 +89,7 @@ const COPY = {
     gated: "Gate skipped 2",
     verdict: "Chair's verdict",
     verdictReason: "Chair's reasoning",
-    verdictWait: "The seats are still writing. The verdict lands here, not in the eighth card.",
+    verdictWait: "Seats are still writing. The verdict stays in this bar.",
     table: "The table",
     speed: "Speed",
   },
@@ -129,14 +129,15 @@ export function Demo() {
   const [phase, setPhase] = useState<Phase>("gate");
   const [council, setCouncil] = useState<CouncilView>(blankCouncil);
   const [index, setIndex] = useState(0);
+  const [revealed, setRevealed] = useState<Record<string, number>>({});
   const waitRef = useRef(0);
-  const verdictRef = useRef<HTMLElement>(null);
 
   const scenario = scenarioById(scenarioId);
   const copy = COPY[lang];
   const script = useMemo(() => buildTimeline(scenario, lang), [scenario, lang]);
-  const base = import.meta.env.BASE_URL;
   const side = scenario[lang];
+  const table = SEATS.filter((seat) => seat.id !== "leader");
+  const skipped = Object.values(side.seats).filter((item) => item.standby).length;
 
   useEffect(() => {
     applyLights(lights);
@@ -151,14 +152,10 @@ export function Demo() {
     setIndex(0);
     setPhase("gate");
     setCouncil(blankCouncil());
+    setRevealed({});
     setPaused(false);
     waitRef.current = 0;
   }, [runId, script]);
-
-  useEffect(() => {
-    if (phase !== "synth") return;
-    verdictRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, [phase, runId]);
 
   useEffect(() => {
     const event = script[index];
@@ -169,7 +166,14 @@ export function Demo() {
     const started = performance.now();
     const timer = window.setTimeout(() => {
       waitRef.current = 0;
-      if (event.event === "phase" && typeof event.data.phase === "string") {
+      if (event.event === "expert.step" && typeof event.data.expert_id === "string") {
+        const id = event.data.expert_id;
+        const stepIndex = Number(event.data.index);
+        setRevealed((prev) => ({
+          ...prev,
+          [id]: Math.max(prev[id] ?? 0, Number.isFinite(stepIndex) ? stepIndex + 1 : 0),
+        }));
+      } else if (event.event === "phase" && typeof event.data.phase === "string") {
         setPhase(event.data.phase as Phase);
       } else {
         applyCouncilEvent(
@@ -213,8 +217,7 @@ export function Demo() {
 
   const experts = council.experts;
   const chair = experts.find((item) => item.id === "leader");
-  const showVerdict = phase === "synth" || phase === "done";
-  const room = lights === "on" ? `${base}room-on.jpg` : `${base}room-off.jpg`;
+  const wakeLabel = skipped ? (lang === "zh" ? `門控跳過 ${skipped} 席` : `Gate skipped ${skipped}`) : copy.awake;
 
   return (
     <div className="sandbox">
@@ -241,23 +244,13 @@ export function Demo() {
         </div>
       </header>
 
-      <div className="lamp-band" style={{ backgroundImage: `url(${room})` }} aria-hidden />
-
       <section className="prompt">
-        <p className="eyebrow">{scenario.wake === "gated" ? copy.gated : copy.awake}</p>
+        <p className="eyebrow">{wakeLabel}</p>
         <h1>{side.title}</h1>
         <p className="question">{side.question}</p>
       </section>
 
-      <div className="rail" aria-label={copy.phase}>
-        {copy.phases.map(([id, label]) => (
-          <span key={id} className={phase === id || (phase === "done" && id === "synth") ? "now" : ""}>
-            {label}
-          </span>
-        ))}
-      </div>
-
-      <div className="controls">
+      <div className="topic-scroller">
         <div className="topics" role="group" aria-label={copy.topics}>
           {SCENARIOS.map((item) => (
             <button
@@ -273,6 +266,17 @@ export function Demo() {
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="rail" aria-label={copy.phase}>
+        {copy.phases.map(([id, label]) => (
+          <span key={id} className={phase === id || (phase === "done" && id === "synth") ? "now" : ""}>
+            {label}
+          </span>
+        ))}
+      </div>
+
+      <div className="controls">
         <div className="transport" role="group" aria-label={copy.playback}>
           <button type="button" onClick={() => setPaused((value) => !value)}>
             {paused ? copy.resume : copy.pause}
@@ -289,58 +293,57 @@ export function Demo() {
         </div>
       </div>
 
-      {showVerdict ? (
-        <section className="verdict" ref={verdictRef} aria-label={copy.verdict}>
-          <p className="eyebrow">{copy.verdict}</p>
-          <p className="answer">
-            {chair?.content || copy.verdictWait}
-            {phase === "synth" && chair?.content ? <i /> : null}
-          </p>
-          {chair?.reasoning ? (
-            <div className="why">
-              <span>{copy.verdictReason}</span>
-              <p>
-                {chair.reasoning}
-                {phase === "synth" && !chair.content ? <i /> : null}
-              </p>
-            </div>
-          ) : null}
-        </section>
-      ) : null}
-
       <p className="table-label">{copy.table}</p>
       <div className="board">
-        {SEATS.map((seat) => (
+        {table.map((seat) => (
           <ExpertCard
             key={seat.id}
-            seatId={seat.id}
             emoji={seat.emoji}
             name={seatName(seat.id, lang)}
             expert={experts.find((item) => item.id === seat.id)}
+            steps={side.seats[seat.id]?.steps ?? []}
+            revealed={revealed[seat.id] ?? 0}
             gating={council.gating || experts.length === 0}
             copy={copy}
             lang={lang}
           />
         ))}
       </div>
+
+      <section className="verdict" aria-label={copy.verdict}>
+        <StepChain
+          steps={side.chair.steps}
+          revealed={revealed.leader ?? 0}
+          active={phase === "synth" && !chair?.content}
+        />
+        <div className="verdict-copy">
+          <p className="eyebrow">{copy.verdict}</p>
+          <p className="answer">
+            {chair?.content || (phase === "synth" ? "" : copy.verdictWait)}
+            {phase === "synth" ? <i /> : null}
+          </p>
+        </div>
+      </section>
       <p className="footnote">{copy.note}</p>
     </div>
   );
 }
 
 function ExpertCard({
-  seatId,
   emoji,
   name,
   expert,
+  steps,
+  revealed,
   gating,
   copy,
   lang,
 }: {
-  seatId: string;
   emoji: string;
   name: string;
   expert?: CouncilExpertView;
+  steps: readonly string[];
+  revealed: number;
   gating: boolean;
   copy: Copy;
   lang: Lang;
@@ -348,60 +351,54 @@ function ExpertCard({
   const standby = expert?.status === "standby";
   const running = expert?.status === "running" || expert?.critiquing;
   const target = expert?.reviewTarget ? seatShort(expert.reviewTarget, lang) : "";
-  const attacker = expert?.challengedBy ? seatName(expert.challengedBy, lang) : "";
+  const position =
+    expert?.status === "error" ? expert.error || copy.failed : expert?.content || "";
+  const review = expert?.review || (expert?.critiquing && target ? copy.critique(target) : "");
   return (
-    <article
-      className={`card${standby ? " standby" : ""}${expert?.challengedBy ? " hit" : ""}${running ? " live" : ""}${seatId === "leader" ? " chair" : ""}`}
-    >
+    <article className={`card${standby ? " standby" : ""}${expert?.challengedBy ? " hit" : ""}${running ? " live" : ""}`}>
       <header>
         <span className="mark" aria-hidden>
           {emoji}
         </span>
         <div>
           <strong>{name}</strong>
-          <em>
-            {gating
-              ? copy.selecting
-              : standby
-                ? copy.standby
-                : seatId === "leader" && expert?.status === "pending"
-                  ? copy.waiting
-                  : statusWord(expert?.status, copy)}
-          </em>
+          <em>{gating ? copy.selecting : standby ? copy.standby : statusWord(expert?.status, copy)}</em>
         </div>
       </header>
-      {expert?.critiquing && target ? <p className="aim">{copy.critique(target)}</p> : null}
-      {attacker ? <p className="incoming">{copy.challenged(attacker)}</p> : null}
-      {standby || gating ? null : (
-        <>
-          <section>
-            <span>{copy.reasoning}</span>
-            <p className="mono">
-              {expert?.reasoning || "·"}
-              {running && !expert?.content && !expert?.review ? <i /> : null}
-            </p>
-          </section>
-          {expert?.content ? (
-            <section>
-              <span>{copy.position}</span>
-              <p className="ink">
-                {expert.content}
-                {running && !expert.critiquing ? <i /> : null}
-              </p>
-            </section>
-          ) : null}
-          {expert?.review ? (
-            <section>
-              <span>{copy.review}</span>
-              <p className="ink review">
-                {expert.review}
-                {expert.critiquing ? <i /> : null}
-              </p>
-            </section>
-          ) : null}
-        </>
-      )}
+      <StepChain steps={steps} revealed={standby || gating ? 0 : revealed} active={Boolean(running && !position && !review)} />
+      <p className="line ink">
+        {position || "·"}
+        {running && !review && position ? <i /> : null}
+      </p>
+      <p className="line review">
+        {review || "·"}
+        {expert?.critiquing ? <i /> : null}
+      </p>
     </article>
+  );
+}
+
+function StepChain({ steps, revealed, active }: { steps: readonly string[]; revealed: number; active: boolean }) {
+  const rows = [15, 43, 71];
+  const shown = [steps[0] ?? "", steps[1] ?? "", steps[2] ?? ""];
+  const label = shown.filter((step, index) => index < revealed && step).join(" · ");
+  return (
+    <svg className="chain" viewBox="0 0 280 86" role="img" aria-label={label || undefined}>
+      <line x1="8" y1="19" x2="8" y2="39" className={revealed > 1 ? "on" : ""} />
+      <line x1="8" y1="47" x2="8" y2="67" className={revealed > 2 ? "on" : ""} />
+      {rows.map((y, index) => {
+        const on = index < revealed;
+        const hot = active && on && index === revealed - 1;
+        return (
+          <g key={y}>
+            <circle cx="8" cy={y} r={hot ? 4.4 : 3.5} className={on ? "on" : ""} />
+            <text x="20" y={y} dominantBaseline="middle" className={on ? "on" : ""}>
+              {on ? shown[index] : ""}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
   );
 }
 

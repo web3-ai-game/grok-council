@@ -1,0 +1,172 @@
+{
+  "id": "chair-bound",
+  "wake": "full",
+  "zh": {
+    "title": "議長不能編",
+    "question": "議長能合成。能編造某一席沒說過的話，或把空席寫成同意嗎。",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "合成是取捨",
+          "不是新來源",
+          "每句要有主人"
+        ],
+        "answer": "議長只能取捨已經出現的句子。不能新增來源。",
+        "review_target": "critic",
+        "review": "取捨可以排順序。不能把沒出現的句子排進去。"
+      },
+      "researcher": {
+        "steps": [
+          "沒出處就沒說過",
+          "空席沒有引文",
+          "不確定要標出"
+        ],
+        "answer": "沒有席位原文，就不能引成該席的立場。",
+        "review_target": "writer",
+        "review": "好讀不能當成出處。沒有原文就沒有引文。"
+      },
+      "engineer": {
+        "steps": [
+          "結論只能引用席",
+          "不存在就拒絕",
+          "事件裡可以核"
+        ],
+        "answer": "引用事件流裡沒有的席，該被當成錯誤。",
+        "review_target": "quant",
+        "review": "錯誤要進事件。不能用更光滑的句子蓋住。"
+      },
+      "critic": {
+        "steps": [
+          "太光滑就可疑",
+          "全員同意要有證",
+          "編造就是越界"
+        ],
+        "answer": "全員同意如果沒有每席原文，就是議長編的。",
+        "review_target": "strategist",
+        "review": "排優先可以。補一條沒人說過的事實，不行。"
+      },
+      "strategist": {
+        "steps": [
+          "可以排哪條先做",
+          "不可以補事實",
+          "分歧要保留"
+        ],
+        "answer": "可以排哪條建議先做。不可以補沒人說過的事實。",
+        "review_target": "analyst",
+        "review": "順序是議長的。事實的主人仍是原來那一席。"
+      },
+      "writer": {
+        "steps": [
+          "好讀不是許可",
+          "短句也要有主",
+          "不能代寫"
+        ],
+        "answer": "為了好讀而補一句，仍然是編。",
+        "review_target": "researcher",
+        "review": "短，不能短到把不確定刪掉。"
+      },
+      "quant": {
+        "steps": [
+          "沒數就不寫數",
+          "範圍不能加寬",
+          "只能收窄"
+        ],
+        "answer": "不能把某一席的數字寫大，也不能寫沒出現的數。",
+        "review_target": "engineer",
+        "review": "收窄要指回原句。不能寫成新的測量。"
+      }
+    },
+    "chair": {
+      "steps": [
+        "只取已出現的",
+        "不把空席補上",
+        "分歧留在原處"
+      ],
+      "answer": "議長只能合成已經出現的句子。不能編造某一席沒說過的話，也不能把空席寫成同意。"
+    }
+  },
+  "en": {
+    "title": "The chair cannot invent",
+    "question": "The chair may synthesize. May it invent a line a seat never said, or write an empty seat as agreement?",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "Synthesis chooses",
+          "Not a new source",
+          "Every line has an owner"
+        ],
+        "answer": "The chair may only choose among lines that already appeared.",
+        "review_target": "critic",
+        "review": "Choosing can rank order. It cannot rank a line that never appeared."
+      },
+      "researcher": {
+        "steps": [
+          "No source, unsaid",
+          "Empty seat, no quote",
+          "Mark uncertainty"
+        ],
+        "answer": "Without the seat's own line, you cannot quote it as that seat's position.",
+        "review_target": "writer",
+        "review": "Readability is not a source. No original line, no quotation."
+      },
+      "engineer": {
+        "steps": [
+          "Verdict cites seats",
+          "Missing means refuse",
+          "Events can check"
+        ],
+        "answer": "Citing a seat absent from the event stream is an error.",
+        "review_target": "quant",
+        "review": "The error enters the events. A smoother sentence must not cover it."
+      },
+      "critic": {
+        "steps": [
+          "Smooth is suspect",
+          "Unanimity needs proof",
+          "Invention overreaches"
+        ],
+        "answer": "Unanimity without each seat's own line is the chair inventing.",
+        "review_target": "strategist",
+        "review": "Ranking is allowed. Adding a fact nobody said is not."
+      },
+      "strategist": {
+        "steps": [
+          "May rank what first",
+          "May not add facts",
+          "Keep the dissent"
+        ],
+        "answer": "The chair may rank which recommendation comes first. It may not add a fact.",
+        "review_target": "analyst",
+        "review": "The order belongs to the chair. The fact still belongs to the seat."
+      },
+      "writer": {
+        "steps": [
+          "Clarity isn't license",
+          "Short lines need owners",
+          "Don't ghostwrite"
+        ],
+        "answer": "Adding a line to make it readable is still invention.",
+        "review_target": "researcher",
+        "review": "Short cannot mean the uncertainty was deleted."
+      },
+      "quant": {
+        "steps": [
+          "No number, no number",
+          "Don't widen scope",
+          "Only narrow"
+        ],
+        "answer": "The chair cannot enlarge a seat's number, or write one that never appeared.",
+        "review_target": "engineer",
+        "review": "A narrower claim must point at the old line. It is not a new measurement."
+      }
+    },
+    "chair": {
+      "steps": [
+        "Only lines that appeared",
+        "Don't fill an empty seat",
+        "Leave the dissent"
+      ],
+      "answer": "Synthesize only lines that already appeared. Do not invent a missing line, or count an empty seat as yes."
+    }
+  }
+}

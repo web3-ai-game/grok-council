@@ -1,0 +1,172 @@
+{
+  "id": "key-boundary",
+  "wake": "full",
+  "zh": {
+    "title": "鑰匙邊界",
+    "question": "API key 該放在瀏覽器、BFF，還是只留在伺服器？自架客戶端的鑰匙邊界在哪。",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "先拆信任域",
+          "鑰匙不記名",
+          "會話可以過期"
+        ],
+        "answer": "鑰匙只留伺服器。瀏覽器只拿會話。",
+        "review_target": "critic",
+        "review": "自裝的 PWA 更窄，窄也不等於可以把鑰匙交出去。"
+      },
+      "researcher": {
+        "steps": [
+          "包裡會被刮",
+          "日誌會外洩",
+          "錯誤體會帶出"
+        ],
+        "answer": "鑰匙進前端包，就等於公開檔。",
+        "review_target": "critic",
+        "review": "可能被看，不等於已經被打穿。沒來源就標不確定。"
+      },
+      "engineer": {
+        "steps": [
+          "環境檔持鑰",
+          "Cookie 持會話",
+          "錯誤不回顯"
+        ],
+        "answer": "伺服器持鑰，瀏覽器持會話。靜態演示沒有鑰匙。",
+        "review_target": "quant",
+        "review": "無上限來自沒輪換、沒告警，不是一句口號。"
+      },
+      "critic": {
+        "steps": [
+          "名字不是邊界",
+          "回應能否重建",
+          "快取也在外面"
+        ],
+        "answer": "瀏覽器任何儲存、任何回應，都重建不出那把鑰匙。",
+        "review_target": "engineer",
+        "review": "邊界畫在回應上，不畫在架構圖的方框上。"
+      },
+      "strategist": {
+        "steps": [
+          "靜態只做回放",
+          "自用走伺服器",
+          "別用名字掩蓋"
+        ],
+        "answer": "公開頁不持鑰。自用客戶端由伺服器持鑰。",
+        "review_target": "writer",
+        "review": "文案不能把伺服器持鑰寫成前端也能配。"
+      },
+      "writer": {
+        "steps": [
+          "一句能複述",
+          "不把邊界藏起來",
+          "不新造結論"
+        ],
+        "answer": "鑰匙留在伺服器。瀏覽器只留會話。",
+        "review_target": "strategist",
+        "review": "三條路要講完，不能只留最好聽的那條。"
+      },
+      "quant": {
+        "steps": [
+          "外洩不是一個數",
+          "先設用量上限",
+          "再談數量級"
+        ],
+        "answer": "沒有上限、輪換和告警，成本才是無上限。",
+        "review_target": "engineer",
+        "review": "先加上這三個，再談省了多少。"
+      }
+    },
+    "chair": {
+      "steps": [
+        "信任域先拆開",
+        "回應不回顯鑰",
+        "公開頁不持鑰"
+      ],
+      "answer": "鑰匙只屬於伺服器。瀏覽器只拿會話。沒有鑰匙的頁，只做回放。"
+    }
+  },
+  "en": {
+    "title": "Key boundary",
+    "question": "Where does an API key belong: the browser, a BFF, or only the server?",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "Split the trust",
+          "A key is bearer",
+          "Sessions expire"
+        ],
+        "answer": "The key stays on the server. The browser holds a session.",
+        "review_target": "critic",
+        "review": "A self-hosted PWA is narrower. It still must not receive the key."
+      },
+      "researcher": {
+        "steps": [
+          "Bundles get scraped",
+          "Logs leak",
+          "Errors echo secrets"
+        ],
+        "answer": "A key in the frontend bundle is a public file.",
+        "review_target": "critic",
+        "review": "Visible is not the same as already breached. No source, mark it unknown."
+      },
+      "engineer": {
+        "steps": [
+          "Env holds the key",
+          "Cookie holds session",
+          "Errors stay mute"
+        ],
+        "answer": "The server holds the key. A static demo holds neither.",
+        "review_target": "quant",
+        "review": "Unbounded means no rotation and no alert, not a slogan."
+      },
+      "critic": {
+        "steps": [
+          "Names aren't bounds",
+          "Can a reply rebuild",
+          "Cache is outside"
+        ],
+        "answer": "No browser store and no response may rebuild the key.",
+        "review_target": "engineer",
+        "review": "Draw the boundary on the response, not on a box in the diagram."
+      },
+      "strategist": {
+        "steps": [
+          "Static is replay",
+          "Self-use stays server",
+          "Don't hide a leak"
+        ],
+        "answer": "A public page holds no key. A personal client lets the server hold it.",
+        "review_target": "writer",
+        "review": "Copy must not turn server-held keys into a frontend setting."
+      },
+      "writer": {
+        "steps": [
+          "One line to repeat",
+          "Don't hide the bound",
+          "Don't invent a third"
+        ],
+        "answer": "The key stays on the server. The browser keeps only a session.",
+        "review_target": "strategist",
+        "review": "Name all three paths. Don't keep only the nicest one."
+      },
+      "quant": {
+        "steps": [
+          "A leak isn't a count",
+          "Cap usage first",
+          "Then talk magnitude"
+        ],
+        "answer": "Cost is unbounded only without a cap, rotation, and an alert.",
+        "review_target": "engineer",
+        "review": "Add those three before claiming what you saved."
+      }
+    },
+    "chair": {
+      "steps": [
+        "Split trust first",
+        "Replies stay mute",
+        "Public page holds none"
+      ],
+      "answer": "The key belongs only to the server. The browser gets a session. A page with no key only replays."
+    }
+  }
+}

@@ -1,9 +1,11 @@
 export type SeatScript = {
   standby?: boolean;
+  steps?: string[];
   reasoning?: string;
   answer?: string;
   review_target?: string;
   review?: string;
+  error?: string;
 };
 
 export type ScriptSide = {
@@ -11,7 +13,8 @@ export type ScriptSide = {
   question: string;
   seats: Record<string, SeatScript>;
   chair: {
-    reasoning: string;
+    steps: string[];
+    reasoning?: string;
     answer: string;
   };
 };

@@ -1,0 +1,172 @@
+{
+  "id": "gate-refuse",
+  "wake": "full",
+  "zh": {
+    "title": "門控該拒絕誰",
+    "question": "門控該拒絕誰？省 Token 和假裝全席都說過話，界線在哪。",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "拒絕無關的席",
+          "跳過必須具名",
+          "不補沒有的發言"
+        ],
+        "answer": "拒絕跟題目無關的席，並把跳過寫出來。",
+        "review_target": "critic",
+        "review": "相關性要能說出一句，不能只憑省錢。"
+      },
+      "researcher": {
+        "steps": [
+          "沒來源就停下",
+          "不編造情報",
+          "空席不要偽裝"
+        ],
+        "answer": "沒有可核對來源的情報席，該停，不該編。",
+        "review_target": "writer",
+        "review": "停下就寫停下。不要寫成這一席沒有異議。"
+      },
+      "engineer": {
+        "steps": [
+          "門控是過濾器",
+          "不是裝飾燈",
+          "狀態要進事件"
+        ],
+        "answer": "跳過必須進事件流。卡片變暗，結論不引用。",
+        "review_target": "quant",
+        "review": "省下的 Token 可以記。假裝出場不能記成節省。"
+      },
+      "critic": {
+        "steps": [
+          "省錢會裝成全席",
+          "裝全席就是假",
+          "拒絕必須可見"
+        ],
+        "answer": "可以拒絕。不可以拒絕了還讓議長引用該席。",
+        "review_target": "strategist",
+        "review": "默認全席沒問題。默認全席都說話，有問題。"
+      },
+      "strategist": {
+        "steps": [
+          "不是每題都全席",
+          "相關才喚醒",
+          "省的是空話"
+        ],
+        "answer": "全席是默認，不是義務。無關的席該睡。",
+        "review_target": "analyst",
+        "review": "睡之前要說得出無關在哪一句。"
+      },
+      "writer": {
+        "steps": [
+          "跳過要讓人讀懂",
+          "不用術語藏起來",
+          "STANDBY 就夠"
+        ],
+        "answer": "讀者要看得出誰沒說話。一個 STANDBY 就夠。",
+        "review_target": "researcher",
+        "review": "不要把沒出場寫成棄權。棄權也是一種發言。"
+      },
+      "quant": {
+        "steps": [
+          "跳過省的是空轉",
+          "跳錯更貴",
+          "先估相關性"
+        ],
+        "answer": "跳過省空轉。跳錯的成本是缺席的反證。",
+        "review_target": "engineer",
+        "review": "事件裡沒有這席，節省數字就不能算它說過。"
+      }
+    },
+    "chair": {
+      "steps": [
+        "無關才拒絕",
+        "跳過要具名",
+        "結論不引用空席"
+      ],
+      "answer": "門控只拒絕跟題目無關的席，並且具名。結論不得引用沒出場的席。"
+    }
+  },
+  "en": {
+    "title": "Who the gate refuses",
+    "question": "Who should the gate refuse, and where is the line between saving tokens and pretending the full table spoke?",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "Refuse off-topic",
+          "Name the skip",
+          "Don't backfill speech"
+        ],
+        "answer": "Refuse seats off the question, and write the skip down.",
+        "review_target": "critic",
+        "review": "Relevance has to fit in one sentence. Saving money is not that sentence."
+      },
+      "researcher": {
+        "steps": [
+          "Stop without a source",
+          "Don't invent intel",
+          "Don't disguise empty"
+        ],
+        "answer": "An intel seat with nothing checkable should stop, not invent.",
+        "review_target": "writer",
+        "review": "Write that it stopped. Don't write that it had no objection."
+      },
+      "engineer": {
+        "steps": [
+          "The gate filters",
+          "It is not a lamp",
+          "Status enters events"
+        ],
+        "answer": "A skip enters the event stream. The card dims. The verdict does not cite it.",
+        "review_target": "quant",
+        "review": "Saved tokens can be counted. A pretended appearance cannot be counted as savings."
+      },
+      "critic": {
+        "steps": [
+          "Saving can fake full",
+          "Fake full is a lie",
+          "Refusal must show"
+        ],
+        "answer": "The gate may refuse a seat. The chair may not then cite it.",
+        "review_target": "strategist",
+        "review": "A full table as default is fine. A full table that all spoke is not."
+      },
+      "strategist": {
+        "steps": [
+          "Not every question",
+          "Wake the relevant",
+          "Save the empty talk"
+        ],
+        "answer": "A full table is the default, not a duty. Irrelevant seats sleep.",
+        "review_target": "analyst",
+        "review": "Before it sleeps, say which sentence makes it irrelevant."
+      },
+      "writer": {
+        "steps": [
+          "A skip must read",
+          "Don't hide in jargon",
+          "STANDBY is enough"
+        ],
+        "answer": "A reader must see who did not speak. STANDBY is enough.",
+        "review_target": "researcher",
+        "review": "Don't write absence as abstention. Abstention is still a speech."
+      },
+      "quant": {
+        "steps": [
+          "Skips save idle",
+          "Wrong skips cost more",
+          "Estimate relevance"
+        ],
+        "answer": "A skip saves idle tokens. A wrong skip costs the missing counterargument.",
+        "review_target": "engineer",
+        "review": "If the seat is absent from the events, the savings cannot claim it spoke."
+      }
+    },
+    "chair": {
+      "steps": [
+        "Refuse only off-topic",
+        "Name every skip",
+        "Don't cite empty seats"
+      ],
+      "answer": "The gate refuses only seats off the question, by name. The verdict may not cite a seat that did not appear."
+    }
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "id": "seat-failure",
+  "wake": "full",
+  "zh": {
+    "title": "一席失敗還收場",
+    "question": "一席失敗了，議長還收不收場？空白能不能讀成同意，失敗的那席能不能補一句。",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "失敗必須記名",
+          "其餘席仍有效",
+          "缺席要進結論"
+        ],
+        "answer": "可以收場，但必須寫明誰失敗、因此少了什麼。",
+        "review_target": "critic",
+        "review": "記名不夠。還要寫少掉的是反證，不是態度。"
+      },
+      "researcher": {
+        "steps": [
+          "超時不是沉默",
+          "沉默不是同意",
+          "錯誤不同於空"
+        ],
+        "answer": "失敗席沒有立場。不能把空白讀成同意。",
+        "review_target": "writer",
+        "review": "不要寫成棄權。棄權是選擇，超時不是。"
+      },
+      "engineer": {
+        "steps": [
+          "錯誤要進事件",
+          "不要無限重試",
+          "合成可以繼續"
+        ],
+        "answer": "一席錯誤就標記並繼續。不要為了齊席卡死整場。",
+        "review_target": "quant",
+        "review": "這席沒有留下數字。結論不能補一個。"
+      },
+      "critic": {
+        "steps": [
+          "收場不是遮住",
+          "缺的反證要說",
+          "不能補一句"
+        ],
+        "answer": "收場可以。用議長的話補上失敗席，不可以。",
+        "review_target": "strategist",
+        "review": "一般席可以缺。題目依賴的那席失敗，就別裝有答案。"
+      },
+      "strategist": {
+        "steps": [
+          "先設停損",
+          "普通席可以缺",
+          "關鍵席另說"
+        ],
+        "answer": "普通席失敗就收場並註明。關鍵席失敗就不要裝有答案。",
+        "review_target": "analyst",
+        "review": "這題的數字席失敗了。結論就必須說沒有數字。"
+      },
+      "writer": {
+        "steps": [
+          "寫清誰沒交卷",
+          "不要寫成棄權",
+          "讀者要懂差別"
+        ],
+        "answer": "寫量化員失敗，沒有數字。不要寫沒有異議。",
+        "review_target": "researcher",
+        "review": "這兩句讀者分得出來。混成一句就不行。"
+      },
+      "quant": {
+        "steps": [
+          "先算 Token 總量",
+          "再看尾部延遲",
+          "沒有數就不寫"
+        ],
+        "answer": "",
+        "error": "超時，沒有數字。"
+      }
+    },
+    "chair": {
+      "steps": [
+        "失敗的席記名",
+        "空白不是同意",
+        "其餘照樣收場"
+      ],
+      "answer": "一席失敗仍可收場。必須記名，不能把空白讀成同意，也不能用議長的話補上。"
+    }
+  },
+  "en": {
+    "title": "One seat fails",
+    "question": "One seat fails. Do you still close, and can the blank be read as agreement?",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "Name the failure",
+          "The rest still stand",
+          "Absence enters"
+        ],
+        "answer": "You may close, but name who failed and what the verdict therefore lacks.",
+        "review_target": "critic",
+        "review": "A name is not enough. Say the missing piece is a counterargument, not a mood."
+      },
+      "researcher": {
+        "steps": [
+          "Timeout isn't silence",
+          "Silence isn't assent",
+          "Error isn't empty"
+        ],
+        "answer": "A failed seat has no position. Its blank cannot be read as agreement.",
+        "review_target": "writer",
+        "review": "Don't call it abstention. Abstention is a choice. A timeout is not."
+      },
+      "engineer": {
+        "steps": [
+          "Error enters events",
+          "Don't retry forever",
+          "Synthesis continues"
+        ],
+        "answer": "Mark the error and continue. Don't freeze the table for a full set.",
+        "review_target": "quant",
+        "review": "This seat left no number. The verdict cannot supply one."
+      },
+      "critic": {
+        "steps": [
+          "Closing isn't hiding",
+          "Name the missing attack",
+          "Don't fill a line"
+        ],
+        "answer": "Closing is allowed. Filling the failed seat with the chair's words is not.",
+        "review_target": "strategist",
+        "review": "An ordinary seat can miss. If the seat the question depends on fails, don't pretend you have the answer."
+      },
+      "strategist": {
+        "steps": [
+          "Set a stop-loss",
+          "One seat can miss",
+          "A key seat differs"
+        ],
+        "answer": "An ordinary miss can still close, with a note. A key miss cannot pretend to answer.",
+        "review_target": "analyst",
+        "review": "The number seat failed. The verdict has to say there is no number."
+      },
+      "writer": {
+        "steps": [
+          "Say who missed",
+          "Don't call it abstention",
+          "Reader must tell"
+        ],
+        "answer": "Write that Quant failed, so there is no number. Don't write no objection.",
+        "review_target": "researcher",
+        "review": "A reader can tell those two lines apart. One blended line cannot."
+      },
+      "quant": {
+        "steps": [
+          "Sum the tokens",
+          "Then read the tail",
+          "No number, no number"
+        ],
+        "answer": "",
+        "error": "Timed out. No number."
+      }
+    },
+    "chair": {
+      "steps": [
+        "Name the failed seat",
+        "Blank is not assent",
+        "Close on the rest"
+      ],
+      "answer": "You may still close. Name the failed seat. A blank is not agreement, and the chair may not fill it."
+    }
+  }
+}

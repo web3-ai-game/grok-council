@@ -1,0 +1,172 @@
+{
+  "id": "sqlite-ceiling",
+  "wake": "full",
+  "zh": {
+    "title": "單機天花板",
+    "question": "單機 SQLite 的天花板在哪？什麼時候該換掉，什麼時候是在為想像中的規模預支。",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "先量寫入衝突",
+          "再看單點故障",
+          "行數不是閘門"
+        ],
+        "answer": "天花板是寫入衝突和單機故障，不是行數恐懼。",
+        "review_target": "critic",
+        "review": "恐懼不是測量。沒有鎖等待數據，就還不到換庫。"
+      },
+      "researcher": {
+        "steps": [
+          "WAL 有現成先例",
+          "單機仍然是單點",
+          "沒有新的神話"
+        ],
+        "answer": "WAL 能撐一類負載。它不能把單機變成多機。",
+        "review_target": "engineer",
+        "review": "先例只說明這種負載常見，不說明你的恢復演練做過。"
+      },
+      "engineer": {
+        "steps": [
+          "先打開 WAL",
+          "備份必須能還原",
+          "換庫留下接口"
+        ],
+        "answer": "現在用 SQLite，加上 WAL 和演練過的備份。",
+        "review_target": "quant",
+        "review": "接口留著就好。沒超標之前，遷移本身就是成本。"
+      },
+      "critic": {
+        "steps": [
+          "單點會整機消失",
+          "鎖會把寫入堵住",
+          "沒演練就不算數"
+        ],
+        "answer": "沒還原過的備份，不是天花板之上的安全網。",
+        "review_target": "engineer",
+        "review": "WAL 解決的是讀寫交錯，不是機器沒了。"
+      },
+      "strategist": {
+        "steps": [
+          "先撐住當前",
+          "替換條件先寫下",
+          "不為想像擴容"
+        ],
+        "answer": "鎖等待或恢復時間超標再換。之前不換。",
+        "review_target": "writer",
+        "review": "不要寫永遠夠用。寫超標再換。"
+      },
+      "writer": {
+        "steps": [
+          "不說永遠夠用",
+          "把條件說清楚",
+          "現在夠就說夠"
+        ],
+        "answer": "SQLite 現在夠。超標再換，不預支架構。",
+        "review_target": "strategist",
+        "review": "條件不寫出來，讀者只會聽見永遠。"
+      },
+      "quant": {
+        "steps": [
+          "量鎖等待",
+          "量恢復時間",
+          "行數不是閘"
+        ],
+        "answer": "閘門是鎖等待和恢復時間，不是行數。",
+        "review_target": "analyst",
+        "review": "沒有這兩個數，天花板只是情緒。"
+      }
+    },
+    "chair": {
+      "steps": [
+        "先量再換庫",
+        "備份要能還原",
+        "單機仍是單點"
+      ],
+      "answer": "單機 SQLite 先留，WAL 和演練過的還原一起上。鎖等待或恢復超標再換。"
+    }
+  },
+  "en": {
+    "title": "Single-node ceiling",
+    "question": "Where is single-node SQLite's ceiling, and when is a swap just spending for a scale you do not have?",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "Measure write locks",
+          "Then single-node loss",
+          "Rows aren't the gate"
+        ],
+        "answer": "The ceiling is write contention and one dead machine, not row fear.",
+        "review_target": "critic",
+        "review": "Fear is not a measurement. No lock-wait data, no swap."
+      },
+      "researcher": {
+        "steps": [
+          "WAL has precedent",
+          "One node stays one",
+          "No new myth"
+        ],
+        "answer": "WAL can hold one class of load. It cannot turn one machine into many.",
+        "review_target": "engineer",
+        "review": "Precedent says the load is common. It does not say you rehearsed a restore."
+      },
+      "engineer": {
+        "steps": [
+          "Turn WAL on",
+          "Backups must restore",
+          "Keep a swap seam"
+        ],
+        "answer": "Use SQLite now, with WAL and a restore you have practiced.",
+        "review_target": "quant",
+        "review": "Keep the seam. Before the bar breaks, the migration is the cost."
+      },
+      "critic": {
+        "steps": [
+          "One node can die",
+          "Locks will stall writes",
+          "Untested isn't a net"
+        ],
+        "answer": "A backup you have not restored is not a net above the ceiling.",
+        "review_target": "engineer",
+        "review": "WAL covers read-write overlap. It does not cover a dead machine."
+      },
+      "strategist": {
+        "steps": [
+          "Hold the present",
+          "Write the swap trigger",
+          "Don't scale a fantasy"
+        ],
+        "answer": "Swap when lock wait or restore time breaks the bar. Not before.",
+        "review_target": "writer",
+        "review": "Don't write that it is enough forever. Write the trigger."
+      },
+      "writer": {
+        "steps": [
+          "Don't say forever",
+          "Say the trigger",
+          "Enough means now"
+        ],
+        "answer": "SQLite is enough now. Swap when the trigger hits.",
+        "review_target": "strategist",
+        "review": "If the trigger is unspoken, the reader only hears forever."
+      },
+      "quant": {
+        "steps": [
+          "Count lock waits",
+          "Time the restore",
+          "Rows aren't the gate"
+        ],
+        "answer": "The gate is lock wait and restore time, not row count.",
+        "review_target": "analyst",
+        "review": "Without those two numbers, the ceiling is a mood."
+      }
+    },
+    "chair": {
+      "steps": [
+        "Measure before swap",
+        "Practice the restore",
+        "One node is one node"
+      ],
+      "answer": "Keep SQLite, with WAL and a practiced restore. Swap when lock wait or restore time breaks the bar."
+    }
+  }
+}

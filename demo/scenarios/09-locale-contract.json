@@ -1,0 +1,172 @@
+{
+  "id": "locale-contract",
+  "wake": "full",
+  "zh": {
+    "title": "一句話兩種語言",
+    "question": "同一句結論，中英兩套文案。契約是字對字，還是判斷、否定和數字不能漂。",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "判斷必須對齊",
+          "不是字字對譯",
+          "數字不能漂"
+        ],
+        "answer": "兩種語言要同一判斷。數字、否定、主語不能漂。",
+        "review_target": "critic",
+        "review": "對齊的是判斷。語感不同，不能當成判斷不同。"
+      },
+      "researcher": {
+        "steps": [
+          "沒有原文就不譯",
+          "不加本地典故",
+          "不刪掉條件"
+        ],
+        "answer": "翻譯不能加入另一語沒有的條件，也不能刪掉有的。",
+        "review_target": "writer",
+        "review": "典故會讓一句更好聽，也會讓它變成另一句。"
+      },
+      "engineer": {
+        "steps": [
+          "兩語同一組欄位",
+          "缺鍵就失敗",
+          "切換就重播"
+        ],
+        "answer": "中英必須同一組欄位。缺一句就不要用另一語補。",
+        "review_target": "quant",
+        "review": "欄位對上還不夠。數字欄位的值也必須相同。"
+      },
+      "critic": {
+        "steps": [
+          "好讀會加戲",
+          "加戲就是改判斷",
+          "否定最容易丟"
+        ],
+        "answer": "最容易被弄丟的是「不」。少一個不，結論就反了。",
+        "review_target": "strategist",
+        "review": "先鎖判斷再寫兩語。不要為了一種語感改判斷。"
+      },
+      "strategist": {
+        "steps": [
+          "先鎖定判斷",
+          "再寫兩種語言",
+          "不為語感改"
+        ],
+        "answer": "先鎖判斷，再寫中英。不要為了語感改判斷。",
+        "review_target": "analyst",
+        "review": "主語換了，就不是翻譯，是另一個建議。"
+      },
+      "writer": {
+        "steps": [
+          "各自要像人話",
+          "契約在意思",
+          "短句更好對"
+        ],
+        "answer": "兩句都要能複述，而且複述出來是同一件事。",
+        "review_target": "researcher",
+        "review": "像人話不能靠加一句原文沒有的讓步。"
+      },
+      "quant": {
+        "steps": [
+          "數詞必須鎖定",
+          "單位必須鎖定",
+          "比較方向鎖定"
+        ],
+        "answer": "數字、單位、大小方向，兩種語言必須相同。",
+        "review_target": "engineer",
+        "review": "方向反了比缺譯更糟。缺了可以失敗，反了會騙。"
+      }
+    },
+    "chair": {
+      "steps": [
+        "判斷先鎖住",
+        "否定不能丟掉",
+        "數字必須相同"
+      ],
+      "answer": "一句話兩種語言，契約是同一判斷。否定、數字和條件不能在翻譯裡增刪。"
+    }
+  },
+  "en": {
+    "title": "One line, two languages",
+    "question": "One verdict, two languages. Is the contract word-for-word, or that the judgment, the negation, and the numbers must not drift?",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "The judgment aligns",
+          "Not word for word",
+          "Numbers must not drift"
+        ],
+        "answer": "Both languages carry the same judgment. Numbers, negations, and the subject must not drift.",
+        "review_target": "critic",
+        "review": "Align the judgment. A different ear is not a different judgment."
+      },
+      "researcher": {
+        "steps": [
+          "No source, no translation",
+          "No local color",
+          "Don't drop a condition"
+        ],
+        "answer": "A translation cannot add a condition the other language lacks, or drop one it has.",
+        "review_target": "writer",
+        "review": "A local allusion makes a line nicer and also makes it a different line."
+      },
+      "engineer": {
+        "steps": [
+          "Same fields both sides",
+          "A missing key fails",
+          "Switching replays"
+        ],
+        "answer": "Chinese and English must share the same fields. Don't fill a gap from the other tongue.",
+        "review_target": "quant",
+        "review": "Matching fields is not enough. The number in the field must match too."
+      },
+      "critic": {
+        "steps": [
+          "Clarity adds drama",
+          "Drama changes it",
+          "Negations drop first"
+        ],
+        "answer": "The easiest word to lose is not. Drop it and the verdict flips.",
+        "review_target": "strategist",
+        "review": "Lock the judgment, then write both. Don't retune it for one ear."
+      },
+      "strategist": {
+        "steps": [
+          "Lock the judgment",
+          "Then both languages",
+          "Don't retune for sound"
+        ],
+        "answer": "Lock the judgment, then write both. Don't change it to suit one language.",
+        "review_target": "analyst",
+        "review": "Change the subject and it is not a translation. It is another recommendation."
+      },
+      "writer": {
+        "steps": [
+          "Each must sound human",
+          "The contract is meaning",
+          "Short lines match"
+        ],
+        "answer": "Both lines must be repeatable, and the repetition must be the same claim.",
+        "review_target": "researcher",
+        "review": "Sounding human cannot mean adding a concession the original lacked."
+      },
+      "quant": {
+        "steps": [
+          "Lock the numeral",
+          "Lock the unit",
+          "Lock the direction"
+        ],
+        "answer": "The numeral, the unit, and the direction of comparison must match.",
+        "review_target": "engineer",
+        "review": "A flipped direction is worse than a missing line. Missing can fail. Flipped deceives."
+      }
+    },
+    "chair": {
+      "steps": [
+        "Lock the judgment",
+        "Don't drop the not",
+        "Numbers must match"
+      ],
+      "answer": "One sentence, two languages, one judgment. Do not add or drop a negation, a number, or a condition."
+    }
+  }
+}

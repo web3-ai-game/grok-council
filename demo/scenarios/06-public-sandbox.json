@@ -1,0 +1,172 @@
+{
+  "id": "public-sandbox",
+  "wake": "full",
+  "zh": {
+    "title": "公開頁 vs 登入",
+    "question": "公開頁和登入客戶端，該共用一套，還是拆開？看起來像，權限能不能也像。",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "觀眾不是同一群",
+          "信任域不同",
+          "資料不該混"
+        ],
+        "answer": "公開頁給看。登入客戶端給用。不要共用一條權限。",
+        "review_target": "critic",
+        "review": "看起來像，不是權限像。讀者和操作者要分開寫。"
+      },
+      "researcher": {
+        "steps": [
+          "公開頁會被索引",
+          "客戶端才有會話",
+          "混用就會洩"
+        ],
+        "answer": "會被索引的頁，不該出現只該在會話裡的內容。",
+        "review_target": "engineer",
+        "review": "索引只是一條外洩面。錯誤頁和快取是另外兩條。"
+      },
+      "engineer": {
+        "steps": [
+          "靜態走 Pages",
+          "會話走伺服器",
+          "路由先分開"
+        ],
+        "answer": "公開回放是靜態頁。登入操作走伺服器。",
+        "review_target": "strategist",
+        "review": "外觀可以共用組件。私有路徑不能進公開包。"
+      },
+      "critic": {
+        "steps": [
+          "同一個包會漏",
+          "旗標一定會忘",
+          "預設當成公開"
+        ],
+        "answer": "用旗標把私有路徑藏在公開包裡，旗標忘了就洩。",
+        "review_target": "engineer",
+        "review": "分開路由不夠。公開包裡不能有那條路徑的程式。"
+      },
+      "strategist": {
+        "steps": [
+          "公開先做回放",
+          "登入才做操作",
+          "品牌可以像"
+        ],
+        "answer": "外觀可以像。權限和資料必須分開。",
+        "review_target": "writer",
+        "review": "像，要寫成看起來像。不要寫成就是同一套。"
+      },
+      "writer": {
+        "steps": [
+          "頁首寫清楚",
+          "回放不是實扣",
+          "登入會動真資料"
+        ],
+        "answer": "公開頁寫明這是回放。登入頁寫明這會動真資料。",
+        "review_target": "analyst",
+        "review": "這兩句不能合成一句「我們很安全」。"
+      },
+      "quant": {
+        "steps": [
+          "公開頁零 Key",
+          "登入才產生帳單",
+          "兩本帳不要混"
+        ],
+        "answer": "公開頁不該產生 Key 帳單。帳單只在登入路徑。",
+        "review_target": "critic",
+        "review": "零 Key 是公開頁的驗收，不是文案。"
+      }
+    },
+    "chair": {
+      "steps": [
+        "看和用分開",
+        "私有路徑不進包",
+        "帳單跟著登入"
+      ],
+      "answer": "公開頁只做回放，不持鑰。登入客戶端另走伺服器。外觀可以像，權限不能共用。"
+    }
+  },
+  "en": {
+    "title": "Public page vs login",
+    "question": "Should the public page and the signed-in client share one app, or only look alike?",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "Audiences differ",
+          "Trust differs",
+          "Data must not mix"
+        ],
+        "answer": "The public page is for watching. The client is for using. Don't share a permission.",
+        "review_target": "critic",
+        "review": "Looking alike is not the same permission. Name the reader and the operator apart."
+      },
+      "researcher": {
+        "steps": [
+          "Public pages index",
+          "Clients have sessions",
+          "Mixing leaks"
+        ],
+        "answer": "A page that can be indexed must not hold session-only content.",
+        "review_target": "engineer",
+        "review": "Indexing is one leak. Error pages and caches are two more."
+      },
+      "engineer": {
+        "steps": [
+          "Static on Pages",
+          "Session on server",
+          "Split the routes"
+        ],
+        "answer": "Public replay is a static page. Signed-in actions go through the server.",
+        "review_target": "strategist",
+        "review": "Shared components are fine. A private path must not ship in the public bundle."
+      },
+      "critic": {
+        "steps": [
+          "One bundle leaks",
+          "Flags get forgotten",
+          "Default to public"
+        ],
+        "answer": "A private path behind a flag in the public bundle leaks when the flag is forgotten.",
+        "review_target": "engineer",
+        "review": "Split routes are not enough. The public bundle must not contain that code."
+      },
+      "strategist": {
+        "steps": [
+          "Public replays first",
+          "Login acts later",
+          "Brand can match"
+        ],
+        "answer": "The look can match. Permission and data must not.",
+        "review_target": "writer",
+        "review": "Write that it looks alike. Don't write that it is the same app."
+      },
+      "writer": {
+        "steps": [
+          "Say it in the header",
+          "Replay isn't live",
+          "Login touches data"
+        ],
+        "answer": "The public page says this is a replay. The signed-in page says this touches real data.",
+        "review_target": "analyst",
+        "review": "Those two lines must not collapse into we are safe."
+      },
+      "quant": {
+        "steps": [
+          "Public costs no key",
+          "Login creates the bill",
+          "Don't mix the books"
+        ],
+        "answer": "The public page should not create a key bill. The bill stays on the signed-in path.",
+        "review_target": "critic",
+        "review": "Zero keys is an acceptance test for the public page, not copy."
+      }
+    },
+    "chair": {
+      "steps": [
+        "Watching isn't using",
+        "Private code stays out",
+        "The bill follows login"
+      ],
+      "answer": "The public page only replays and holds no key. Login uses the server. Looks may match. Permission may not."
+    }
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "id": "review-delta",
+  "wake": "full",
+  "zh": {
+    "title": "互怼能改什麼",
+    "question": "交叉評審能改什麼？能改已經落筆的結論，還是只能標不同意。",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "互怼改的是理由",
+          "不改對方身份",
+          "分歧必須留下"
+        ],
+        "answer": "可以改理由和範圍。不能把對方沒說的話寫進去。",
+        "review_target": "critic",
+        "review": "打掉一句越界，不算替那一席重寫。"
+      },
+      "researcher": {
+        "steps": [
+          "有出處才能改",
+          "沒出處只標註",
+          "不升級成事實"
+        ],
+        "answer": "沒有出處的反駁，只能標不確定，不能改成事實。",
+        "review_target": "writer",
+        "review": "標不確定就夠。不要為了順，改成已經查證。"
+      },
+      "engineer": {
+        "steps": [
+          "改介面不改史",
+          "事件只能追加",
+          "不回寫舊句"
+        ],
+        "answer": "互怼追加一條事件。不回去改已經落筆的句子。",
+        "review_target": "quant",
+        "review": "追加可以縮範圍。不能把舊數字改寫掉。"
+      },
+      "critic": {
+        "steps": [
+          "能打掉越界句",
+          "不能代寫整段",
+          "打掉要具體"
+        ],
+        "answer": "我能打掉越界的一句。不能替那一席重寫整段。",
+        "review_target": "analyst",
+        "review": "具體到哪一句。泛泛反對不構成修改。"
+      },
+      "strategist": {
+        "steps": [
+          "改的是推薦條件",
+          "不改已核對事實",
+          "分歧進總結"
+        ],
+        "answer": "該改的是推薦條件。沒被打掉的事實留在原句。",
+        "review_target": "engineer",
+        "review": "條件改了，舊句仍要留在事件裡。"
+      },
+      "writer": {
+        "steps": [
+          "標出誰反對",
+          "不要抹平",
+          "讀者要看見"
+        ],
+        "answer": "總結要留下誰反對、反對哪一句。",
+        "review_target": "strategist",
+        "review": "不要為了好讀，收成全員同意。"
+      },
+      "quant": {
+        "steps": [
+          "改數字要有新數",
+          "口號打不掉數",
+          "範圍可以縮小"
+        ],
+        "answer": "沒有新數字，就不能改舊數字。可以縮小範圍。",
+        "review_target": "researcher",
+        "review": "縮小範圍不是新測量。別把它寫成新測量。"
+      }
+    },
+    "chair": {
+      "steps": [
+        "可以縮小範圍",
+        "不可回寫舊句",
+        "分歧必須留下"
+      ],
+      "answer": "互怼可以縮小範圍、打掉越界。不能回寫已落筆的句子，也不能把分歧抹平。"
+    }
+  },
+  "en": {
+    "title": "What review can change",
+    "question": "What can a cross-review change: a settled line, or only a marked disagreement?",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "Review edits reasons",
+          "Not the other seat",
+          "Dissent stays"
+        ],
+        "answer": "A review can change reason and scope. It cannot insert unspoken words.",
+        "review_target": "critic",
+        "review": "Knocking down one overreach is not a rewrite of that seat."
+      },
+      "researcher": {
+        "steps": [
+          "Cite it to change it",
+          "Else only flag it",
+          "Don't promote to fact"
+        ],
+        "answer": "A rebuttal without a source can only mark uncertainty.",
+        "review_target": "writer",
+        "review": "Mark it unknown. Don't smooth it into already checked."
+      },
+      "engineer": {
+        "steps": [
+          "Change the contract",
+          "Append an event",
+          "Don't rewrite history"
+        ],
+        "answer": "A review appends an event. It does not rewrite a settled line.",
+        "review_target": "quant",
+        "review": "An append can shrink scope. It cannot overwrite the old number."
+      },
+      "critic": {
+        "steps": [
+          "Knock down overreach",
+          "Don't ghostwrite",
+          "Name the line"
+        ],
+        "answer": "I can knock down one overreaching line. I cannot rewrite the seat.",
+        "review_target": "analyst",
+        "review": "Name the line. A vague objection is not an edit."
+      },
+      "strategist": {
+        "steps": [
+          "Change the condition",
+          "Not a checked fact",
+          "Dissent enters"
+        ],
+        "answer": "Change the recommendation's conditions. An unchallenged fact stays.",
+        "review_target": "engineer",
+        "review": "If the condition changes, the old line still stays in the events."
+      },
+      "writer": {
+        "steps": [
+          "Name who objected",
+          "Don't smooth it",
+          "The reader must see"
+        ],
+        "answer": "The summary keeps who objected, and to which line.",
+        "review_target": "strategist",
+        "review": "Don't sand it down to unanimous just to make it readable."
+      },
+      "quant": {
+        "steps": [
+          "Numbers need numbers",
+          "Slogans don't win",
+          "Scope can shrink"
+        ],
+        "answer": "Without a new number, you cannot change the old one. You can shrink scope.",
+        "review_target": "researcher",
+        "review": "A smaller scope is not a new measurement. Don't write it as one."
+      }
+    },
+    "chair": {
+      "steps": [
+        "Scope can shrink",
+        "Settled lines stay",
+        "Dissent must remain"
+      ],
+      "answer": "A review may shrink scope or knock down overreach. It cannot rewrite a settled line or erase dissent."
+    }
+  }
+}

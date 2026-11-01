@@ -1,0 +1,152 @@
+{
+  "id": "visible-council",
+  "wake": "gated",
+  "zh": {
+    "title": "可見 vs 黑盒",
+    "question": "可見議會和原生黑盒，差別在過程還是在結論？跳過的席能不能寫進終稿。",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "過程要能核對",
+          "結論要能追溯",
+          "黑盒只給終稿"
+        ],
+        "answer": "差別在過程能不能被核對，不在結論好不好聽。",
+        "review_target": "critic",
+        "review": "看得到不等於每一步都真。回放仍要標明是策展。"
+      },
+      "researcher": {
+        "standby": true,
+        "steps": [],
+        "answer": ""
+      },
+      "engineer": {
+        "steps": [
+          "事件流可以播",
+          "席位狀態分開",
+          "黑盒只有一段"
+        ],
+        "answer": "可見模式給席位事件。原生模式只給一段終稿。",
+        "review_target": "quant",
+        "review": "多出來的是事件，不是自動更準。"
+      },
+      "critic": {
+        "steps": [
+          "展示本身會作假",
+          "跳過必須具名",
+          "終稿不能補席"
+        ],
+        "answer": "沒出場的席，不能在結論裡被補成好像說過話。",
+        "review_target": "strategist",
+        "review": "省 Token 可以。假裝全席說過話，不行。"
+      },
+      "strategist": {
+        "steps": [
+          "觀眾要看過程",
+          "黑盒就標黑盒",
+          "兩條路不要混"
+        ],
+        "answer": "要展示就走可見。要省過程就標黑盒。",
+        "review_target": "analyst",
+        "review": "核對的是事件，不是語氣。"
+      },
+      "writer": {
+        "standby": true,
+        "steps": [],
+        "answer": ""
+      },
+      "quant": {
+        "steps": [
+          "可見多的是事件",
+          "黑盒少的是 Token",
+          "準度要另計"
+        ],
+        "answer": "可見更貴在事件，不自動更準。",
+        "review_target": "engineer",
+        "review": "別把延遲差寫成品質差。"
+      }
+    },
+    "chair": {
+      "steps": [
+        "過程要可核對",
+        "跳過的席具名",
+        "終稿不補空席"
+      ],
+      "answer": "可見與黑盒的差別是過程能不能核對。沒出場的席，不能寫進結論。"
+    }
+  },
+  "en": {
+    "title": "Visible vs black box",
+    "question": "Is the difference the process or the verdict, and can a skipped seat enter the final draft?",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "Process is checkable",
+          "Verdict must trace",
+          "Black box is final"
+        ],
+        "answer": "The difference is whether the process can be checked.",
+        "review_target": "critic",
+        "review": "Visible is not the same as true. A replay must say it is curated."
+      },
+      "researcher": {
+        "standby": true,
+        "steps": [],
+        "answer": ""
+      },
+      "engineer": {
+        "steps": [
+          "Events can replay",
+          "Seat state is split",
+          "Black box is one blob"
+        ],
+        "answer": "Visible mode emits seat events. Native mode returns one draft.",
+        "review_target": "quant",
+        "review": "You gain events, not automatic accuracy."
+      },
+      "critic": {
+        "steps": [
+          "A show can fake",
+          "Skips must be named",
+          "Final can't backfill"
+        ],
+        "answer": "A seat you did not see must not be written into the verdict.",
+        "review_target": "strategist",
+        "review": "Saving tokens is fine. Pretending the full table spoke is not."
+      },
+      "strategist": {
+        "steps": [
+          "Show the process",
+          "Or label the box",
+          "Don't mix the paths"
+        ],
+        "answer": "Show the process, or label the black box. Don't mix them.",
+        "review_target": "analyst",
+        "review": "Check the events, not the tone."
+      },
+      "writer": {
+        "standby": true,
+        "steps": [],
+        "answer": ""
+      },
+      "quant": {
+        "steps": [
+          "Visible costs events",
+          "Black box saves tokens",
+          "Accuracy is separate"
+        ],
+        "answer": "Visible costs more events. It is not automatically more accurate.",
+        "review_target": "engineer",
+        "review": "Don't write a latency gap as a quality gap."
+      }
+    },
+    "chair": {
+      "steps": [
+        "Process must check",
+        "Name every skip",
+        "Don't fill empty seats"
+      ],
+      "answer": "The difference is whether the process can be checked. A seat that did not appear cannot enter the verdict."
+    }
+  }
+}

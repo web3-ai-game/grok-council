@@ -1,0 +1,172 @@
+{
+  "id": "latency-bill",
+  "wake": "full",
+  "zh": {
+    "title": "延遲不是帳單",
+    "question": "延遲降下來，帳單就降下來嗎？並行、快取、少叫一席，各動哪一條軸。",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "延遲是時間",
+          "帳單是 Token",
+          "兩條軸分開"
+        ],
+        "answer": "更快不等于更便宜。時間和 Token 是兩條軸。",
+        "review_target": "quant",
+        "review": "沒有換算公式。不要寫成一個數。"
+      },
+      "researcher": {
+        "steps": [
+          "快取降的是等待",
+          "快取不一定省",
+          "少做一次才省"
+        ],
+        "answer": "同樣的工作排得更緊，帳單不變。少做一次才變。",
+        "review_target": "engineer",
+        "review": "快取命中要單獨記。不能把命中寫成沒有成本。"
+      },
+      "engineer": {
+        "steps": [
+          "並行縮短等待",
+          "Token 仍然加總",
+          "跳過才減少"
+        ],
+        "answer": "並行把等待疊起來。各席 Token 還是加總。",
+        "review_target": "critic",
+        "review": "八席同時叫會更快，也會更貴。這句要留下。"
+      },
+      "critic": {
+        "steps": [
+          "延遲不是發票",
+          "儀表必須分列",
+          "快可以更貴"
+        ],
+        "answer": "把八席同時叫起來會更快，也會更貴。",
+        "review_target": "strategist",
+        "review": "先選要快還是要省。不要用一個數字交差。"
+      },
+      "strategist": {
+        "steps": [
+          "要快就付 Token",
+          "要省就少叫席",
+          "先選定目標"
+        ],
+        "answer": "先決定要快還是要省。兩個目標不要混成一個數。",
+        "review_target": "writer",
+        "review": "文案裡更快和更便宜必須拆開。"
+      },
+      "writer": {
+        "steps": [
+          "一句話先拆開",
+          "毫秒不是美元",
+          "不要混著寫"
+        ],
+        "answer": "寫了更快，就不要順便寫更便宜。",
+        "review_target": "analyst",
+        "review": "讀者只會記住便宜。時間那半句要單獨成句。"
+      },
+      "quant": {
+        "steps": [
+          "分開記兩列",
+          "延遲看尾部",
+          "帳單看總量"
+        ],
+        "answer": "延遲看 P95。帳單看 Token 總量。沒有換算公式。",
+        "review_target": "researcher",
+        "review": "P95 降下來，總量可以不變。這不是矛盾。"
+      }
+    },
+    "chair": {
+      "steps": [
+        "兩條軸分開",
+        "並行不省 Token",
+        "少做一次才省"
+      ],
+      "answer": "延遲不是帳單。並行只縮短等待。要降帳單，得少叫一席，或少做一次。"
+    }
+  },
+  "en": {
+    "title": "Latency isn't the bill",
+    "question": "If latency drops, does the bill drop? What do parallelism, cache, and skipping a seat each move?",
+    "seats": {
+      "analyst": {
+        "steps": [
+          "Latency is time",
+          "The bill is tokens",
+          "Keep two axes"
+        ],
+        "answer": "Faster is not cheaper. Time and tokens are two axes.",
+        "review_target": "quant",
+        "review": "There is no conversion. Don't write them as one number."
+      },
+      "researcher": {
+        "steps": [
+          "Cache cuts waiting",
+          "Cache may not save",
+          "Skip work to save"
+        ],
+        "answer": "Packing the same work tighter does not change the bill.",
+        "review_target": "engineer",
+        "review": "Count cache hits apart. A hit is not the same as free."
+      },
+      "engineer": {
+        "steps": [
+          "Parallel cuts wait",
+          "Tokens still add",
+          "Skips reduce"
+        ],
+        "answer": "Parallelism stacks the wait. Seat tokens still add up.",
+        "review_target": "critic",
+        "review": "Calling every seat at once is faster and more expensive. Keep that line."
+      },
+      "critic": {
+        "steps": [
+          "Latency isn't invoice",
+          "Meter them apart",
+          "Fast can cost more"
+        ],
+        "answer": "Calling every seat at once is faster and more expensive.",
+        "review_target": "strategist",
+        "review": "Pick speed or savings first. Don't close with one number."
+      },
+      "strategist": {
+        "steps": [
+          "Speed spends tokens",
+          "Saving skips seats",
+          "Pick the goal first"
+        ],
+        "answer": "Decide whether you want speed or savings. Don't blend the goals.",
+        "review_target": "writer",
+        "review": "Faster and cheaper must be separate sentences."
+      },
+      "writer": {
+        "steps": [
+          "Split the sentence",
+          "Milliseconds aren't dollars",
+          "Don't blend them"
+        ],
+        "answer": "If you write faster, don't also write cheaper.",
+        "review_target": "analyst",
+        "review": "Readers remember cheaper. The time half needs its own sentence."
+      },
+      "quant": {
+        "steps": [
+          "Record two columns",
+          "Latency is the tail",
+          "The bill is the sum"
+        ],
+        "answer": "Latency is the P95. The bill is total tokens. No conversion.",
+        "review_target": "researcher",
+        "review": "The P95 can fall while the sum stays. That is not a contradiction."
+      }
+    },
+    "chair": {
+      "steps": [
+        "Keep two axes",
+        "Parallel saves no tokens",
+        "Do the work once less"
+      ],
+      "answer": "Latency is not the bill. Parallelism only shortens the wait. The bill drops if you call fewer seats."
+    }
+  }
+}
