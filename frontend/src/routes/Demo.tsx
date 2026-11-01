@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 import { applyCouncilEvent } from "../lib/councilEvents";
 import type { CouncilExpertView, CouncilView } from "../lib/types";
 import { applyLights, readLights, switchLights, type Lights } from "../demo/lights";
-import { buildTimeline } from "../demo/player";
+import { buildTimeline, textDuration, typedCount } from "../demo/player";
 import { SCENARIOS, scenarioById } from "../demo/scenarios";
 import { SEATS, seatName, seatShort, type Lang } from "../demo/seats";
 import type { Phase } from "../demo/types";
@@ -48,7 +48,7 @@ const COPY = {
     awake: "全席",
     gated: "門控跳過 2 席",
     verdict: "議長結論",
-    verdictReason: "議長推理",
+    verdictReason: "議長正在寫推理。",
     verdictWait: "出場的席還在寫。結論在互怼之後。",
     nowGate: "正在點名。",
     nowWrite: "席位正在寫。",
@@ -93,7 +93,7 @@ const COPY = {
     awake: "Full table",
     gated: "Gate skipped 2",
     verdict: "Chair's verdict",
-    verdictReason: "Chair's reasoning",
+    verdictReason: "The chair is writing the chain.",
     verdictWait: "The seats are still writing. The verdict comes after review.",
     nowGate: "The gate is choosing.",
     nowWrite: "The seats are writing.",
@@ -104,6 +104,11 @@ const COPY = {
 } as const;
 
 type Copy = (typeof COPY)[Lang];
+
+type Trace = {
+  text: string;
+  elapsed: number;
+};
 
 function blankCouncil(): CouncilView {
   return {
@@ -137,7 +142,7 @@ export function Demo() {
   const [phase, setPhase] = useState<Phase>("gate");
   const [council, setCouncil] = useState<CouncilView>(blankCouncil);
   const [index, setIndex] = useState(0);
-  const [revealed, setRevealed] = useState<Record<string, number>>({});
+  const [traces, setTraces] = useState<Record<string, Trace>>({});
   const waitRef = useRef(0);
 
   const scenario = scenarioById(scenarioId);
@@ -159,7 +164,7 @@ export function Demo() {
     setIndex(0);
     setPhase("gate");
     setCouncil(blankCouncil());
-    setRevealed({});
+    setTraces({});
     setPaused(false);
     waitRef.current = 0;
   }, [runId, script]);
@@ -173,13 +178,10 @@ export function Demo() {
     const started = performance.now();
     const timer = window.setTimeout(() => {
       waitRef.current = 0;
-      if (event.event === "expert.step" && typeof event.data.expert_id === "string") {
+      if (event.event === "thought.start" && typeof event.data.expert_id === "string") {
         const id = event.data.expert_id;
-        const stepIndex = Number(event.data.index);
-        setRevealed((prev) => ({
-          ...prev,
-          [id]: Math.max(prev[id] ?? 0, Number.isFinite(stepIndex) ? stepIndex + 1 : 0),
-        }));
+        const text = typeof event.data.text === "string" ? event.data.text : "";
+        setTraces((prev) => ({ ...prev, [id]: { text, elapsed: 0 } }));
       } else if (event.event === "phase" && typeof event.data.phase === "string") {
         setPhase(event.data.phase as Phase);
       } else {
@@ -204,6 +206,32 @@ export function Demo() {
       window.clearTimeout(timer);
     };
   }, [index, paused, script, speed]);
+
+  useEffect(() => {
+    if (paused) return;
+    let frame = 0;
+    let last = performance.now();
+    const loop = (now: number) => {
+      const dt = Math.min(48, now - last);
+      last = now;
+      setTraces((prev) => {
+        let changed = false;
+        const next: Record<string, Trace> = {};
+        for (const [id, trace] of Object.entries(prev)) {
+          if (trace.elapsed >= textDuration(trace.text)) {
+            next[id] = trace;
+            continue;
+          }
+          changed = true;
+          next[id] = { text: trace.text, elapsed: trace.elapsed + dt * speed };
+        }
+        return changed ? next : prev;
+      });
+      frame = window.requestAnimationFrame(loop);
+    };
+    frame = window.requestAnimationFrame(loop);
+    return () => window.cancelAnimationFrame(frame);
+  }, [paused, speed]);
 
   function chooseLang(next: Lang) {
     localStorage.setItem(LANG_KEY, next);
@@ -312,10 +340,8 @@ export function Demo() {
             emoji={seat.emoji}
             name={seatName(seat.id, lang)}
             expert={experts.find((item) => item.id === seat.id)}
-            steps={seat.id === "leader" ? side.chair.steps : side.seats[seat.id]?.steps ?? []}
-            brief={seat.id === "leader" ? side.chair.brief ?? [] : side.seats[seat.id]?.brief ?? []}
+            trace={traces[seat.id]}
             skip={side.seats[seat.id]?.skip}
-            revealed={revealed[seat.id] ?? 0}
             gating={council.gating || experts.length === 0}
             copy={copy}
             lang={lang}
@@ -324,16 +350,11 @@ export function Demo() {
       </div>
 
       <section className="verdict" aria-label={copy.verdict}>
-        <StepChain
-          steps={side.chair.steps}
-          revealed={revealed.leader ?? 0}
-          active={phase === "synth" && !chair?.content}
-        />
         <div className="verdict-copy">
           <p className="eyebrow">{verdictReady ? copy.verdict : copy.phase}</p>
           <p className="answer">
-            {chair?.content || (phase === "synth" ? "" : statusLine)}
-            {phase === "synth" ? <i /> : null}
+            {chair?.content || (phase === "synth" ? copy.verdictReason : statusLine)}
+            {phase === "synth" && !verdictReady ? <i /> : null}
           </p>
         </div>
       </section>
@@ -347,10 +368,8 @@ function ExpertCard({
   emoji,
   name,
   expert,
-  steps,
-  brief,
+  trace,
   skip,
-  revealed,
   gating,
   copy,
   lang,
@@ -359,10 +378,8 @@ function ExpertCard({
   emoji: string;
   name: string;
   expert?: CouncilExpertView;
-  steps: readonly string[];
-  brief: readonly string[];
+  trace?: Trace;
   skip?: string;
-  revealed: number;
   gating: boolean;
   copy: Copy;
   lang: Lang;
@@ -380,9 +397,16 @@ function ExpertCard({
           ? copy.waiting
           : expert?.content || "";
   const review = expert?.review || (expert?.critiquing && target ? copy.critique(target) : "");
-  const finished = expert?.status === "done" || expert?.status === "error";
-  const briefCount = standby || gating ? 0 : finished ? brief.length : revealed;
-  const paragraphs = brief.slice(0, briefCount);
+  const snap = expert?.status === "done" || expert?.status === "error" || Boolean(position && !waiting && !standby);
+  const shown = !trace || standby || gating ? 0 : snap ? trace.text.length : typedCount(trace.text, trace.elapsed);
+  const thought = trace && shown > 0 ? trace.text.slice(0, shown) : "";
+  const thinking = Boolean(trace && !snap && shown < trace.text.length && !standby && !gating);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const node = bodyRef.current;
+    if (!node || !running) return;
+    node.scrollTop = node.scrollHeight;
+  }, [thought, position, review, running]);
   return (
     <article className={`card${standby ? " standby" : ""}${expert?.challengedBy ? " hit" : ""}${running ? " live" : ""}${seatId === "leader" ? " chair" : ""}`}>
       <header>
@@ -396,23 +420,25 @@ function ExpertCard({
           </em>
         </div>
       </header>
-      <div className="card-body">
-        <StepChain steps={steps} revealed={standby || gating ? 0 : revealed} active={Boolean(running && !position && !review)} />
-        {paragraphs.length ? (
+      <div className="card-body" ref={bodyRef}>
+        {thought || thinking ? (
           <>
             <p className="field">{copy.reasoning}</p>
-            {paragraphs.map((paragraph) => (
-              <p className="brief" key={paragraph}>
-                {paragraph}
-              </p>
-            ))}
+            <p className={`trace${thinking ? " live" : ""}`}>
+              {thought}
+              {thinking ? <i /> : null}
+            </p>
           </>
         ) : null}
-        <p className="field">{copy.position}</p>
-        <p className="ink">
-          {position || "·"}
-          {running && position ? <i /> : null}
-        </p>
+        {position ? (
+          <>
+            <p className="field">{copy.position}</p>
+            <p className="ink">
+              {position}
+              {running && !review ? <i /> : null}
+            </p>
+          </>
+        ) : null}
         {review ? (
           <>
             <p className="field">{copy.review}</p>
@@ -424,30 +450,6 @@ function ExpertCard({
         ) : null}
       </div>
     </article>
-  );
-}
-
-function StepChain({ steps, revealed, active }: { steps: readonly string[]; revealed: number; active: boolean }) {
-  const rows = [15, 43, 71];
-  const shown = [steps[0] ?? "", steps[1] ?? "", steps[2] ?? ""];
-  const label = shown.filter((step, index) => index < revealed && step).join(" · ");
-  return (
-    <svg className="chain" viewBox="0 0 280 86" role="img" aria-label={label || undefined}>
-      <line x1="8" y1="19" x2="8" y2="39" className={revealed > 1 ? "on" : ""} />
-      <line x1="8" y1="47" x2="8" y2="67" className={revealed > 2 ? "on" : ""} />
-      {rows.map((y, index) => {
-        const on = index < revealed;
-        const hot = active && on && index === revealed - 1;
-        return (
-          <g key={y}>
-            <circle cx="8" cy={y} r={hot ? 4.4 : 3.5} className={on ? "on" : ""} />
-            <text x="20" y={y} dominantBaseline="middle" className={on ? "on" : ""}>
-              {on ? shown[index] : ""}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
   );
 }
 

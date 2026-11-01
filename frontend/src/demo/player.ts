@@ -1,12 +1,50 @@
 import { SEATS, seatName } from "./seats";
 import type { Lang } from "./seats";
-import type { Phase, ScenarioFile, SeatScript, TimedEvent } from "./types";
+import type { Phase, ScenarioFile, TimedEvent } from "./types";
 
 export const TICK_MS = 56;
 export const STAGGER_MS = 320;
 export const GATE_MS = 1200;
 export const PHASE_GAP_MS = 460;
-export const STEP_MS = 480;
+const LEAD_MS = 90;
+
+export function advanceCost(text: string, index: number): number {
+  const code = text.charCodeAt(index);
+  const base = code > 127 ? 28 : 12;
+  const jitter = ((index * 13) % 7) - 3;
+  const ch = text[index] ?? "";
+  const pause = "。！？.!?".includes(ch) ? 120 : "，、,;；".includes(ch) ? 48 : ch === "\n" ? 36 : 0;
+  return Math.max(8, base + jitter + pause);
+}
+
+export function textDuration(text: string): number {
+  let ms = LEAD_MS;
+  for (let i = 0; i < text.length; i += 1) ms += advanceCost(text, i);
+  return ms;
+}
+
+export function typedCount(text: string, elapsed: number): number {
+  let ms = LEAD_MS;
+  if (elapsed < ms) return 0;
+  for (let i = 0; i < text.length; i += 1) {
+    ms += advanceCost(text, i);
+    if (elapsed < ms) return i;
+  }
+  return text.length;
+}
+
+export function interruptedThought(text: string): string {
+  const cut = Math.max(18, Math.floor(text.length * 0.58));
+  let end = cut;
+  for (let i = cut; i >= Math.floor(text.length * 0.35); i -= 1) {
+    const ch = text[i] ?? "";
+    if ("。！？.!?，、,;；".includes(ch)) {
+      end = i;
+      break;
+    }
+  }
+  return text.slice(0, end).trimEnd();
+}
 
 let seq = 0;
 
@@ -41,17 +79,25 @@ function stream(
   return t;
 }
 
-function scriptSteps(script: SeatScript | undefined): string[] {
-  return (script?.steps ?? []).filter((step) => step.length > 0).slice(0, 3);
+function asChain(text: string): string {
+  return text
+    .replace(/([。！？])\s*/g, "$1\n")
+    .replace(/([.!?])\s+(?=[A-Z])/g, "$1\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
-function playSteps(events: TimedEvent[], at: number, expertId: string, steps: string[], limit = steps.length): number {
-  let t = at;
-  for (let index = 0; index < limit; index += 1) {
-    push(events, t, "expert.step", { expert_id: expertId, index, label: steps[index] ?? "" });
-    t += STEP_MS;
-  }
-  return t;
+function thoughtText(script: { brief?: string[]; steps?: string[] } | undefined, failed: boolean): string {
+  const brief = (script?.brief ?? []).map((item) => item.trim()).filter(Boolean);
+  const text = asChain(brief.length ? brief.join("\n\n") : (script?.steps ?? []).filter(Boolean).join("\n"));
+  if (!text) return "";
+  return failed ? interruptedThought(text) : text;
+}
+
+function playThought(events: TimedEvent[], at: number, expertId: string, text: string): number {
+  if (!text) return at;
+  push(events, at, "thought.start", { expert_id: expertId, text });
+  return at + textDuration(text);
 }
 
 export function buildTimeline(scenario: ScenarioFile, lang: Lang): TimedEvent[] {
@@ -80,11 +126,10 @@ export function buildTimeline(scenario: ScenarioFile, lang: Lang): TimedEvent[] 
     const script = side.seats[seat.id];
     let t = GATE_MS + 80 + index * STAGGER_MS;
     push(events, t, "expert.start", { expert_id: seat.id });
-    t += 140;
-    const steps = scriptSteps(script);
+    t += 80;
     const failed = Boolean(script?.error);
-    t = playSteps(events, t, seat.id, steps, failed ? Math.min(2, steps.length) : steps.length);
-    t += 120;
+    t = playThought(events, t, seat.id, thoughtText(script, failed));
+    t += 90;
     if (failed) {
       push(events, t, "expert.done", { expert_id: seat.id, error: script?.error });
     } else {
@@ -123,9 +168,9 @@ export function buildTimeline(scenario: ScenarioFile, lang: Lang): TimedEvent[] 
   push(events, synthAt, "phase", { phase: "synth" satisfies Phase });
   push(events, synthAt, "synth.start", {});
   push(events, synthAt, "expert.start", { expert_id: "leader" });
-  let t = synthAt + 160;
-  t = playSteps(events, t, "leader", (side.chair.steps ?? []).slice(0, 3));
-  t += 160;
+  let t = synthAt + 80;
+  t = playThought(events, t, "leader", thoughtText(side.chair, false));
+  t += 90;
   t = stream(events, t, "synth.delta", {}, side.chair.answer);
   t += 40;
   push(events, t, "expert.done", { expert_id: "leader" });
