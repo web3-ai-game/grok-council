@@ -11,14 +11,14 @@
           "帳單是 Token",
           "兩條軸分開"
         ],
-        "answer": "更快不等於更便宜。時間和 Token 是兩條軸。",
+        "answer": "更快不等于更便宜。時間和 Token 是兩條軸。",
         "review_target": "quant",
-        "review": "「延遲看 P95。帳單看 Token 總量。沒有換算公式。」\n沒有換算公式，這句是對的，但不能被收成「所以兩個數都不要看」。P95 和 Token 總量仍要分開記。不換算，是禁止合成一個數，不是禁止測量。這句若被拿去擋一切成本討論，範圍被寫大了。",
+        "review": "沒有換算公式。不要寫成一個數。",
         "brief": [
-          "時間和 Token 是兩條軸。更快推不出更便宜，更便宜也推不出更快。沒有換算公式，就不能寫成一個數。讀者只會記住便宜的那半句，所以時間必須單獨成句。",
           "更快和更便宜是兩條軸。延遲是人等多久。帳單是上游收多少。並行把等待疊在同一段時間裡，所以牆鐘變短。各席的 token 還是加總，所以帳單不變，有時還變多，因為你為了快把本來可以不叫的席也叫了。",
           "不要把牆鐘的下降寫成成本的下降。讀者會用這一句去做預算。預算按錯軸，快的方案會在帳上爆，省的方案會在等待上爆。兩種爆都不該被一句雙關語提前簽掉。",
-          "若同一句同時寫了更快和更便宜，而沒有寫明各自動的是哪一條軸，這席撤回簽名。"
+          "先問要哪一條軸。要快，就並行，並接受帳單是各席之和。要省，就少叫一席，或少做一次，並接受牆鐘變長。兩個都要，就寫明你願意在哪一條上讓。",
+          "我不會在同一句裡簽更快和更便宜。要簽，就寫明讓的是哪一條軸。不寫明，讓步會發生在帳單上，因為帳單比等待晚到，也比較不容易在回放裡被看見。晚到的那條，最容易被一句雙關語簽掉。"
         ]
       },
       "researcher": {
@@ -29,12 +29,12 @@
         ],
         "answer": "同樣的工作排得更緊，帳單不變。少做一次才變。",
         "review_target": "engineer",
-        "review": "「並行把等待疊起來。各席 Token 還是加總。」\n等待疊起來，各席 Token 仍加總，這句沒有寫快取。快取命中若被算進「沒有成本」，加總就被減掉了一筆仍要付的儲存和失效成本。命中要單獨記。不能把命中寫成免費。",
+        "review": "快取命中要單獨記。不能把命中寫成沒有成本。",
         "brief": [
-          "同樣的工作排得更緊，帳單不變。這是排程，不是降價。帳單變，只有少做一次：少一席、少一輪、少一段不需要的合成。快取命中要單獨記，命中不是沒有成本。",
-          "同樣的工作排得更緊，帳單不變。這是排程，不是降價。少做一次才變：少一席、少一輪搶話、少一段不需要的合成。我沒有來源把「並行」寫成「單價下降」，所以不寫。",
+          "同樣的工作排得更緊，帳單不變。這是排程，不是降價。少做一次才變：少一席、少一輪互怼、少一段不需要的合成。我沒有來源把「並行」寫成「單價下降」，所以不寫。",
           "供應商的計費單位是 token 和呼叫，不是你的牆鐘。牆鐘是你自己的時間。把兩個單位合成一個「效率」，效率就會在你想要的方向上說謊。",
-          "若把並行或快取命中寫成單價下降，而呼叫次數沒變，這席撤回「帳單降下來了」。"
+          "所以情報席只確認單位不同。不確認某個模型這週的單價，也沒有把等待時間換算成錢。沒有那條換算公式，就不該在結論裡出現。",
+          "沒有把並行寫成降價的來源，所以結論裡不該出現這條換算。誰補了「因此更便宜」，誰就是在編單位。單位不同的兩個數，不能用因此連接。因此是因果。這裡沒有那個因果。"
         ]
       },
       "engineer": {
@@ -45,12 +45,12 @@
         ],
         "answer": "並行把等待疊起來。各席 Token 還是加總。",
         "review_target": "critic",
-        "review": "「把八席同時叫起來會更快，也會更貴。」\n把八席同時叫起來會更快，也會更貴。只留前半，就是把並行寫成了降價。這句若被收成「所以不要並行」，更貴被寫成了禁止，更快被刪掉了。兩半都要留。先選要快還是要省，不要用一個數字把這句交差。",
+        "review": "八席同時叫會更快，也會更貴。這句要留下。",
         "brief": [
-          "並行把等待疊起來，牆鐘時間可以下降。各席 Token 還是加總，所以上游帳單不下降。八席同時叫會更快，也會更貴。這兩句必須同時留下。",
           "並行是把各席的請求同時發出，讓最慢的那席決定牆鐘，而不是讓八席排隊相加。這縮短的是等待。每一席回來的 token 仍要付。付的次數沒有因為同時發出而減少。",
-          "要降帳單，工程上只有少做事：門控讓無關的席不呼叫，搶話不對已經夠窄的句子再打一輪，合成不把八席原文再送一遍。這些是少呼叫，不是把同一次呼叫變便宜。",
-          "若實作把八席同時叫起來，卻在結論裡只寫更快，這席撤回。更貴那半句不能省。"
+          "要降帳單，工程上只有少做事：門控讓無關的席不呼叫，互怼不對已經夠窄的句子再打一輪，合成不把八席原文再送一遍。這些是少呼叫，不是把同一次呼叫變便宜。",
+          "介面可以同時顯示兩個數：P95 等待，和這場的 token 總量。不要顯示一個把它們除在一起的分數。那個分數沒有單位，也沒有人能照著它做決定。",
+          "畫面上留 P95 和 token 總量，不留除出來的分數。分數沒有單位，會被當成優化目標。優化一個沒有單位的分數，通常是把等待的下降誤記成帳單的下降。兩個數分開，才不會優化錯列。"
         ]
       },
       "critic": {
@@ -61,12 +61,12 @@
         ],
         "answer": "把八席同時叫起來會更快，也會更貴。",
         "review_target": "strategist",
-        "review": "「先決定要快還是要省。兩個目標不要混成一個數。」\n先選要快還是要省，是決策順序，不是測量。選了之後，八席同時叫仍是更快也更貴。這句若被收成「選了快，貴就可以不寫」，選擇被當成了刪除半句的許可。不要用一個數字交差。",
+        "review": "先選要快還是要省。不要用一個數字交差。",
         "brief": [
-          "八席同時叫，等待的上界變成最慢那一席，Token 的總量變成八席之和。更快和更貴是同一次選擇的兩半，不是兩個可以分開領取的好處。",
           "把八席同時叫起來會更快，也會更貴。任何把這句收成「又快又省」的說法都越界。又快又省需要少做事同時少等待，而少做事通常加等待，少等待通常加呼叫。",
           "我打的是換算，不是並行本身。並行可以留。把並行的收益寫進帳單那一列，不行。收益寫錯列，後面的取捨會全部偏掉。",
-          "若方案只承諾更快、沒有寫更貴，或只承諾更省、沒有寫更慢，這席不簽那個方案。"
+          "所以結論裡如果出現「因此更便宜」，而事件流裡沒有少一次呼叫，這句就刪。沒有少呼叫的更便宜，是把牆鐘誤記成了帳單。",
+          "「因此更便宜」只要事件流裡沒有少一次呼叫，就刪。這條不看語氣多謹慎。謹慎的誤記仍然是誤記。並行可以留在結論裡，但只能留在等待那一列。"
         ]
       },
       "strategist": {
@@ -77,12 +77,12 @@
         ],
         "answer": "先決定要快還是要省。兩個目標不要混成一個數。",
         "review_target": "writer",
-        "review": "「寫了更快，就不要順便寫更便宜。」\n寫了更快就不要順便寫更便宜，這是文案約束，不是軸的定義。軸的定義是時間和 Token 不能換算。這句若被收成「所以文案只要短」，該拆開的兩句被省成了一句空話。更快和更便宜必須拆開。",
+        "review": "文案裡更快和更便宜必須拆開。",
         "brief": [
-          "先決定要快還是要省。兩個目標不要混成一個數。文案裡更快和更便宜必須拆開，否則讀者會執行一個沒有人簽過的組合。",
           "先決定要快還是要省。兩個目標不要混成一個數。混成一個數之後，就沒有人能說你在讓哪一條。讓步不明說，就會在最貴的地方默默發生。",
           "這一題的推薦要帶選擇，不帶雙贏。給人看的回放可以並行，因為等待是讀者的成本，帳單是你的成本，你願意為等待付帳單。批量任務可以少叫席，因為沒有人在等那幾秒，token 才是約束。",
-          "若推薦句同時承諾更快和更便宜，而沒有寫少叫了哪一席或少做了哪一次，這席撤回推薦。"
+          "不要寫「我們兩者都優化了」。兩者都優化通常是兩者都沒有定線。定了線，才知道這次選的是等待還是帳單。",
+          "給人看的回放可以付帳單換等待。沒人等的批量可以少叫席換帳單。兩種選擇都寫出來，讀者才知道這一場選的是哪一種。寫「兩者都優化了」，等於沒選。沒選的方案，會在更貴的那條上爆。"
         ]
       },
       "writer": {
@@ -93,12 +93,12 @@
         ],
         "answer": "寫了更快，就不要順便寫更便宜。",
         "review_target": "analyst",
-        "review": "「更快不等於更便宜。時間和 Token 是兩條軸。」\n兩條軸沒有換算公式，推不出時間那半句可以附在便宜後面。附在後面，讀者就不會單獨記住它。時間必須單獨成句。這句若被收成「不要寫時間」，測量被文案省掉了。不要合成一個數，不是不要寫時間。",
+        "review": "讀者只會記住便宜。時間那半句要單獨成句。",
         "brief": [
-          "寫了更快，就不要順便寫更便宜。讀者只會記住便宜。時間那半句要單獨成句，並且寫明它動的是等待，不是帳單。",
           "寫了更快，就不要順便寫更便宜。兩個詞挨在一起，讀者會當成一件事。它們不是一件事。更快是牆鐘。更便宜是 token。中間沒有因此。",
           "可以寫的是選擇句：要縮短等待，就並行，帳單仍是各席之和。要降低帳單，就少叫一席或少做一次，等待會變長。這一句比「高效」長，也比「高效」難被誤用。",
-          "若複述出來只剩「更便宜」或「更快所以更便宜」，這席不簽。兩句都要能被單獨複述。"
+          "不新增換算。不寫一秒值多少 token。沒有席位給過那個比價，文案不能為了完整補一個。完整的錯誤比不完整的正確更難收回。",
+          "更快和更便宜中間不放因此。要寫就寫選擇句，讓讀者知道帳單仍是各席之和。選擇句長，比高效這個詞安全。高效會被轉述成又快又省。又快又省不是這一場的結論。"
         ]
       },
       "quant": {
@@ -109,12 +109,12 @@
         ],
         "answer": "延遲看 P95。帳單看 Token 總量。沒有換算公式。",
         "review_target": "researcher",
-        "review": "「同樣的工作排得更緊，帳單不變。少做一次才變。」\n同樣的工作排得更緊，帳單不變，這句沒有取消 P95。P95 可以因排得更緊而下降，總量仍不變。這不是矛盾，也不能被寫成「所以延遲沒有意義」。延遲看 P95。帳單看總量。兩個都記，不換算。",
+        "review": "P95 降下來，總量可以不變。這不是矛盾。",
         "brief": [
-          "延遲看 P95，不看平均值，除非另外說明為什麼平均夠用。帳單看 Token 總量，不看單次延遲。P95 降下來，總量可以不變。這不是矛盾，是兩條軸。",
           "延遲看 P95，不看某一次特別快的示範。帳單看 token 總量，不看平均每一席看起來便不便宜。兩個分布不要合成一個分數。合成之後，你無法知道是等待變了還是單價變了。",
           "並行的數學很窄：牆鐘約等於最慢的那席，帳單等於各席之和。沒有第三個公式把牆鐘折進帳單。誰寫了第三個公式，誰就要給出單位和測量。給不出，公式就不進結論。",
-          "若結論用一個數同時代表 P95 和 Token 總量，這席拒絕那個數。沒有換算公式，合成數就是編的。"
+          "少呼叫才同時動到帳單。少一席，總量下降，牆鐘可能上升，因為你少了一條可以重疊的等待，也可能下降，因為你少等了一席。方向不預設，要量。",
+          "沒有第三個公式。誰要把秒折成 token，誰就要帶單位和測量。帶不出，公式不進結論。少一席之後牆鐘的方向也不預設，要量。預設方向是在沒有分布的地方寫一個好看的箭頭。"
         ]
       }
     },
@@ -126,10 +126,10 @@
       ],
       "answer": "延遲不是帳單。並行只縮短等待。要降帳單，得少叫一席，或少做一次。",
       "brief": [
-        "延遲不是帳單。分析師搶量化員的那句要收窄後才成立：沒有換算公式，是禁止合成一個數，不是禁止測量。P95 和 Token 總量仍分開記。",
-        "情報官搶工程師的那句成立：快取命中要單獨記，不能寫成沒有成本。工程師搶紅隊的那句成立：八席同時叫會更快，也會更貴，兩半都留。紅隊搶策略家的那句成立：先選要快還是要省，不能因此刪掉另一半。",
-        "策略家搶表達者的那句成立：更快和更便宜必須拆成兩句，但不能拆成一句空話。表達者搶分析師的那句成立：讀者只會記住便宜，時間必須單獨成句。量化員搶情報官的那句成立：P95 降下來而總量不變，不是矛盾。",
-        "可執行的是三條不混的操作。並行只縮短等待，帳單不降。快取命中單獨記，不是免費。要降帳單，得少叫一席，或少做一次。不把這三條寫成一個數。"
+        "延遲不是帳單。並行只縮短等待，牆鐘由最慢的那席決定，token 仍是各席加總。沒有換算公式把這兩個數合成「因此更便宜」。",
+        "要降帳單，得少叫一席，或少做一次。那是少做事，不是把同一次呼叫變便宜。寫了更快，就不能順便寫更便宜。兩個目標都要，就寫明讓的是哪一條。",
+        "介面上留兩個數：P95 等待，和這場 token 總量。不留一個把它們除在一起的分數。沒有席位測出秒和 token 的比價，結論也不補。",
+        "收場：延遲不是帳單。並行只縮短等待。降帳單要少呼叫。兩個數都留，不合成一個分數，不補秒和 token 的比價。寫了更快，就不寫更便宜。"
       ]
     }
   },
@@ -145,12 +145,12 @@
         ],
         "answer": "Faster is not cheaper. Time and tokens are two axes.",
         "review_target": "quant",
-        "review": "\"Latency is the P95. The bill is total tokens. No conversion.\"\nNo conversion is right, and it cannot be closed as \"so look at neither number.\" The P95 and the token sum still have to be recorded apart. Refusing a conversion forbids fusing them into one number. It does not forbid measuring them. Used to block every cost discussion, the scope has been written too wide.",
+        "review": "There is no conversion. Don't write them as one number.",
         "brief": [
-          "Time and tokens are two axes. Faster does not entail cheaper, and cheaper does not entail faster. With no conversion, they cannot be written as one number. Readers remember the cheaper half, so the time half needs its own sentence.",
           "Faster and cheaper are two axes. Latency is how long a person waits. The bill is what upstream charges. Parallelism stacks the waits into the same stretch of time, so the wall clock gets shorter. Each seat's tokens are still added, so the bill does not fall. It can rise, because you woke a seat you could have skipped in order to go faster.",
           "Do not write a shorter wall clock as a lower cost. A reader will budget from that sentence. Budget on the wrong axis and the fast plan blows up on the bill, or the cheap plan blows up on the wait. Neither blow-up should be signed off in advance by a pun.",
-          "If one sentence says both faster and cheaper, and does not say which axis each one moves, this seat withdraws its signature."
+          "Ask which axis you want. If you want speed, run in parallel and accept that the bill is the sum of the seats. If you want a smaller bill, call fewer seats or do one less pass, and accept a longer wall clock. If you want both, write down which axis you will give up.",
+          "I will not sign faster and cheaper in the same sentence. If I sign, the sentence names which axis is given up. If it does not, the concession happens on the bill, because the bill arrives later than the wait and is harder to see in a replay. The axis that arrives later is the one a pun will sign away."
         ]
       },
       "researcher": {
@@ -161,12 +161,12 @@
         ],
         "answer": "Packing the same work tighter does not change the bill.",
         "review_target": "engineer",
-        "review": "\"Parallelism stacks the wait. Seat tokens still add up.\"\nThe wait stacks, and seat tokens still add up. That line does not mention the cache. If a cache hit is counted as no cost, the sum has subtracted a storage and invalidation cost that is still paid. Count hits apart. Do not write a hit as free.",
+        "review": "Count cache hits apart. A hit is not the same as free.",
         "brief": [
-          "Packing the same work tighter does not change the bill. That is scheduling, not a price cut. The bill changes only when something is not done: one fewer seat, one fewer round, one fewer synthesis that was not needed. Count cache hits apart. A hit is not the same as free.",
           "The same work packed tighter does not change the bill. That is scheduling, not a discount. The bill changes when you do less: one fewer seat, one fewer round of critique, one less synthesis you do not need. I have no source that writes 'parallel' as 'lower unit price', so I will not write it.",
           "The vendor's unit is tokens and calls, not your wall clock. The wall clock is your own time. Fold both units into one 'efficiency' and efficiency will lie in whichever direction you wanted.",
-          "If parallelism or a cache hit is written as a lower unit price while the call count did not change, this seat withdraws \"the bill dropped.\""
+          "This seat confirms only that the units differ. It does not confirm this week's unit price, and it does not convert waiting into money. If that conversion does not exist, it does not appear in the verdict.",
+          "There is no source that writes parallelism as a discount, so the verdict should not contain that conversion. Whoever adds 'therefore cheaper' is inventing a unit. Two numbers with different units cannot be joined by therefore. Therefore is a cause. That cause is not here."
         ]
       },
       "engineer": {
@@ -177,12 +177,12 @@
         ],
         "answer": "Parallelism stacks the wait. Seat tokens still add up.",
         "review_target": "critic",
-        "review": "\"Calling every seat at once is faster and more expensive.\"\nCalling every seat at once is faster and more expensive. Keep only the first half, and parallelism has been written as a price cut. Closed as \"so do not parallelize,\" more expensive has been written as a ban, and faster has been deleted. Keep both halves. Pick speed or savings first. Do not close this line with one number.",
+        "review": "Calling every seat at once is faster and more expensive. Keep that line.",
         "brief": [
-          "Parallelism stacks the wait, so wall-clock time can fall. Seat tokens still add up, so the upstream bill does not fall. Calling every seat at once is faster and more expensive. Both halves have to stay.",
           "Parallel means sending the seat requests together, so the slowest seat sets the wall clock instead of eight seats adding in a queue. That shortens the wait. The tokens that come back are still paid for. Sending them at the same time does not reduce how many times you pay.",
           "To lower the bill, the engineering move is to do less: the gate does not call an unrelated seat, critique does not take another round at a sentence that is already narrow, synthesis does not resend all eight originals. Those are fewer calls, not the same call made cheaper.",
-          "If the implementation calls every seat at once and the verdict writes only faster, this seat withdraws. The more-expensive half cannot be dropped."
+          "The interface can show two numbers at once: P95 wait, and the token total for this session. Do not show a score that divides one by the other. That score has no unit, and nobody can decide from it.",
+          "Keep P95 and the token total on the page. Do not keep the score you get by dividing them. A score with no unit becomes an optimization target. Optimizing a unitless score usually records a shorter wait as a smaller bill. Separate numbers are how you avoid optimizing the wrong column."
         ]
       },
       "critic": {
@@ -193,12 +193,12 @@
         ],
         "answer": "Calling every seat at once is faster and more expensive.",
         "review_target": "strategist",
-        "review": "\"Decide whether you want speed or savings. Don't blend the goals.\"\nPicking speed or savings first is the order of the decision, not a measurement. After the pick, calling every seat at once is still faster and more expensive. Closed as \"once you pick speed, expensive need not be written,\" the choice has been treated as permission to delete half the line. Do not close with one number.",
+        "review": "Pick speed or savings first. Don't close with one number.",
         "brief": [
-          "Call every seat at once, and the wait is bounded by the slowest seat, while the token sum is the sum of eight seats. Faster and more expensive are two halves of one choice, not two benefits you can collect separately.",
           "Waking eight seats at once is faster and more expensive. Any sentence that closes that into 'faster and cheaper' has crossed the line. Faster and cheaper would require doing less and waiting less at the same time. Doing less usually adds wait. Waiting less usually adds calls.",
           "The strike is against the conversion, not against parallelism. Parallelism can stay. Writing its gain into the bill column cannot. A gain in the wrong column pulls every later tradeoff off line.",
-          "If a plan promises only faster and does not write more expensive, or promises only cheaper and does not write slower, this seat does not sign that plan."
+          "If the verdict says 'therefore cheaper' and the stream shows no skipped call, delete the sentence. Cheaper without fewer calls is a wall clock misfiled as a bill.",
+          "Delete 'therefore cheaper' whenever the stream shows no skipped call. The rule does not care how careful the tone is. A careful misfiling is still a misfiling. Parallelism may stay in the verdict, but only in the wait column."
         ]
       },
       "strategist": {
@@ -209,12 +209,12 @@
         ],
         "answer": "Decide whether you want speed or savings. Don't blend the goals.",
         "review_target": "writer",
-        "review": "\"If you write faster, don't also write cheaper.\"\n\"If you write faster, don't also write cheaper\" is a constraint on the copy, not the definition of the axes. The definition is that time and tokens do not convert. Closed as \"so the copy only has to be short,\" the two sentences that had to be split have been saved into one empty line. Faster and cheaper must be separate sentences.",
+        "review": "Faster and cheaper must be separate sentences.",
         "brief": [
-          "Decide whether you want speed or savings. Do not blend the two goals into one number. Faster and cheaper must be separate sentences, or the reader will execute a combination nobody signed.",
           "Decide whether you want speed or a smaller bill. Do not fold the two goals into one number. Once they are one number, nobody can say which axis you gave up. An unnamed concession happens in the most expensive place.",
           "The recommendation needs a choice, not a win-win. A replay someone is watching can run in parallel, because the wait is the reader's cost and the bill is yours, and you are willing to pay the bill for the wait. A batch job can call fewer seats, because nobody is waiting on those seconds and tokens are the constraint.",
-          "If the recommendation promises both faster and cheaper, and does not say which seat was not called or which step was not done, this seat withdraws the recommendation."
+          "Do not write that both were optimized. Optimizing both usually means neither has a line. Once a line is set, you can tell whether this run chose waiting or the bill.",
+          "A replay someone is watching may pay the bill to buy a shorter wait. A batch nobody is waiting on may call fewer seats to buy a smaller bill. Write both choices, or the reader cannot tell which one this session made. 'We optimized both' means you did not choose. A plan that did not choose blows up on the more expensive axis."
         ]
       },
       "writer": {
@@ -225,12 +225,12 @@
         ],
         "answer": "If you write faster, don't also write cheaper.",
         "review_target": "analyst",
-        "review": "\"Faster is not cheaper. Time and tokens are two axes.\"\nNo conversion between the two axes does not entail that the time half may be attached to the cheaper sentence. Attached, the reader will not remember it alone. Time needs its own sentence. Closed as \"do not write the time,\" a measurement has been saved out of the copy. Do not fuse them into one number. That is not the same as not writing the time.",
+        "review": "Readers remember cheaper. The time half needs its own sentence.",
         "brief": [
-          "If you write faster, do not also write cheaper. Readers remember cheaper. The time half needs its own sentence, and that sentence has to say it moves the wait, not the bill.",
           "If you wrote faster, do not also write cheaper. Put the two words together and the reader treats them as one thing. They are not one thing. Faster is the wall clock. Cheaper is tokens. There is no therefore between them.",
           "What can be written is the choice: to shorten the wait, run in parallel, and the bill is still the sum of the seats. To lower the bill, call one fewer seat or do one less pass, and the wait grows. That sentence is longer than 'efficient', and harder to misuse.",
-          "If the repetition keeps only \"cheaper\" or \"faster, therefore cheaper,\" this seat does not sign. Both sentences have to be repeatable on their own."
+          "Do not add a conversion. Do not write what a second is worth in tokens. No seat gave that price. Copy cannot supply it in order to look complete. A complete error is harder to take back than an incomplete truth.",
+          "Do not put therefore between faster and cheaper. If you write, write the choice, so the reader knows the bill is still the sum of the seats. The choice is longer, and safer than the word efficient. Efficient gets retold as faster and cheaper. Faster and cheaper is not this session's verdict."
         ]
       },
       "quant": {
@@ -241,12 +241,12 @@
         ],
         "answer": "Latency is the P95. The bill is total tokens. No conversion.",
         "review_target": "researcher",
-        "review": "\"Packing the same work tighter does not change the bill.\"\nPacking the same work tighter does not change the bill. That line does not cancel the P95. The P95 can fall because the work was packed tighter, while the sum stays. That is not a contradiction, and it cannot be written as \"so latency does not matter.\" Latency is the P95. The bill is the sum. Record both. Do not convert.",
+        "review": "The P95 can fall while the sum stays. That is not a contradiction.",
         "brief": [
-          "Latency is the P95, not the mean, unless someone says why the mean is enough. The bill is total tokens, not a single latency. The P95 can fall while the sum stays. That is not a contradiction. It is two axes.",
           "Latency is P95, not one demonstration that happened to be fast. The bill is the token total, not how cheap the average seat looks. Do not fold the two distributions into one score. After the fold, you cannot tell whether the wait changed or the unit price changed.",
           "The math of parallelism is narrow: wall clock is about the slowest seat, and the bill is the sum of the seats. There is no third formula that folds the wall clock into the bill. Whoever writes a third formula has to bring a unit and a measurement. Without those, the formula stays out of the verdict.",
-          "If the verdict uses one number for both the P95 and the token sum, this seat rejects that number. With no conversion, a fused number is invented."
+          "Only fewer calls move the bill. Drop one seat and the total falls. The wall clock may rise, because you removed a wait that could have overlapped, or it may fall, because you no longer wait on that seat. Do not assume the direction. Measure it.",
+          "There is no third formula. Whoever wants to fold seconds into tokens has to bring a unit and a measurement. Without those, the formula stays out. The direction of the wall clock after dropping a seat is not assumed either. Measure it. An assumed direction is a tidy arrow written where there is no distribution."
         ]
       }
     },
@@ -258,10 +258,10 @@
       ],
       "answer": "Latency is not the bill. Parallelism only shortens the wait. The bill drops if you call fewer seats.",
       "brief": [
-        "Latency is not the bill. Analyst's cut-in on Quant lands only after it is narrowed: no conversion forbids fusing them into one number. It does not forbid measuring them. Record the P95 and the token sum apart.",
-        "Intel's cut-in on Systems lands: count cache hits apart, and do not write a hit as free. Systems' cut-in on Red Team lands: calling every seat at once is faster and more expensive, and both halves stay. Red Team's cut-in on Strategist lands: pick speed or savings first, and do not delete the other half because of that pick.",
-        "Strategist's cut-in on Communicator lands: faster and cheaper must be separate sentences, and they must not collapse into one empty line. Communicator's cut-in on Analyst lands: readers remember cheaper, so time needs its own sentence. Quant's cut-in on Intel lands: the P95 can fall while the sum stays. That is not a contradiction.",
-        "Three operations are executable, and they do not mix. Parallelism only shortens the wait. The bill does not drop. A cache hit is recorded apart. It is not free. The bill drops if you call fewer seats, or do one less thing. Do not write those three as one number."
+        "Latency is not the bill. Parallelism only shortens the wait. The wall clock is set by the slowest seat, and tokens are still the sum of the seats. There is no conversion that turns those two numbers into 'therefore cheaper'.",
+        "To lower the bill, call one fewer seat or do one less pass. That is doing less, not making the same call cheaper. If you wrote faster, you do not also get to write cheaper. If you want both, name the axis you will give up.",
+        "Keep two numbers on the page: P95 wait, and this session's token total. Do not keep a score that divides them. No seat measured a price of seconds in tokens, and the verdict does not invent one.",
+        "The close: latency is not the bill. Parallelism only shortens the wait. A smaller bill requires fewer calls. Keep both numbers. Do not fold them into a score, and do not invent a price of seconds in tokens. If you wrote faster, you do not also write cheaper."
       ]
     }
   }

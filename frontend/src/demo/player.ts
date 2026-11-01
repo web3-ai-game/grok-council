@@ -121,7 +121,6 @@ export function buildTimeline(scenario: ScenarioFile, lang: Lang): TimedEvent[] 
   push(events, GATE_MS, "phase", { phase: "parallel" satisfies Phase });
 
   const awake = SEATS.filter((seat) => seat.id !== "leader" && side.seats[seat.id]?.standby !== true);
-  const spans = new Map<string, { answerStart: number; done: number }>();
   let parallelEnd = GATE_MS;
   awake.forEach((seat, index) => {
     const script = side.seats[seat.id];
@@ -132,12 +131,9 @@ export function buildTimeline(scenario: ScenarioFile, lang: Lang): TimedEvent[] 
     t = playThought(events, t, seat.id, thoughtText(script, failed));
     t += 90;
     if (failed) {
-      spans.set(seat.id, { answerStart: t, done: t });
       push(events, t, "expert.done", { expert_id: seat.id, error: script?.error });
     } else {
-      const answerStart = t;
       t = stream(events, t, "expert.delta", { expert_id: seat.id }, script?.answer ?? "");
-      spans.set(seat.id, { answerStart, done: t });
       t += 40;
       push(events, t, "expert.done", { expert_id: seat.id });
     }
@@ -148,43 +144,27 @@ export function buildTimeline(scenario: ScenarioFile, lang: Lang): TimedEvent[] 
     const script = side.seats[seat.id];
     return Boolean(script?.review && script.review_target && !script.error);
   });
-  const byTarget = new Map<string, typeof reviews>();
-  for (const seat of reviews) {
-    const target = side.seats[seat.id]?.review_target;
-    if (!target) continue;
-    const group = byTarget.get(target) ?? [];
-    group.push(seat);
-    byTarget.set(target, group);
-  }
-  const cuts = [...byTarget.entries()].flatMap(([target, group]) => {
-    const span = spans.get(target);
-    const duration = span ? Math.max(0, span.done - span.answerStart) : 0;
-    const gap = group.length <= 1 ? 0 : Math.min(360, Math.max(70, Math.floor((duration - 140) / group.length)));
-    return group.flatMap((seat, n) => {
+  let cursor = parallelEnd + PHASE_GAP_MS;
+  push(events, cursor, "phase", { phase: "review" satisfies Phase });
+  for (let i = 0; i < reviews.length; i += 2) {
+    const pair = reviews.slice(i, i + 2);
+    let pairEnd = cursor;
+    for (const seat of pair) {
       const script = side.seats[seat.id];
-      if (!script?.review) return [];
-      const start = span ? span.answerStart : parallelEnd;
-      let at = start + Math.min(160, Math.floor(duration * 0.22)) + n * gap;
-      if (span && at >= span.done) at = start + Math.min(36 + n * 28, Math.max(0, duration - 16));
-      return [{ seat, target, review: script.review, at }];
-    });
-  });
-  let reviewEnd = parallelEnd;
-  if (cuts.length) {
-    const firstAt = Math.min(...cuts.map((cut) => cut.at));
-    push(events, firstAt, "phase", { phase: "review" satisfies Phase });
-    for (const cut of cuts) {
-      let t = cut.at;
-      push(events, t, "review.start", { expert_id: cut.seat.id, target_id: cut.target });
-      t += 60;
-      t = stream(events, t, "review.delta", { expert_id: cut.seat.id, target_id: cut.target }, cut.review);
+      const target = script?.review_target;
+      if (!script?.review || !target) continue;
+      let t = cursor;
+      push(events, t, "review.start", { expert_id: seat.id, target_id: target });
+      t += 80;
+      t = stream(events, t, "review.delta", { expert_id: seat.id, target_id: target }, script.review);
       t += 40;
-      push(events, t, "review.done", { expert_id: cut.seat.id, target_id: cut.target });
-      reviewEnd = Math.max(reviewEnd, t);
+      push(events, t, "review.done", { expert_id: seat.id, target_id: target });
+      pairEnd = Math.max(pairEnd, t);
     }
+    cursor = pairEnd + 220;
   }
 
-  const synthAt = Math.max(parallelEnd, reviewEnd) + PHASE_GAP_MS;
+  const synthAt = cursor + PHASE_GAP_MS;
   push(events, synthAt, "phase", { phase: "synth" satisfies Phase });
   push(events, synthAt, "synth.start", {});
   push(events, synthAt, "expert.start", { expert_id: "leader" });
@@ -199,30 +179,4 @@ export function buildTimeline(scenario: ScenarioFile, lang: Lang): TimedEvent[] 
 
   events.sort((a, b) => a.at - b.at || a.seq - b.seq);
   return events;
-}
-
-/** Timestamp of the last event that belongs to `phase`. Seek with `at <= phaseAt(...)`. */
-export function phaseAt(events: TimedEvent[], phase: Phase): number {
-  const last = events[events.length - 1]?.at ?? 0;
-  if (phase === "synth" || phase === "done") return last;
-  if (phase === "gate") {
-    return events.find((event) => event.event === "gate.done")?.at ?? 0;
-  }
-  if (phase === "parallel") {
-    let at = 0;
-    for (const event of events) {
-      if (event.event === "expert.done" && event.data.expert_id !== "leader") at = Math.max(at, event.at);
-    }
-    return at;
-  }
-  let at = 0;
-  for (const event of events) {
-    if (event.event === "review.done") at = Math.max(at, event.at);
-  }
-  if (at) return at;
-  let parallel = 0;
-  for (const event of events) {
-    if (event.event === "expert.done" && event.data.expert_id !== "leader") parallel = Math.max(parallel, event.at);
-  }
-  return parallel;
 }

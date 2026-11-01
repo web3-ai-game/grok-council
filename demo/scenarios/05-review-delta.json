@@ -2,23 +2,23 @@
   "id": "review-delta",
   "wake": "full",
   "zh": {
-    "title": "搶話能改什麼",
-    "question": "搶話能改什麼？能改已經落筆的句子，還是只能標不同意。",
+    "title": "互怼能改什麼",
+    "question": "交叉評審能改什麼？能改已經落筆的結論，還是只能標不同意。",
     "seats": {
       "analyst": {
         "steps": [
-          "搶話改的是理由",
+          "互怼改的是理由",
           "不改對方身份",
           "分歧必須留下"
         ],
         "answer": "可以改理由和範圍。不能把對方沒說的話寫進去。",
         "review_target": "critic",
-        "review": "「我能打掉越界的一句。不能替那一席重寫整段。」\n打掉一句越界，是增量，不是替那一席重寫。重寫要動到對方沒說的字。這句若被收成「所以批評席可以改對方的段落」，範圍被換成了作者。可以改的是理由和範圍的標註，不是對方的嘴。",
+        "review": "打掉一句越界，不算替那一席重寫。",
         "brief": [
-          "搶話的產出是一條增量。可以改的是理由和範圍：這一句過寬、這個條件沒寫。不可以改的是對方沒有說過的話。把沒說過的話寫進對方嘴裡再打掉，是在跟假人辯論。",
-          "搶話的產出是一條增量，不是一份重寫。可以改的是理由和範圍：這一句過寬、這個條件沒寫、這個主語不該在。不可以改的是對方沒有說過的話。把沒說過的話寫進對方嘴裡，再打掉，是在跟一個假人辯論。",
+          "互怼的產出是一條增量，不是一份重寫。可以改的是理由和範圍：這一句過寬、這個條件沒寫、這個主語不該在。不可以改的是對方沒有說過的話。把沒說過的話寫進對方嘴裡，再打掉，是在跟一個假人辯論。",
           "所以增量要指到原句。指不到原句的反對，只能標成不確定，不能改成對方的新立場。新立場如果需要，由那一席自己寫，不由批評席代筆。",
-          "若增量指不回原句的某幾個字，這席撤回「這是搶話」。指不回，就是新的一段，應由原席自己寫。"
+          "這一題的邊界就在這裡。互怼讓結論變窄是成功。互怼讓某一席看起來說過他沒說過的話，是失敗。窄和被改寫，讀者要分得開。",
+          "增量要能指回原句的某幾個字。指不回，就不是互怼，是新的一段。新的一段如果要存在，由原席自己寫。批評席代寫再打掉，回放裡會留下一個沒有主人的立場，以及一場打中空氣的反對。"
         ]
       },
       "researcher": {
@@ -29,12 +29,12 @@
         ],
         "answer": "沒有出處的反駁，只能標不確定，不能改成事實。",
         "review_target": "writer",
-        "review": "「總結要留下誰反對、反對哪一句。」\n標不確定，推不出為了好讀可以改成已經查證。已經查證是新的事實狀態，這一輪沒有來源。這句若被收成「不確定太難讀，所以寫成查過了」，來源被語氣換掉了。標不確定就夠。不要為了順，改成已經查證。",
+        "review": "標不確定就夠。不要為了順，改成已經查證。",
         "brief": [
-          "沒有出處的反駁，只能標不確定，不能改成事實，也不能改成相反的事實。相反的事實是新情報，要有自己的來源。語氣確定，不是來源。",
           "反駁如果帶了新事實，新事實要有出處。沒有出處，就只能寫「這一句沒有來源」，不能寫「事實是相反的」。相反是另一個斷言，斷言需要自己的來源。",
-          "我這席如果被叫醒去補來源，補不到就停。停的時候不要用一段更確定的語氣掩蓋補不到。搶話不是第二次機會去編情報。",
-          "若搶話把原句的事實改成了相反，而沒有新來源，這席要求改回，並標不確定。不接受為了順而寫成已經查證。"
+          "我這席如果被叫醒去補來源，補不到就停。停的時候不要用一段更確定的語氣掩蓋補不到。互怼不是第二次機會去編情報。",
+          "所以情報對互怼的約束很窄：沒有出處的反駁，標不確定，不改原句的事實。原句裡的事實，只有在來源互相矛盾時才被降級，不因語氣被降級。",
+          "沒有出處的反駁，我只允許兩個字的方向：標不確定。不允許改成相反的事實。相反的事實是新情報，新情報要有自己的來源，不能借互怼的語氣過關。語氣確定，不是來源。"
         ]
       },
       "engineer": {
@@ -43,14 +43,14 @@
           "事件只能追加",
           "不回寫舊句"
         ],
-        "answer": "搶話追加一條事件。不回去改已經落筆的句子。",
+        "answer": "互怼追加一條事件。不回去改已經落筆的句子。",
         "review_target": "quant",
-        "review": "「沒有新數字，就不能改舊數字。可以縮小範圍。」\n縮小範圍是增量的內容，不是改寫舊數字的許可。沒有新數字，舊數字留在原事件裡。這句若被收成「追加之後，舊數字可以改成更好看的數」，事件流被事後編輯取代了。追加可以縮範圍。不能把舊數字改寫掉。",
+        "review": "追加可以縮範圍。不能把舊數字改寫掉。",
         "brief": [
-          "已經落筆的句子留在事件流裡。搶話追加一條事件，寫明打的是哪一句、改的是範圍還是理由。不回去改原文。介面可以劃掉，儲存不可以覆蓋。",
-          "已經落筆的句子留在事件流裡。搶話追加一條事件，寫明打的是哪一句、改的是範圍還是理由。不回去改那一席的原文。回去改，回放就失去了「當時怎麼說」這一段。",
+          "已經落筆的句子留在事件流裡。互怼追加一條事件，寫明打的是哪一句、改的是範圍還是理由。不回去改那一席的原文。回去改，回放就失去了「當時怎麼說」這一段。",
           "介面上可以讓原文看起來被划到，但儲存裡原文還在，增量另存。劃掉是給人看的層，不是把歷史改掉。歷史改掉之後，就無法解釋議長為什麼收成現在這句。",
-          "若原席的句子被原地覆寫，或搶話被合併進原席再當原話引用，這席把該次合成當錯誤。當時怎麼說，不能省。"
+          "所以實作拒絕兩件事：原地覆寫立場，以及把互怼的句子合併進原席再當原話引用。引用原話，引的是落筆時的那條。引用增量，引的是後來追加的那條。",
+          "原文和增量分兩條事件存。介面可以劃掉，儲存不可以覆蓋。誰把互怼合併進原席再當原話引用，誰就毀掉了「當時怎麼說」。當時怎麼說，是回放唯一不能省的部分。"
         ]
       },
       "critic": {
@@ -61,12 +61,12 @@
         ],
         "answer": "我能打掉越界的一句。不能替那一席重寫整段。",
         "review_target": "analyst",
-        "review": "「可以改理由和範圍。不能把對方沒說的話寫進去。」\n可以改理由和範圍，前提是具體到哪一句。沒有那一句，範圍就沒有主人。這句若被執行成「反對就可以改對方整段」，修改失去了對象。泛泛反對不構成修改。",
+        "review": "具體到哪一句。泛泛反對不構成修改。",
         "brief": [
-          "我能打掉的只有越界的那一句，而且要指得著字。泛泛反對不構成修改。超過「哪一句、越了什麼界、收成什麼範圍」的長度，多半是在替別人寫新立場。",
           "我能打掉越界的一句。比如把「所有情況」收成「沒有來源的情況」，把「應該換庫」收成「超標再換」。這是範圍。我不能替那一席重寫整段，也不能加一句他們沒說的好處，讓我的反對看起來更完整。",
-          "完整是議長的工作，而且只能用已經出現的句子。批評席如果為了好打而補設定，打中的就是自己補的設定。那不叫搶話，叫自問自答。",
-          "若搶話指不出原句的字，或替那一席補了一個更好打的設定，這席承認那是自問自答，不算打中。"
+          "完整是議長的工作，而且只能用已經出現的句子。批評席如果為了好打而補設定，打中的就是自己補的設定。那不叫互怼，叫自問自答。",
+          "所以我的產出應該短：哪一句、越了什麼界、收成什麼範圍。超過這個長度的互怼，多半是在替別人寫新立場。",
+          "我的產出就三樣：哪一句、越了什麼界、收成什麼範圍。多出來的好處、補上的前提、替對方寫的讓步，都刪。那些是為了讓反對看起來完整。完整不是批評席的工作。指得準才是。"
         ]
       },
       "strategist": {
@@ -77,12 +77,12 @@
         ],
         "answer": "該改的是推薦條件。沒被打掉的事實留在原句。",
         "review_target": "engineer",
-        "review": "「搶話追加一條事件。不回去改已經落筆的句子。」\n不回去改已經落筆的句子，推不出推薦句也不能改。推薦句是議長的，原句是那一席的。條件改了，舊句仍要留在事件裡。這句若被收成「所以什麼都不能改」，把儲存約束寫成了決策凍結。",
+        "review": "條件改了，舊句仍要留在事件裡。",
         "brief": [
-          "該改的是推薦條件。沒被打掉的事實留在原句。條件改了，讀者執行的必須是新條件；舊句仍留在事件裡，否則回放失去當時怎麼說。",
           "該改的通常是推薦條件，不是事實本身。事實沒被打掉，就留在原句。條件被打掉，推薦就要帶上新的條件，否則讀者會執行一個已經被縮小過的建議的寬版本。",
           "不要為了共識把兩條建議揉成一條更圓的。圓的那條如果兩邊都沒說過，就是第三條建議，而且沒有主人。沒有主人的建議，出事時沒有席位可以回去問。",
-          "若推薦句仍是被打過的寬版本，或舊句從事件裡消失，這席撤回「條件已改」。發生了，就要在推薦句和事件裡都看得見。"
+          "這一題的取捨是：保留分歧的原句，在結論裡寫明哪一條被縮小了。讀者看到的是增量，不是一個被抹平的中間值。",
+          "被縮小的建議必須帶著新條件出門，否則讀者執行的是舊的寬版本。寬版本已經被打過。再把它交給讀者，等於互怼沒有發生。發生了，就要在推薦句裡看得見。"
         ]
       },
       "writer": {
@@ -93,12 +93,12 @@
         ],
         "answer": "總結要留下誰反對、反對哪一句。",
         "review_target": "strategist",
-        "review": "「該改的是推薦條件。沒被打掉的事實留在原句。」\n推薦條件可以改，推不出總結可以不寫誰反對。條件改了而反對者消失，讀者執行的是一個沒有主人的新句子。不要為了好讀，收成全員同意。誰反對、反對哪一句，留在總結裡。",
+        "review": "不要為了好讀，收成全員同意。",
         "brief": [
-          "總結要留下三樣，讀者才指得出：誰的原話、誰打的、打完之後範圍變成什麼。少一樣，分歧就被抹平了。好讀不能靠收成全員同意。",
           "總結要留下誰反對、反對哪一句。抹掉反對，句子會更好讀，也會變成另一個結論。好讀不是這一題的目標。能複述「誰打了哪一句」才是。",
           "我可以調整順序，讓被打的原句和增量挨在一起。我不可以把它們合成一句沒有主語的話。沒有主語的話，讀起來像全員同意，而全員並沒有同意。",
-          "若總結讀起來像沒人反對，而事件流裡有搶話，這席不簽這份總結。"
+          "所以文案的限制是：分歧留名，增量留痕，不為了順口把兩席收成一席。順口如果需要刪主語，就不要順。",
+          "總結裡要留得下「誰打了哪一句」。留不下，就是被抹平了。我可以讓兩句挨在一起，不可以合成沒有主語的一句。沒有主語的同意，是這一題最常見的好讀，也是最不該留下的好讀。"
         ]
       },
       "quant": {
@@ -109,12 +109,12 @@
         ],
         "answer": "沒有新數字，就不能改舊數字。可以縮小範圍。",
         "review_target": "researcher",
-        "review": "「沒有出處的反駁，只能標不確定，不能改成事實。」\n標不確定，推不出一個新的測量值。縮小範圍不是新測量。這句若被收成「不確定，所以數字可以改小」，方向反了：不確定只禁止把舊數字寫成更確定，不生產一個新數。",
+        "review": "縮小範圍不是新測量。別把它寫成新測量。",
         "brief": [
-          "沒有新數字，就不能改舊數字。搶話可以說這個數的範圍太大，不能把 8 改成 5。5 在被測出之前只是更好看的數。好看的數不能當閘門。",
-          "沒有新數字，就不能改舊數字。搶話可以說「這個數的範圍太大」，不能把 8 改成 5，除非有一席真的測出 5。測出之前，5 只是一個更好看的數。",
+          "沒有新數字，就不能改舊數字。互怼可以說「這個數的範圍太大」，不能把 8 改成 5，除非有一席真的測出 5。測出之前，5 只是一個更好看的數。",
           "可以縮小範圍：從「成本下降」收成「在沒有新呼叫的前提下，等待下降」。縮小之後，舊數字如果還在，就要標明它描述的是縮小前的量。不要讓舊數字悄悄變成新範圍的證據。",
-          "若結論裡的數字對不上某一席的原句，或範圍縮小被寫成新測量，這席拒絕那個數。"
+          "所以量化席對互怼只放行兩種改動：標明不確定，或縮小適用範圍。改數值不放行。數值是測量的產物，不是辯論的產物。",
+          "數值不是辯論產物。沒有新測量，舊數字留著，並標明它描述的是縮小前的量。誰在互怼裡把 8 改成 5，誰就是在用更好看的數代替測量。好看的數會被當成閘門。閘門不能來自一輪反對。"
         ]
       }
     },
@@ -124,18 +124,18 @@
         "不可回寫舊句",
         "分歧必須留下"
       ],
-      "answer": "搶話可以縮小範圍、打掉越界。不能回寫已落筆的句子，也不能把分歧抹平。",
+      "answer": "互怼可以縮小範圍、打掉越界。不能回寫已落筆的句子，也不能把分歧抹平。",
       "brief": [
-        "搶話改的是增量，不是原句。分析師搶紅隊的那句成立：打掉一句越界，不是替那一席重寫。紅隊搶分析師的那句也成立：沒有具體到哪一句，就不構成修改。兩條一起，才是「可以改範圍」的邊界。",
-        "情報官搶表達者的那句成立：標不確定不能為了順改成已經查證。量化員搶情報官的那句成立，而且打的是另一個方向：縮小範圍不是新測量，不確定也不生產新數字。舊數字留著。",
-        "工程師搶量化員的那句成立：追加可以縮範圍，不能改寫舊數字，也不能回寫已落筆的句子。策略家搶工程師的那句也成立：儲存不覆蓋，推不出推薦條件不能改。條件改了，舊句仍留在事件裡。",
-        "表達者搶策略家的那句成立：總結要留下誰反對、反對哪一句，不能收成全員同意。可執行的是：縮小範圍、打掉越界、標不確定。不回寫原句，不改舊數字，不抹平分歧。"
+        "互怼可以縮小範圍，可以打掉越界的一句，可以把沒有來源的反駁標成不確定。這些都是增量，追加在事件流後面，不回去改已經落筆的句子。",
+        "不能把對方沒說的話寫進去再打掉，不能把舊數字改成一個沒測過的新數字，也不能為了好讀把分歧收成全員同意。原句留著，增量另記，結論同時引用兩者。",
+        "讀者應該能指出：這一句是誰的原話，這一句是誰打的，打完之後範圍變成什麼。指不出這三樣，這場互怼就沒有被合成，只是被抹平了。",
+        "收場要讓讀者指得出三樣：原話是誰的，誰打的，打完範圍是什麼。指不出，就還沒合成，只是抹平。不回寫已落筆的句子，不改沒測過的數，不把分歧收成全員同意。"
       ]
     }
   },
   "en": {
-    "title": "What a cut-in can change",
-    "question": "What can a cut-in change: a settled line, or only a marked disagreement?",
+    "title": "What review can change",
+    "question": "What can a cross-review change: a settled line, or only a marked disagreement?",
     "seats": {
       "analyst": {
         "steps": [
@@ -143,14 +143,14 @@
           "Not the other seat",
           "Dissent stays"
         ],
-        "answer": "A cut-in can change reason and scope. It cannot insert unspoken words.",
+        "answer": "A review can change reason and scope. It cannot insert unspoken words.",
         "review_target": "critic",
-        "review": "\"I can knock down one overreaching line. I cannot rewrite the seat.\"\nKnocking down one overreach is an append, not a rewrite of that seat. A rewrite has to touch words the other seat did not say. Closed as \"so the critic may edit the other seat's paragraph,\" scope has been swapped for authorship. What may change is the mark on reason and scope, not the other seat's mouth.",
+        "review": "Knocking down one overreach is not a rewrite of that seat.",
         "brief": [
-          "A cut-in produces an append. What may change is reason and scope: this line is too wide, this condition was not written. What may not change is words the other seat did not say. Putting unspoken words in their mouth and then knocking them down is an argument with a dummy.",
           "A critique produces a delta, not a rewrite. What may change is the reason and the scope: this sentence is too wide, this condition is missing, this subject does not belong. What may not change is a sentence the other seat never said. Putting words in their mouth and then striking them is a debate with a dummy.",
           "The delta has to point at the original line. An objection that cannot point at a line may be marked uncertain. It may not become the other seat's new position. If a new position is needed, that seat writes it. The critic does not ghostwrite it.",
-          "If the append cannot point at particular words in the original line, this seat withdraws \"this is a cut-in.\" If it cannot point back, it is a new paragraph, and the original seat has to write it."
+          "That is the boundary. A critique that narrows the verdict succeeded. A critique that makes a seat look as if it said what it did not say failed. The reader has to be able to tell narrow from rewritten.",
+          "A delta has to point at a few words in the original line. If it cannot, it is not a critique. It is a new paragraph. If a new paragraph needs to exist, the original seat writes it. A critic who ghostwrites and then strikes leaves a position with no owner, and an objection that hit the air."
         ]
       },
       "researcher": {
@@ -161,12 +161,12 @@
         ],
         "answer": "A rebuttal without a source can only mark uncertainty.",
         "review_target": "writer",
-        "review": "\"The summary keeps who objected, and to which line.\"\nMarking it unknown does not entail that readability may turn it into already checked. Already checked is a new factual state, and this round has no source for it. Closed as \"unknown is hard to read, so write that it was checked,\" the source has been replaced by tone. Mark it unknown. Do not smooth it into already checked.",
+        "review": "Mark it unknown. Don't smooth it into already checked.",
         "brief": [
-          "A rebuttal without a source can only mark uncertainty. It cannot become a fact, and it cannot become the opposite fact. The opposite fact is new intelligence and needs its own source. A certain tone is not a source.",
           "If a rebuttal brings a new fact, the fact needs a source. With no source, write 'this sentence has no source'. Do not write 'the fact is the opposite'. The opposite is another claim, and a claim needs its own source.",
           "If this seat is woken to supply a source and cannot, it stops. Do not cover the miss with a more certain tone. Critique is not a second chance to invent intelligence.",
-          "If a cut-in changes a fact in the original line into its opposite without a new source, this seat requires the change reversed, and marked unknown. Smoothing it into already checked is not accepted."
+          "The constraint is narrow: a rebuttal with no source is marked uncertain and does not rewrite the fact in the original line. A fact already in the line is downgraded only when sources conflict, not when the tone is confident.",
+          "A rebuttal with no source gets only one direction from me: mark it uncertain. It does not get to become the opposite fact. The opposite fact is new intelligence. New intelligence needs its own source. It does not pass on the tone of a critique. A certain tone is not a source."
         ]
       },
       "engineer": {
@@ -175,14 +175,14 @@
           "Append an event",
           "Don't rewrite history"
         ],
-        "answer": "A cut-in appends an event. It does not rewrite a settled line.",
+        "answer": "A review appends an event. It does not rewrite a settled line.",
         "review_target": "quant",
-        "review": "\"Without a new number, you cannot change the old one. You can shrink scope.\"\nShrinking scope is the content of the append, not permission to rewrite the old number. Without a new number, the old number stays in the original event. Closed as \"after the append, the old number may become a nicer one,\" the event stream has been replaced by a later edit. An append can shrink scope. It cannot overwrite the old number.",
+        "review": "An append can shrink scope. It cannot overwrite the old number.",
         "brief": [
-          "A settled line stays in the event stream. A cut-in appends an event naming which line it hits and whether it changes scope or reason. It does not rewrite the original. The interface may strike through. Storage may not overwrite.",
           "A sentence already written stays in the event stream. Critique appends an event naming which line was struck and whether the change is scope or reason. It does not go back and edit that seat's original. Edit it, and the replay loses what was said at the time.",
           "The interface may show the original as struck, but the store keeps the original and stores the delta separately. A strike is a layer for the reader, not a rewrite of history. Once history is rewritten, nobody can explain why the chair closed on this sentence.",
-          "If a seat's line is overwritten in place, or a cut-in is merged into the seat and then cited as the original speech, this seat treats that synthesis as an error. What was said then cannot be dropped."
+          "Two things are refused: overwriting a position in place, and merging the critique into the original seat so it can be cited as the original. Cite the original as the line at the time it was written. Cite the delta as the line appended later.",
+          "Store the original and the delta as two events. The interface may strike through. The store may not overwrite. Whoever merges the critique into the original seat and cites it as the original has destroyed what was said at the time. What was said at the time is the part of a replay that cannot be skipped."
         ]
       },
       "critic": {
@@ -193,12 +193,12 @@
         ],
         "answer": "I can knock down one overreaching line. I cannot rewrite the seat.",
         "review_target": "analyst",
-        "review": "\"A cut-in can change reason and scope. It cannot insert unspoken words.\"\nReason and scope may change only if the line is named. Without that line, the scope has no owner. Executed as \"an objection may rewrite the other seat's whole paragraph,\" the edit has lost its object. A vague objection is not an edit.",
+        "review": "Name the line. A vague objection is not an edit.",
         "brief": [
-          "What I can knock down is the one overreaching line, and the words have to be pointable. A vague objection is not an edit. Past \"which line, what bound, what scope remains,\" the extra length is usually a new position written for someone else.",
           "I can strike one sentence that crossed a line. 'In all cases' can become 'when there is no source'. 'Migrate' can become 'migrate when the line is crossed'. That is scope. I cannot rewrite the seat's whole paragraph, and I cannot add a benefit they never claimed so that my objection looks complete.",
           "Completeness is the chair's job, and only from sentences that already appeared. If the critic invents a premise in order to strike it, the strike lands on the critic's own premise. That is not a review. It is asking and answering yourself.",
-          "If a cut-in cannot point at words in the original line, or it supplies the other seat with a setup that is easier to hit, this seat admits that is talking to itself. It is not a hit."
+          "The output should be short: which sentence, which line it crossed, what scope remains. A critique longer than that is usually a new position written for someone else.",
+          "My output is three things: which sentence, which line it crossed, and what scope remains. Extra benefits, supplied premises, and concessions written for the other seat all go. Those exist to make the objection look complete. Completeness is not this seat's job. Pointing accurately is."
         ]
       },
       "strategist": {
@@ -209,12 +209,12 @@
         ],
         "answer": "Change the recommendation's conditions. An unchallenged fact stays.",
         "review_target": "engineer",
-        "review": "\"A cut-in appends an event. It does not rewrite a settled line.\"\nNot rewriting a settled line does not entail that the recommendation cannot change. The recommendation belongs to the chair. The line belongs to the seat. If the condition changes, the old line still stays in the events. Closed as \"so nothing may change,\" a storage constraint has been written as a frozen decision.",
+        "review": "If the condition changes, the old line still stays in the events.",
         "brief": [
-          "What should change is the recommendation's conditions. A fact that was not knocked down stays in the original line. Once the condition changes, the reader must execute the new condition. The old line still stays in the events, or the replay loses what was said then.",
           "What usually changes is the condition on the recommendation, not the fact itself. A fact that was not struck stays in the original line. A condition that was struck has to travel with the recommendation, or the reader will carry out the wide version of advice that has already been narrowed.",
           "Do not knead two recommendations into a rounder third so they look like consensus. If neither side said the round one, it is a third recommendation with no owner. Advice with no owner has no seat to return to when it fails.",
-          "If the recommendation is still the wide version that was hit, or the old line has disappeared from the events, this seat withdraws \"the condition has changed.\" If it happened, it has to be visible both in the recommendation and in the events."
+          "The tradeoff is to keep the dissenting original, and to write in the verdict which line was narrowed. The reader sees a delta, not a midpoint that was sanded flat.",
+          "A narrowed recommendation has to leave with the new condition, or the reader carries out the old wide version. The wide version was already struck. Handing it to the reader means the critique did not happen. If it happened, it has to be visible in the recommendation."
         ]
       },
       "writer": {
@@ -225,12 +225,12 @@
         ],
         "answer": "The summary keeps who objected, and to which line.",
         "review_target": "strategist",
-        "review": "\"Change the recommendation's conditions. An unchallenged fact stays.\"\nThe recommendation's conditions may change. That does not entail the summary may omit who objected. If the condition changes and the objector disappears, the reader executes a new sentence with no owner. Do not sand it down to unanimous just to make it readable. Who objected, and to which line, stays in the summary.",
+        "review": "Don't sand it down to unanimous just to make it readable.",
         "brief": [
-          "A summary has to keep three things or the reader cannot point: whose original line, who hit it, and what the scope became. Drop one, and the dissent has been sanded off. Readability cannot come from closing it as unanimous.",
           "The summary has to keep who objected and which sentence they objected to. Deleting the objection reads better and becomes a different verdict. Readability is not the goal of this question. Being able to repeat who struck which line is.",
           "I can reorder so the original and the delta sit together. I cannot merge them into a sentence with no subject. A sentence with no subject reads as if everyone agreed. Everyone did not agree.",
-          "If the summary reads as if nobody objected, while the event stream contains a cut-in, this seat does not sign that summary."
+          "The limit is: name the disagreement, keep the delta, and do not collapse two seats into one for the sake of flow. If flow requires deleting the subject, do not flow.",
+          "The summary has to be able to keep 'who struck which sentence'. If it cannot, it was flattened. I may set the two lines next to each other. I may not merge them into one line with no subject. Agreement with no subject is the most common kind of readable, and the kind this question should not keep."
         ]
       },
       "quant": {
@@ -241,12 +241,12 @@
         ],
         "answer": "Without a new number, you cannot change the old one. You can shrink scope.",
         "review_target": "researcher",
-        "review": "\"A rebuttal without a source can only mark uncertainty.\"\nMarking uncertainty does not entail a new measured value. A smaller scope is not a new measurement. Closed as \"unknown, so the number may be written smaller,\" the direction flips. Uncertainty only forbids writing the old number as more certain. It does not produce a new number.",
+        "review": "A smaller scope is not a new measurement. Don't write it as one.",
         "brief": [
-          "Without a new number, you cannot change the old one. A cut-in may say the number's scope is too wide. It may not change 8 into 5. Until 5 is measured, it is only a nicer number. A nicer number cannot be a gate.",
           "No new number, no change to the old number. A critique may say the range on this number is too wide. It may not change 8 into 5 unless a seat actually measured 5. Before that measurement, 5 is only a prettier number.",
           "Scope may shrink: 'cost falls' can become 'waiting falls if there is no new call'. After the shrink, an old number that remains has to say it describes the quantity before the shrink. Do not let the old number quietly become evidence for the new scope.",
-          "If a number in the verdict does not match some seat's original line, or a smaller scope is written as a new measurement, this seat rejects that number."
+          "This seat allows two edits in a critique: mark uncertain, or narrow where it applies. Changing the value is not allowed. A value is the product of a measurement, not of a debate.",
+          "A value is not a product of debate. With no new measurement, the old number stays, and it is labeled as describing the quantity before the shrink. Whoever changes 8 into 5 inside a critique is replacing a measurement with a prettier number. A prettier number will be used as a gate. A gate cannot come from a round of objection."
         ]
       }
     },
@@ -256,12 +256,12 @@
         "Settled lines stay",
         "Dissent must remain"
       ],
-      "answer": "A cut-in may shrink scope or knock down overreach. It cannot rewrite a settled line or erase dissent.",
+      "answer": "A review may shrink scope or knock down overreach. It cannot rewrite a settled line or erase dissent.",
       "brief": [
-        "A cut-in changes an append, not the original line. Analyst's cut-in on Red Team lands: knocking down one overreach is not a rewrite of that seat. Red Team's cut-in on Analyst also lands: if the line is not named, it is not an edit. Together, those are the bound on \"scope may change.\"",
-        "Intel's cut-in on Communicator lands: marking unknown cannot be smoothed into already checked. Quant's cut-in on Intel lands, and it hits the other direction: a smaller scope is not a new measurement, and uncertainty does not produce a new number. The old number stays.",
-        "Systems' cut-in on Quant lands: an append may shrink scope, it may not overwrite the old number, and it may not rewrite a settled line. Strategist's cut-in on Systems also lands: not overwriting storage does not entail the recommendation's conditions cannot change. If the condition changes, the old line stays in the events.",
-        "Communicator's cut-in on Strategist lands: the summary keeps who objected, and to which line. It cannot be closed as unanimous. What is executable: shrink scope, knock down overreach, mark uncertainty. Do not rewrite the original line, do not change the old number, and do not erase dissent."
+        "Critique may narrow scope, strike a sentence that crossed a line, and mark a sourceless rebuttal as uncertain. Those are deltas. They are appended to the stream. They do not go back and edit a sentence already written.",
+        "Do not put words in the other seat's mouth and then strike them. Do not replace an old number with a new number nobody measured. Do not sand a disagreement into unanimous agreement so it reads better. Keep the original, record the delta, and cite both.",
+        "A reader should be able to point at three things: whose original line this is, who struck it, and what scope remains. If those three cannot be pointed at, the critique was not synthesized. It was flattened.",
+        "At the close, a reader can point at three things: whose original line, who struck it, and what scope remains. If they cannot, it was not synthesized. It was flattened. Do not rewrite a sentence already written, do not change a number nobody measured, and do not sand a disagreement into unanimous agreement."
       ]
     }
   }

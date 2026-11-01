@@ -13,12 +13,12 @@
         ],
         "answer": "差別在過程能不能被核對，不在結論好不好聽。",
         "review_target": "critic",
-        "review": "「沒出場的席，不能在結論裡被補成好像說過話。」\n看得到不等於每一步都真。回放若沒標明是策展，讀者會把編好的順序讀成當時發生的順序。核對的是事件能不能對上結論，不是語氣像不像現場。這句若被收成「可見所以為真」，判斷已經多走了一步。",
+        "review": "看得到不等於每一步都真。回放仍要標明是策展。",
         "brief": [
-          "可見和黑盒比的是過程能不能被核對，不是結論好不好聽。能核對，要有席位、跳過、搶話、引用這四類事件。只有終稿，推不出過程已被核對。",
-          "可見和原生不是兩種聰明程度。可見模式把席位、跳過、搶話、引用都留在事件流裡，讀者可以對著結論往回核。原生模式只交一段終稿，過程在供應商那邊，我們看不到誰說了哪一句。好不好聽不能代替能不能核對。",
+          "可見和原生不是兩種聰明程度。可見模式把席位、跳過、互怼、引用都留在事件流裡，讀者可以對著結論往回核。原生模式只交一段終稿，過程在供應商那邊，我們看不到誰說了哪一句。好不好聽不能代替能不能核對。",
           "沒出場的席不能在結論裡被補成好像說過話。門控跳過情報和文案，是因為這一題沒有可核對的外部來源，也沒有需要改寫的句子。把空白讀成沉默的同意，是議長最容易犯的錯，也是這一題要擋住的錯。",
-          "若可見模式的事件對不上結論裡的句子，或回放沒標明是策展，這席撤回「差別在能不能核對」。看得到不等於每一步都真。"
+          "所以差別要寫在過程上，不寫在口味上。要展示就走可見，要省過程就標黑盒。標了黑盒，就不能再用「八席討論過」這種可見模式才配得上的句子。",
+          "可見不是更聰明，黑盒不是更差。我拒絕的是用同一個「八席討論過」去賣兩種買不到同一樣東西的模式。買到事件，才能核對。沒買到事件，就標黑盒。標了還寫八席，是把沒有的過程賣出去。"
         ]
       },
       "researcher": {
@@ -35,12 +35,12 @@
         ],
         "answer": "可見模式給席位事件。原生模式只給一段終稿。",
         "review_target": "quant",
-        "review": "「可見更貴在事件，不自動更準。」\n更貴在事件，推不出更準，也推不出更不准。你多付的是可核對性，不是正確率。把延遲差或單價差寫成品質差，是把兩條軸合成一個數。這句若被拿去證明可見不值得，方向反了：它只證明不要把事件成本寫成準確率。",
+        "review": "多出來的是事件，不是自動更準。",
         "brief": [
-          "可見模式的產物是席位事件。原生模式的產物是一段終稿。多出來的是事件條數，不是自動更準。準不準要另測，不能從介面能不能展開推出來。",
           "可見模式的產物是一串席位事件：誰醒了、誰被跳過、誰寫了立場、誰打了哪一句、議長引用了誰。這些事件可以回放，也可以被第三個人核對。沒有事件的句子，就不該被寫成某一席說過。",
           "原生模式只給一段終稿。終稿可以很完整，但它沒有席位邊界。你無法指出哪一句是工程、哪一句是批評、哪一句是模型在終稿裡新補的。完整和可核對不是同一個性質。",
-          "若同一題在兩種模式下的終稿被對過，而且可見模式的引用能指回事件，才允許寫「這一題可見更準」。沒對過，就不寫。"
+          "所以介面不該用同一套「八席已討論」的裝飾去包兩種模式。可見就給席位事件。黑盒就標黑盒。裝飾相同，讀者會把不能核對的終稿讀成已經核對過。",
+          "沒有事件的句子，不進席位歸因。終稿可以很長，長不是席位邊界。我要的產物是一串能回放的事件，不是一段看起來分過席的散文。散文分席，是裝飾。事件分席，才是可見模式真正交出的東西。"
         ]
       },
       "critic": {
@@ -51,12 +51,12 @@
         ],
         "answer": "沒出場的席，不能在結論裡被補成好像說過話。",
         "review_target": "strategist",
-        "review": "「要展示就走可見。要省過程就標黑盒。」\n省過程可以，前提是標成黑盒，而且結論不引用沒出場的席。標了黑盒又在終稿裡補上沒人說過的句子，省的是事件，編的是出場。這句若被執行成「黑盒就可以當全席都同意」，標籤沒有守住任何東西。",
+        "review": "省 Token 可以。假裝全席說過話，不行。",
         "brief": [
-          "沒出場的席沒有原句。結論裡出現該席的立場，就是議長編的。省 Token 可以。假裝全席說過話，不行。這兩句不能合成「為了完整，補一句」。",
           "我要打的是補寫，不是文風。這一題情報和文案被門控跳過。如果結論寫「情報員也認為」，那就是議長在替沒出場的席說話。沒出場的席沒有立場，空白不是同意，也不是反對。",
           "可見模式的價值就在這一句可以被抓住。事件流裡沒有那一席，引用就不成立。原生模式做了同樣的補寫，讀者看不出來。看不出來不是更安全，是更難追。",
-          "若結論裡每一個席位名字都能指回一條該席的原句或一條明確的跳過事件，這席不再擋。指不回，就刪掉那個名字。"
+          "所以批評席不評價終稿好不好聽。我只問：結論裡的每個主語，事件流裡有沒有對應的一句。沒有，就刪主語，不要為了對稱把八個名字排齊。",
+          "這一題我只抓補寫。情報和文案沒出場，結論裡出現他們的動詞，就是議長在替他們說話。動詞包括同意、反對、確認、補充。空白沒有動詞。誰替空白填了動詞，誰越界。"
         ]
       },
       "strategist": {
@@ -67,12 +67,12 @@
         ],
         "answer": "要展示就走可見。要省過程就標黑盒。",
         "review_target": "analyst",
-        "review": "「差別在過程能不能被核對，不在結論好不好聽。」\n核對的對象如果被寫成語氣，可見模式就失去了它多出來的那部分。核對的是事件能不能對上結論裡的句子，不是像不像有人在場。這句若被收成「看起來可核對就夠」，檢查被換成了印象。",
+        "review": "核對的是事件，不是語氣。",
         "brief": [
-          "兩條路必須分開寫：要展示就走可見，要省過程就標黑盒。混用的代價是讀者以為有過程可核，攻擊面其實是一段無法回放的終稿。",
           "選擇先看你要對誰負責。要給讀者核對，就走可見，接受事件更貴、過程更吵。要省過程，就標黑盒，接受你不能把終稿說成八席共識。兩個目標都合理，混在一個標籤裡不合理。",
           "黑盒不是失敗。失敗是用黑盒的成本，賣可見的可信。省掉了事件，又在文案裡寫「席位互相審查過」，讀者買到的是一個無法兌現的句子。",
-          "若同一頁同時寫「過程可核對」和「我們不留事件」，這席撤回推薦。兩句不能同時為真。"
+          "推薦寫在選擇條件上，不寫成口味。展示給人看，用可見。只需要一段答案，用黑盒，並且把黑盒寫在答案旁邊。不要把兩種模式的優點加在同一句話裡。",
+          "兩個目標都寫在選擇上，不寫成口味。給人核對，付事件的錢。省過程，標黑盒，並停用可見模式才配的句子。不要承諾一個你沒有留下證據的共識。沒有證據的共識，比沒有共識更貴，因為它會被引用。"
         ]
       },
       "writer": {
@@ -89,12 +89,12 @@
         ],
         "answer": "可見更貴在事件，不自動更準。",
         "review_target": "engineer",
-        "review": "「可見模式給席位事件。原生模式只給一段終稿。」\n事件多，等待可以更長，也可以因為並行而不更長。延遲差本身不是品質差。這句若被讀成「可見更慢，所以更差」，把時間軸寫進了正確率。更貴、更慢、更能核對，是三句，不能合成一句。",
+        "review": "別把延遲差寫成品質差。",
         "brief": [
-          "可見的增量是事件條數和 Token，不是正確率。沒有對照測量，就不能把單價差寫成品質差。兩條軸沒有換算公式。",
           "可見更貴，貴在事件，不自動更準。每一條席位事件都是 token，八席全醒比一段終稿貴。貴不證明結論更好，便宜也不證明結論更差。準確要另測，不能從帳單反推。",
-          "所以不要把「更貴」寫成「更可信」的證據。可信來自能核對：跳過有記錄、引用有原文、搶話打在具體的句子上。這些是事件的性質，不是單價。",
-          "只有在同一題、兩種模式、終稿被獨立對過之後，才允許把正確率差寫進結論。沒有這個數，就不寫更準或更不准。"
+          "所以不要把「更貴」寫成「更可信」的證據。可信來自能核對：跳過有記錄、引用有原文、互怼打在具體的句子上。這些是事件的性質，不是單價。",
+          "如果只為了省，就走黑盒，並在帳上記「少了過程」。如果要核對，就付事件的錢。兩筆不要加成一個「划算」，因為你省下的和你失去的不在同一列。",
+          "貴和準分列。可見的額外成本是事件條數乘 token，不是一個可信度係數。我不會簽「更貴所以更對」。要證明更對，另測。帳單只證明你買了過程，不證明過程得出了更好的終稿。"
         ]
       }
     },
@@ -106,10 +106,10 @@
       ],
       "answer": "可見與黑盒的差別是過程能不能核對。沒出場的席，不能寫進結論。",
       "brief": [
-        "差別在過程能不能被核對，不在結論好不好聽。分析師搶紅隊的那句成立：看得到不等於為真，回放必須標明是策展。沒標，可見就會被讀成實錄。",
-        "工程師和量化員互搶的是軸，不是模式該不該存在。事件更貴，推不出更準，也推不出更不准；延遲差不能寫成品質差。兩條都成立。結論不寫可見更聰明，也不寫可見不值得。",
-        "紅隊搶策略家的那句成立：省 Token 可以，假裝全席說過話不行。黑盒必須標出來，而且結論不引用沒出場的席。策略家搶分析師的那句也成立：核對的是事件，不是語氣。",
-        "情報官和表達者這一題沒有可核對的外部來源，不喚醒。結論不把他們寫成沒有異議。可執行的選擇只有兩個：留事件，或標黑盒。不能混。"
+        "可見與黑盒的差別是過程能不能核對，不是終稿好不好聽。可見留下席位事件。黑盒只留下一段話。這一句是各席都站得住的，沒有人主張黑盒自動更準，也沒有人主張可見自動更便宜。",
+        "這一題情報和文案沒出場。結論不能寫他們同意，也不能寫他們反對。空白就是沒說話。把沒說話的席補成共識的一部分，是這一題明確要拒絕的寫法。",
+        "要展示就走可見，並接受事件更貴。要省過程就標黑盒，並停止使用「八席討論過」。貴和準分開記。沒出場的名字不進結論。",
+        "收場三條：過程能不能核對是唯一差別；沒出場的席不進結論；貴和準分開記。不寫八席討論過，除非八席都在事件流裡留下了句子。這一題沒有。所以不寫。"
       ]
     }
   },
@@ -125,12 +125,12 @@
         ],
         "answer": "The difference is whether the process can be checked.",
         "review_target": "critic",
-        "review": "\"A seat you did not see must not be written into the verdict.\"\nVisible is not the same as each step being true. If the replay is not marked curated, a reader will take the arranged order for the order that happened. What can be checked is whether events match the verdict, not whether the tone sounds live. Closed as \"visible, therefore true,\" the judgment takes a step it does not have.",
+        "review": "Visible is not the same as true. A replay must say it is curated.",
         "brief": [
-          "Visible and black box differ on whether the process can be checked, not on whether the verdict sounds better. A check needs four event types: seat, skip, cut-in, and citation. A final draft alone does not entail that the process was checked.",
           "Visible and native are not two grades of intelligence. Visible keeps seats, skips, critiques, and citations in an event stream a reader can check against the verdict. Native returns one final text. The process stays with the vendor. We cannot see who said which sentence. A pleasant ending is not a checkable one.",
           "A seat that never appeared cannot be written into the verdict as if it had spoken. The gate skipped research and writing because this question has no external source to check and no sentence that needs rewriting. Reading a blank as silent agreement is the chair's easiest mistake, and the one this question is meant to stop.",
-          "If visible-mode events do not match the lines in the verdict, or the replay is not marked curated, this seat withdraws \"the difference is whether it can be checked.\" Visible is not the same as true."
+          "So the difference belongs on the process, not on taste. If you want to show the work, use visible. If you want to skip the process, label the box. Once it is labeled a black box, you may not use a sentence that only the visible mode has earned, such as 'eight seats discussed it'.",
+          "Visible is not smarter, and a black box is not worse. What I refuse is selling both modes with the same 'eight seats discussed this', when the two purchases do not buy the same thing. You can check what you bought only if you bought events. If you did not, label the box. Writing eight seats after that label sells a process you do not have."
         ]
       },
       "researcher": {
@@ -147,12 +147,12 @@
         ],
         "answer": "Visible mode emits seat events. Native mode returns one draft.",
         "review_target": "quant",
-        "review": "\"Visible costs more events. It is not automatically more accurate.\"\nCosting more events does not entail more accuracy, and it does not entail less. What you pay for is checkability, not a hit rate. Writing a latency gap or a price gap as a quality gap fuses two axes into one number. Used to prove visible is not worth it, the direction flips: the line only proves you must not write event cost as accuracy.",
+        "review": "You gain events, not automatic accuracy.",
         "brief": [
-          "The artifact of visible mode is seat events. The artifact of native mode is one draft. What you gain is event count, not automatic accuracy. Accuracy is a separate measurement. It does not follow from whether the interface expands.",
           "What visible mode produces is a stream of seat events: who woke, who was skipped, who wrote a position, who struck which sentence, whom the chair cited. Those events can be replayed and checked by a third person. A sentence with no event should not be attributed to a seat.",
           "Native mode returns one final text. The text can be complete and still have no seat boundary. You cannot point to which sentence was engineering, which was criticism, and which the model added while closing. Completeness and auditability are different properties.",
-          "Only after the same question is compared in both modes, and the visible citations point back at events, may anyone write \"visible was more accurate on this question.\" Without that comparison, do not write it."
+          "The interface should not wrap both modes in the same 'eight seats discussed this' decoration. Visible gets seat events. A black box gets a black-box label. Identical decoration teaches the reader to treat an unchecked final text as already checked.",
+          "A sentence with no event does not get a seat attribution. A final text can be long. Length is not a seat boundary. The artifact I want is a stream that can be replayed, not prose that looks divided into seats. Dividing prose into seats is decoration. Dividing events into seats is what visible mode actually delivers."
         ]
       },
       "critic": {
@@ -163,12 +163,12 @@
         ],
         "answer": "A seat you did not see must not be written into the verdict.",
         "review_target": "strategist",
-        "review": "\"Show the process, or label the black box. Don't mix them.\"\nSaving the process is allowed only if it is labeled a black box, and the verdict does not cite a seat that did not appear. Labeling the black box and then filling the draft with a line nobody said saves events and invents an appearance. Executed as \"a black box may count as the full table agreeing,\" the label is holding nothing.",
+        "review": "Saving tokens is fine. Pretending the full table spoke is not.",
         "brief": [
-          "A seat that did not appear has no line of its own. A position for that seat in the verdict is the chair inventing. Saving tokens is allowed. Pretending the full table spoke is not. Those two cannot be fused into \"add a line so it looks complete.\"",
           "The strike is about invention, not style. Research and writing were gated off for this question. If the verdict says 'the researcher also holds', the chair is speaking for a seat that never appeared. An absent seat has no position. A blank is not agreement and not dissent.",
           "The point of visible mode is that this sentence can be caught. If the stream has no such seat, the citation fails. Native mode can invent the same line and the reader cannot see it. Invisible is not safer. It is harder to chase.",
-          "If every seat name in the verdict points at that seat's own line or at an explicit skip event, this seat stops blocking. If it does not point back, delete the name."
+          "This seat does not grade how the final text sounds. It asks whether every subject in the verdict has a sentence in the stream. If not, drop the subject. Do not line up eight names for symmetry.",
+          "On this question I only catch invention. Research and writing did not appear. If the verdict gives them a verb, the chair is speaking for them. The verbs include agree, dissent, confirm, and add. A blank has no verb. Whoever supplies a verb for a blank has crossed the line."
         ]
       },
       "strategist": {
@@ -179,12 +179,12 @@
         ],
         "answer": "Show the process, or label the black box. Don't mix them.",
         "review_target": "analyst",
-        "review": "\"The difference is whether the process can be checked.\"\nIf the object of the check is written as tone, visible mode loses the only thing it added. The check is whether events match lines in the verdict, not whether it feels like someone was there. Closed as \"looking checkable is enough,\" the check has been replaced by an impression.",
+        "review": "Check the events, not the tone.",
         "brief": [
-          "The two paths have to be written apart: show the process, or label the black box. Mixing them costs the reader a belief that the process can be checked, while the actual surface is a draft that cannot be replayed.",
           "Choose by who you have to answer to. If the reader must check, use visible, and accept that events cost more and the process is noisier. If you want to skip the process, label the black box, and accept that you cannot call the final text an eight-seat consensus. Both aims are reasonable. Mixing them in one label is not.",
           "A black box is not a failure. The failure is selling visible trust at black-box cost. You skipped the events and still wrote that seats reviewed each other. The reader bought a sentence you cannot redeem.",
-          "If the same page says both \"the process can be checked\" and \"we keep no events,\" this seat withdraws the recommendation. Both lines cannot be true."
+          "Put the recommendation on the condition, not on taste. Showing the work means visible. Needing one answer means a black box, with the label beside the answer. Do not add the advantages of both modes into one sentence.",
+          "Both aims stay on the choice, not on taste. If someone must check, pay for events. If you skip the process, label the box and stop using sentences only visible mode has earned. Do not promise a consensus you left no evidence for. A consensus with no evidence costs more than no consensus, because it will be cited."
         ]
       },
       "writer": {
@@ -201,12 +201,12 @@
         ],
         "answer": "Visible costs more events. It is not automatically more accurate.",
         "review_target": "engineer",
-        "review": "\"Visible mode emits seat events. Native mode returns one draft.\"\nMore events can mean a longer wait, or, with parallelism, not a longer wait. A latency gap is not itself a quality gap. Read as \"visible is slower, therefore worse,\" the line writes the time axis into the hit rate. More expensive, slower, and more checkable are three sentences. They cannot be one.",
+        "review": "Don't write a latency gap as a quality gap.",
         "brief": [
-          "What visible mode adds is event count and tokens, not a hit rate. Without a paired measurement, a price gap cannot be written as a quality gap. The two axes have no conversion.",
           "Visible costs more, and the extra cost is events, not automatic accuracy. Every seat event is tokens. Eight waking seats cost more than one final text. Expensive does not prove the conclusion is better. Cheap does not prove it is worse. Accuracy has to be measured separately. It cannot be inferred from the bill.",
           "Do not use 'cost more' as evidence of 'more trustworthy'. Trust here means checkable: skips are recorded, citations have a source sentence, and a critique lands on a specific line. Those are properties of the events, not of the unit price.",
-          "Only after the same question, both modes, and an independent comparison of the drafts may an accuracy gap enter the verdict. Without that number, do not write more accurate or less."
+          "If the only goal is to spend less, use the black box and write down that the process is missing. If the goal is a check, pay for the events. Do not add the two into 'a bargain'. What you saved and what you lost are not in the same column.",
+          "Cost and accuracy stay in separate columns. The extra cost of visible mode is event count times tokens, not a trust coefficient. I will not sign 'more expensive, therefore more correct'. Prove more correct separately. The bill only proves you bought a process. It does not prove the process produced a better final text."
         ]
       }
     },
@@ -218,10 +218,10 @@
       ],
       "answer": "The difference is whether the process can be checked. A seat that did not appear cannot enter the verdict.",
       "brief": [
-        "The difference is whether the process can be checked, not whether the verdict sounds better. Analyst's cut-in on Red Team lands: visible is not the same as true, and a replay must say it is curated. Unmarked, visible gets read as a capture.",
-        "Systems and Quant cut in on the axes, not on whether the mode should exist. More events do not entail more accuracy, or less. A latency gap cannot be written as a quality gap. Both land. The verdict does not say visible is smarter, and it does not say visible is not worth it.",
-        "Red Team's cut-in on Strategist lands: saving tokens is allowed, pretending the full table spoke is not. A black box must be labeled, and the verdict must not cite a seat that did not appear. Strategist's cut-in on Analyst also lands: check the events, not the tone.",
-        "Intel and Communicator had no checkable outside source on this question, so they were not called. The verdict does not write them as having no objection. There are two executable choices: keep the events, or label the black box. Do not mix them."
+        "The difference between visible and black box is whether the process can be checked, not whether the final text sounds better. Visible leaves seat events. A black box leaves a paragraph. No seat claimed the black box is automatically more accurate, or that visible is automatically cheaper.",
+        "Research and writing did not appear on this question. The verdict cannot say they agreed, and it cannot say they dissented. A blank is silence. Writing a silent seat into the consensus is the move this question refuses.",
+        "Show the work and pay for events, or skip the process and label the box. Stop using 'eight seats discussed this' once the box is black. Cost and accuracy stay in separate columns. Names that never appeared do not enter the verdict.",
+        "Three lines at the close: whether the process can be checked is the only difference; a seat that did not appear does not enter the verdict; cost and accuracy are recorded apart. Do not write that eight seats discussed it unless eight seats left a sentence in the stream. They did not. So it is not written."
       ]
     }
   }
